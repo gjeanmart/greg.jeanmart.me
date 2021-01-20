@@ -14,7 +14,7 @@ A lot of studies show how workers are actually little productive due to stress, 
 
 So the idea is to **reduce stress and fatigue with more time for personal life** (friends, family, hobbies) while maintaining performances due to better motivation, satisfaction and focus. Worker's goals remain the same: delivering productivity and meet objectives.
 
-Of course, this kind of time arrangement doesn't work everywhere or could result in huge organisation challenges but I believe (thanks covid-19) that work is in most cases becoming more digitalised and remote. Therefore flexible arrangements are actually easier to achieve in 2021. I also believe it should be part of an opt-in policy to let people choose what works best for them. Beside the 4-day workweek, trust, transparency, freedom and flexibility is actually a first good step to improve work environments.
+Of course, this kind of time arrangement doesn't work everywhere or could result in huge organisational challenges but I believe (thanks covid-19) that work is in most cases becoming more digitalised and remote. Therefore flexible arrangements are actually easier to achieve in 2021. I also believe it should be part of an opt-in policy to let people choose what works best for them. Beside the 4-day workweek, trust, transparency, freedom and flexibility is actually a first good step to improve work environments.
 
 
 ### The worker perspective
