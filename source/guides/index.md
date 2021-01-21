@@ -2,7 +2,7 @@
 title: Guides
 ---
 
-When I was working on [kauri.io](https://kauri.io) between 2017 and 2020, I wrote a bunch of tech articles and guides around Blockchain and self-hosting to contribute to the platform (dog fooding). Please find below some of them that I moved back here. I will try to keep them up-to-date and create new ones.
+While working on [kauri.io](https://kauri.io) between 2017 and 2020, I wrote a bunch of tech articles and guides around Blockchain and self-hosting to contribute to our platform. You will find below some of them that I moved back here. I will try to keep them up-to-date and create new ones in the future.
 
 ## Build your very own self-hosting platform with Raspberry Pi and Kubernetes (Apr. 2020)
 
