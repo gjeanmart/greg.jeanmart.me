@@ -16,6 +16,11 @@ When I was working on [kauri.io](https://kauri.io) between 2017 and 2020, I wrot
 8. [Deploy Prometheus and Grafana to monitor a Kubernetes cluster](/2020/04/13/deploy-prometheus-and-grafana-to-monitor-a-k)
 
 
+## Run an Ethereum node (Feb. 2020)
+
+- [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-)
+
+
 ## POA Network (Jan. 2020)
 
 1. [Develop and deploy a smart contract](/2020/01/21/develop-and-deploy-a-smart-contract)
