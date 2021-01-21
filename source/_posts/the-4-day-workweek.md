@@ -44,7 +44,7 @@ Finally, improving work-life quality has some indirect consequences **reducing t
 We can also note some other interesting consequences to this system:
 
 - **A Smaller Carbon Footprint:** For on-site workers, the 4-day workweek decreases the number of trips home<->work per week.
-- **Reduce unemployment:**  Reducing work time could be a solution to reduce unemployment.
+- **Reduce unemployment:**  Reducing work time could be a solution to reduce unemployment if employers decide to fill open hours with new employees (Of course, this doesn't account for salaries).
 - **Economic Boost (covid-19):** The 4-day week could also be a solution to boost the post-pandemic economy enabling people to spend more while working the same.
 
 But, let's also mention some possible risks implementing a system like this:
