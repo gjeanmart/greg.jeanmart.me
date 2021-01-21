@@ -9,7 +9,7 @@ description: 'Hi, my name is Greg and warm welcome to my website and blog. I am 
 keywords:
 author: Greg Jeanmart
 language: en
-timezone: 'CET'
+timezone: 'America/New_York'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
