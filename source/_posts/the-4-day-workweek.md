@@ -21,11 +21,11 @@ Of course, this kind of time arrangement doesn't work everywhere or could result
 
 Alright, so better morale comes with a better **work-life balance** and having a day off a week will automatically increase you life style in different domains:
 
-- Physical: You can use this time off to rest, take a nap or do physical exercices
+- Physical: You can use this time off to rest, take a nap or do physical exercises
 - Social: This is the occasion to spend more time with friends and family, get more involve in your kids education or give time to a charity helping others in need.
 - Entertainment: Practice a hobby, read books or watch movies you like
 
-Another important point is about **reducing stress**. When working during traditional hours (Monday-Friday 9:00am to 5:00pm) in a city, every little tasks become challenging and stressful because of congestion (everywhere!). This day off is the occasion during the week to do stuffs without stress outside rush hours such as shopping, appointements or take a cheap flight on a Friday morning.
+Another important point is about **reducing stress**. When working during traditional hours (Monday-Friday 9:00am to 5:00pm) in a city, every little tasks become challenging and stressful because of congestion (everywhere!). This day off is the occasion during the week to do stuffs without stress outside rush hours such as shopping, appointments or take a cheap flight on a Friday morning.
 
 Finally, for passionate workers like me, this can be the occasion to **improve your professional life** spending more time learning, reading and writing. You can also experiment things that are more or less related to your work or industry by building proof of concepts, inventing theories, or preparing a presentation to share your thoughts to your coworkers on the 4-day workweek ;)
 
@@ -34,9 +34,9 @@ Finally, for passionate workers like me, this can be the occasion to **improve y
 
 We just saw this is definitely valuable for workers but what about businesses. This ultimate ambition behind a system like this is to **improve productivity**. First you need of course to be able to measure the productivity of your business (objectives, sales, etc.). It also helps workers to reconsider priorities on important matters and **reward quality over quantity**.
 
-Reorganising a business and the people to offer one day off a week has also for consequence to force **workers to be non-essential** as an individual. What is essential is the job and the responsibilities so it is never healthy to give too much responsibilities to a single employee and risk him burnout and risk the business at the same time. In comparaison, good organisations have backup plans where responsibilities are shared within teams and force people to think for the company rather than them self (success is often due to the synergy of a group of people, not a single man).
+Reorganising a business and the people to offer one day off a week has also for consequence to force **workers to be non-essential** as an individual. What is essential is the job and the responsibilities so it is never healthy to give too much responsibilities to a single employee and risk him burnout and risk the business at the same time. In comparison, good organisations have backup plans where responsibilities are shared within teams and force people to think for the company rather than them self (success is often due to the synergy of a group of people, not a single man).
 
-Finally, improving work-life quality has some indirect consequences **reducing the number of sick days** (job stress, lack of motivation, burnout) and his also mathematically **cost effective** (cut down on office space requirements and potential overhead costs).
+Finally, improving work-life quality has some indirect consequences **reducing the number of sick days** (job stress, lack of motivation, burnout) and is also mathematically **cost effective** (cut down on office space requirements and potential overhead costs).
 
 
 ### Other consequences and risks
