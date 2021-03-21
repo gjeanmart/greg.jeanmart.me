@@ -54,7 +54,7 @@ So why do I believe blockchain technologies could become the backbone of FinTech
 
 ### Conclusion
 
-In conclusion, a new generation of FinTechs powered by blockchain is coming and is going to bring a significant benefits to this sector. Payments could be processed with better security and lower cost across the world, investments and credits products will be accessible to anyone reducing frictions and countless intermediaries between consumers and financial institutions, and finally regulators will enjoy a complete transparency to meet compliance.
+In conclusion, a new generation of FinTechs powered by blockchain is coming and is going to bring a significant value to the sector. Payments could be processed with better security and lower cost across the world, investments and credits products will be accessible to anyone reducing frictions and countless intermediaries between consumers and financial institutions, and finally regulators will enjoy a complete transparency to meet compliance.
 
 This is still early days, of course not everything can be solved by blockchain and many challenges remain, blockchain technologies are far from maturity (scalability, speed, UX, privacy) and despite great properties, we cannot tell if regulators and central banks will fully adopt it.
 
