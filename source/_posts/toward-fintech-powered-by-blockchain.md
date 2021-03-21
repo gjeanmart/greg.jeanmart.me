@@ -39,11 +39,11 @@ DeFi represents an ecosystem of opened applications and protocols which interact
 This new paradigm isn't yet mature and despite many advantages and progress made in the past few years, the blockchain has some drawbacks: it doesn't scale yet (ability to process millions of transactions per day), consumes too much energy (Proof of Work) and is generally too complex to use for the average Joe with too many risks of mistakes or hacks.
 
 
-### Why DeFi is the future of FinTech?
+### Why DeFi might be the future of FinTech?
 
-So why do I believe blockchain technologies could become the backbone of FinTech in the future. Innovation is always driving technologies and the more opened, accessible and interoperable the technology is, the more entrepreneurs and builders will imagine new ideas and build brand new systems to solve the problems of today using blockchain, smart-contracts and DeFi. The key aspects of these new technologies are:
+So why do I believe blockchain technologies could become the backbone of FinTech in the future. Innovation is always driving technologies and the more opened, accessible and interoperable the technology is, the more entrepreneurs and builders will imagine new ideas and build brand new systems to solve the problems of today. The following key aspects of this new technology should inspire all the actors of FinTech: 
 
-- **Opened-by-default:** As we saw earlier, banks are forced to open up their systems and allow third-parties to access their data to enhance financial services. Blockchain and smart-contracts are opened by default, you don't need to ask permissions, pay fees, endlessly discuss with sales to access the data and integrate your app to a protocol.
+- **Opened-by-default:** As we saw earlier, banks are forced to open up their systems and allow third-parties to access their data to enhance financial services. Blockchain and smart-contracts are interoperable, you don't need to ask permissions, pay fees, endlessly discuss with sales to access the data and integrate your app to a protocol.
 
 - **Open-Source:** Open-source projects are generally maintained by a strong community of passionate and talented people. The power of crowd offer better reliability, trust and security into the software reviewed by many eyes. While banking systems has been known for running on expensive proprietary (close-source) solutions ; smart-contracts, on the other hand, make financial services open-sourced by design and accessible to all for free.
 
@@ -56,7 +56,10 @@ So why do I believe blockchain technologies could become the backbone of FinTech
 
 ### Conclusion
 
-In conclusion, a new generation of FinTechs powered by blockchain is coming and is going to bring a significant benefits to this sector. Payments could be processed with better security and lower cost across the world, investments and credits products will be accessible to anyone reducing frictions and countless intermediaries between consumers and financial institutions, and finally regulators will enjoy a complete transparency to meet compliance. This is still early days and many challenges remain, blockchain technologies are far from maturity (scalability, speed, UX, privacy) and despite great properties, we cannot tell if regulators and central banks will fully adopt it.
+In conclusion, a new generation of FinTechs powered by blockchain is coming and is going to bring a significant benefits to this sector. Payments could be processed with better security and lower cost across the world, investments and credits products will be accessible to anyone reducing frictions and countless intermediaries between consumers and financial institutions, and finally regulators will enjoy a complete transparency to meet compliance.
+This is still early days, of course not everything can be solved by blockchain and many challenges remain, blockchain technologies are far from maturity (scalability, speed, UX, privacy) and despite great properties, we cannot tell if regulators and central banks will fully adopt it.
+But the properties offered are expanding the scope of possibilities of FinTech in many way: transparency, openness and access.
+
 
 ![](https://pbs.twimg.com/media/EuIVyzpXMAcTkqx?format=jpg&name=4096x4096)
 
