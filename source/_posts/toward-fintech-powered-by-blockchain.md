@@ -5,8 +5,6 @@ date: 2021-03-21
 
 ![](https://images.unsplash.com/photo-1566132127697-4524fea60007?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80)
 
-### Intro
-
 In this article, I try to explain why I believe blockchain technologies has the potential to become the next generation of Fintech.
 
 ### What is FinTech?
@@ -17,7 +15,7 @@ Banking has been around for quite some time if forever, but the least we can say
 
 One of the most important breakthrough of FinTechs is mobile banking, there has been a large number of challenger banks emerging globally and offering decent experience more adapted to millennials habits in comparaison to legacy banks.
 
-Another important point is that FinTechs took one of the successful recipes of modern Web: rather than building from scratch complex systems in a closed environment, they built opened systems (generally known as API or SaaS) abstracting some services and allowing other businesses to benefit from it in exchange of a subscription fee. Why this is a big deal, because it allows startups to build faster and focus on their core idea, this is similar to how the Cloud Computing (AWS, GoogleCloud, etc.) abstracted the concept of server, the cloud provider gives you access to a "virtual" service while taking care of the maintenance of this service in exchange of a fee generally proportional to the usage. Here, this is the same thing, some FinTechs are focusing exclusively on giving you access to highly reliable backend services (for payments, core banking APIs, regulatory software) creating a connected ecosystem made by many actors in the sector so you can develop faster by composing those services together.
+Another important improvement is that FinTechs took one of the successful recipes of modern Web: rather than building from scratch complex systems in a closed environment, they built opened systems (generally known as API or SaaS) abstracting some services and allowing other businesses to benefit from it in exchange of a subscription fee. Why this is a big deal, because it allows startups to build faster and focus on their core idea, this is similar to how the Cloud Computing (AWS, GoogleCloud, etc.) abstracted the concept of server, the cloud provider gives you access to a "virtual" service while taking care of the maintenance of this service in exchange of a fee generally proportional to the usage. Here, this is the same thing, some FinTechs are focusing exclusively on giving you access to highly reliable backend services (for payments, core banking APIs, regulatory software) creating a connected ecosystem made by many actors in the sector so you can develop faster by composing those services together.
 
 I'd like to share two concrete examples of opened financial systems being largely used in the EU and USA:
 - **Open-Banking:** Traditional banks are trying (or being forced) to catch up with the technological bus and they started to open up their systems to external applications (through APIs to retrieve account information and initiate payments). An Open-Banking platform represents a SaaS that aggregates connections with as many banks as possible in order to offer a single endpoint to access data from hundreds of banks and financial institutions. So it doesn't matter if your end-user has a bank account with Barclay, Lloyds or Revolut, the OpenBanking software abstracts these connections to you and connect your application to your user's bank account.
@@ -41,7 +39,7 @@ This new paradigm isn't yet mature and despite many advantages and progress made
 
 ### Why DeFi might be the future of FinTech?
 
-So why do I believe blockchain technologies could become the backbone of FinTech in the future. Innovation is always driving technologies and the more opened, accessible and interoperable the technology is, the more entrepreneurs and builders will imagine new ideas and build brand new systems to solve the problems of today. The following key aspects of this new technology should inspire all the actors of FinTech: 
+So why do I believe blockchain technologies could become the backbone of FinTech in the future. Innovation is always driving technologies and the more opened, accessible and interoperable the technology is, the more entrepreneurs and builders will imagine new ideas and build brand new systems to solve the problems of today. The following key aspects of this new technology should inspire all the actors of FinTech:
 
 - **Opened-by-default:** As we saw earlier, banks are forced to open up their systems and allow third-parties to access their data to enhance financial services. Blockchain and smart-contracts are interoperable, you don't need to ask permissions, pay fees, endlessly discuss with sales to access the data and integrate your app to a protocol.
 
@@ -57,8 +55,10 @@ So why do I believe blockchain technologies could become the backbone of FinTech
 ### Conclusion
 
 In conclusion, a new generation of FinTechs powered by blockchain is coming and is going to bring a significant benefits to this sector. Payments could be processed with better security and lower cost across the world, investments and credits products will be accessible to anyone reducing frictions and countless intermediaries between consumers and financial institutions, and finally regulators will enjoy a complete transparency to meet compliance.
+
 This is still early days, of course not everything can be solved by blockchain and many challenges remain, blockchain technologies are far from maturity (scalability, speed, UX, privacy) and despite great properties, we cannot tell if regulators and central banks will fully adopt it.
-But the properties offered are expanding the scope of possibilities of FinTech in many way: transparency, openness and access.
+
+But the properties offered are expanding the scope of possibilities of FinTechs toward more inclusive, transparent and opened technologies.
 
 
 ![](https://pbs.twimg.com/media/EuIVyzpXMAcTkqx?format=jpg&name=4096x4096)
