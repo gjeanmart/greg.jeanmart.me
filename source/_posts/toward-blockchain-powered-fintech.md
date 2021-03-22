@@ -1,5 +1,5 @@
 ---
-title: Toward FinTech powered by Blockchain?
+title: Toward blockchain-powered FinTech?
 date: 2021-03-21
 ---
 
