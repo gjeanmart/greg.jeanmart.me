@@ -23,7 +23,7 @@ I'd like to share two concrete examples of opened financial systems being largel
 
 This results in a new trend in the FinTech sector called "Embedded Finance" because any applications can now integrate a bunch of financial services very easily and offer in-app e-money wallet, pay-in/pay-out payments, debit cards, stock trading, robot advisor, and more.
 
-In conclusion, the FinTech sector is rethinking the financial sector with modern and interoperable software allowing better synergies to break barriers, build faster and automate processes. This a true revolution in the financial sector which is well-known for being reluctant to change. But still, the Fintech sector has his roots hooked to the global finance. It's not censorship-resistant and as transparent as expected (as we recently witnessed during the GME/RobinHood debacle), it's also tied to local regulations (USA, EU, etc.) making global access more difficult for people in third-world countries, especially unbanked.
+In conclusion, FinTechs are rethinking Finance with modern and interoperable software allowing better synergies to break barriers, build faster and automate processes. This a true revolution in the financial sector which is well-known for being reluctant to change. But still, FinTechs have their roots hooked to our complex, slow and sometimes corrupted global finance system. It's not particularly inclusive nor transparent (as we recently witnessed during the GME/RobinHood debacle), it's also tied to local regulations (USA, EU, etc.) making global access more difficult for people in third-world countries, especially unbanked.
 
 
 ### What is Blockchain & DeFi?
