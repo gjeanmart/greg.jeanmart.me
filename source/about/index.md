@@ -7,7 +7,7 @@ date: 2020-12-12 16:34:25
 
 ## Career Profile
 
-Passionate Software Engineer, I enjoy constantly pushing my personal and professional boundaries to new horizons. I am currently living in Bordeaux (France) and working as Lead Engineer for [Multis](https://multis.co).
+Passionate Software Engineer, I enjoy constantly pushing my personal and professional boundaries to new horizons. I am currently living in Bordeaux (France) and working as CTO of [Multis](https://multis.co).
 
 Since 2016, I am an active member in the Blockchain and cryptocurrency space and more precisely within the [Ethereum](http://ethereum.org) community, I am a true believer of the digital decentralisation, especially in Finance and a privacy advocate.
 
@@ -23,12 +23,11 @@ Last but not least, I am a proud husband and happy owner of a lovely Dachshund.
 
 ## Professional Experiences
 
-### [Multis](https://multis.co) - Lead Engineer (Apr. 2020 to present)
+### [Multis](https://multis.co) - CTO (Apr. 2021 to present) & Lead Engineer (Apr. 2020 to Mar. 2021)
 
-[Multis](https://multis.co) is a small and ambitious startup building the future of business banking with crypto-currencies and Blockchain technologies.
+[Multis](https://multis.co) is a small and ambitious startup building the future of business banking with crypto-currencies and Blockchain technologies to help businesses access and leverage open finance.
 
-In collaboration with the CTO, I am in charge of building and maintaining our current and future products including a powerful non-custodial multi-signature wallet designed for businesses and integrated with innovative DeFi protocols.
-
+As a CTO, I'm responsible of building and maintaining our current and future products including a powerful non-custodial multi-signature wallet designed for businesses and integrated with innovative DeFi protocols as well as leading and hiring a world-class engineering team to address the challenges of today and tomorrow.
 
 ### [Kauri](https://kauri.io) - Senior Software Engineer / Co-Founder (Oct. 2017 - Apr. 2020)
 
