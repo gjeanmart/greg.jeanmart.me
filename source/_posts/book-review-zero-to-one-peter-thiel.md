@@ -1,5 +1,5 @@
 ---
-title: [Book Review] Zero to One (Peter Thiel)
+title: Book Review - Zero to One (Peter Thiel)
 date: 2021-07-25
 ---
 
