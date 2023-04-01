@@ -3,7 +3,7 @@ title: (K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, 
 date: 2020-04-13 00:00:05
 ---
 
-![](https://ipfs.infura.io/ipfs/QmUMQnRmFtNMXkBfYQdjG9WMCpAof49zavMNJXYHSDSa2k)
+![](https://gateway.pinata.cloud/ipfs/QmUMQnRmFtNMXkBfYQdjG9WMCpAof49zavMNJXYHSDSa2k)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 
@@ -28,7 +28,7 @@ In the next article of this series, we will learn how to install and configure a
 - **TV Show/Movie Media Management:** We'll use Sonarr and Radarr to automate the media aggregation. It searches, launches downloads and renames files when they go out
 - **Media Center/Player:** Plex (server/player) will allow us to make our Media resources accessible from anywhere.
 
-![](https://ipfs.infura.io/ipfs/Qmex8bC6gLPAHCmtAc2EHe3jnUYjXoV9GA5SFQFcrboqCu)
+![](https://gateway.pinata.cloud/ipfs/Qmex8bC6gLPAHCmtAc2EHe3jnUYjXoV9GA5SFQFcrboqCu)
 
 
 
@@ -218,7 +218,7 @@ $ helm repo update
 
 
 
-![](https://ipfs.infura.io/ipfs/QmTp1hoJ558ZtTRXDtsmj6smFJLq2y6J8d7a5MD6gmPzfH)
+![](https://gateway.pinata.cloud/ipfs/QmTp1hoJ558ZtTRXDtsmj6smFJLq2y6J8d7a5MD6gmPzfH)
 
 
 
@@ -343,7 +343,7 @@ Now Transmission and the Nginx Ingress routes are deployed, you should be able t
 
 
 
-![](https://ipfs.infura.io/ipfs/QmNsoV9jUjVJVz4dw9RVFUy8N6Q6rsZAHvHXk6aooMnZAZ)
+![](https://gateway.pinata.cloud/ipfs/QmNsoV9jUjVJVz4dw9RVFUy8N6Q6rsZAHvHXk6aooMnZAZ)
 
 
 ### Torrent Providers Aggregator- Jackett over VPN
@@ -480,7 +480,7 @@ Go to Jackett on [http://media.192.168.0.240.nip.io/jackett](http://media.192.16
 
 
 
-![](https://ipfs.infura.io/ipfs/QmXrpHKsVCnsFQpzhprH1TYdBbyZaxssjy8hv34XkybULz)
+![](https://gateway.pinata.cloud/ipfs/QmXrpHKsVCnsFQpzhprH1TYdBbyZaxssjy8hv34XkybULz)
 
 
 ### TV Show Library Management - Sonarr
@@ -591,7 +591,7 @@ Go to Sonarr on [http://media.192.168.0.240.nip.io/sonarr](http://media.192.168.
 
 
 
-![](https://ipfs.infura.io/ipfs/QmXoFr3jf7GxTXtg5ezY1RKbUDjNiGXBhF2cbwwFYetNSk)
+![](https://gateway.pinata.cloud/ipfs/QmXoFr3jf7GxTXtg5ezY1RKbUDjNiGXBhF2cbwwFYetNSk)
 
 
 ### Movie Library Management - Radarr
@@ -694,7 +694,7 @@ Go to Radarr on [http://media.192.168.0.240.nip.io/radarr](http://media.192.168.
 
 
 
-![](https://ipfs.infura.io/ipfs/QmbASTjZAenaVQ3FGg9oGRSjo1PZVG5JwjjKkdRSFPzaEu)
+![](https://gateway.pinata.cloud/ipfs/QmbASTjZAenaVQ3FGg9oGRSjo1PZVG5JwjjKkdRSFPzaEu)
 
 
 ### Media Server - Plex

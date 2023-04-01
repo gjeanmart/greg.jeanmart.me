@@ -3,7 +3,7 @@ title: (Elastic monitoring - 2/5)  Install ElasticSearch and Kibana to store and
 date: 2019-10-19 00:00:02
 ---
 
-![](https://ipfs.infura.io/ipfs/QmaRtE99DKhycBBsY3Y7EzCEhmmAxmAS7rhDJy8jxmrt4Y)
+![](https://gateway.pinata.cloud/ipfs/QmaRtE99DKhycBBsY3Y7EzCEhmmAxmAS7rhDJy8jxmrt4Y)
 
 ### ElasticSearch cluster
 

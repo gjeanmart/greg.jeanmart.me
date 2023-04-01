@@ -3,7 +3,7 @@ title: (POA Guide - Part 1) Develop and deploy a smart contract
 date: 2020-01-21
 ---
 
-![](https://ipfs.infura.io/ipfs/QmbNpbky6U4N7B5BmyiNvLKNTFeBN4RcMhgp84UuHpSDbu)
+![](https://gateway.pinata.cloud/ipfs/QmbNpbky6U4N7B5BmyiNvLKNTFeBN4RcMhgp84UuHpSDbu)
 
 
 This article is part of a **POA tutorial series**:
@@ -32,7 +32,7 @@ In this first step, we’re going to learn how to connect our Metamask wallet to
 
 2. Go to Settings, enter the following new RPC URL https://sokol.poa.network and click on Save
 
-![](https://ipfs.infura.io/ipfs/QmSZNDxcCSmVwvxxWkzLz9Z2kEj6TTgYCBEYU4VJE2XusP)
+![](https://gateway.pinata.cloud/ipfs/QmSZNDxcCSmVwvxxWkzLz9Z2kEj6TTgYCBEYU4VJE2XusP)
 
   *Metamask should switch to this new private network*
 
@@ -44,7 +44,7 @@ In this first step, we’re going to learn how to connect our Metamask wallet to
 
 5. Click on Request 0.5 POA
 
-![](https://ipfs.infura.io/ipfs/QmbNrvNNVdysPjLYDC1hVMfhT7u2azCvsPT5Sp2tBJT45G)
+![](https://gateway.pinata.cloud/ipfs/QmbNrvNNVdysPjLYDC1hVMfhT7u2azCvsPT5Sp2tBJT45G)
 
 6. You can your account balance in Metamask or also see in the [POA Sokol Explorer](https://blockscout.com/poa/sokol/) if the transaction went through.
 

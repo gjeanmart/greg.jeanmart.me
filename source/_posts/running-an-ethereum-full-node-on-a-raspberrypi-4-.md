@@ -3,7 +3,7 @@ title: Running an Ethereum Full Node on a RaspberryPi 4 (model B)
 date: 2020-02-23
 ---
 
-![](https://ipfs.infura.io/ipfs/QmYqK1cmTmUA29EUX39UY1n7PdQwXLkTXGyaNgPXmraVLc)
+![](https://gateway.pinata.cloud/ipfs/QmYqK1cmTmUA29EUX39UY1n7PdQwXLkTXGyaNgPXmraVLc)
 
 
 ### Introduction
@@ -69,7 +69,7 @@ As mentioned, the board is the latest [Raspberry 4 (model B) - 4GB](https://www.
 
 To host the operating system (OS), I use a [SanDisk 16GB Ultra microSD](https://www.amazon.com/Sandisk-Ultra-Micro-UHS-I-Adapter/dp/B073K14CVB)
 
-![](https://ipfs.infura.io/ipfs/QmRfSNZLcX56Y9FunZQxT3aMY7Z69d2xBVznT2RHxwsJdw)
+![](https://gateway.pinata.cloud/ipfs/QmRfSNZLcX56Y9FunZQxT3aMY7Z69d2xBVznT2RHxwsJdw)
 
 **Recommended price:** $5
 

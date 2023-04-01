@@ -3,7 +3,7 @@ title: Connecting to an Ethereum client with Java, Eclipse and Web3j
 date: 2019-07-19
 ---
 
-![](https://ipfs.infura.io/ipfs/QmZjb5Kp3LFcXTVxneoJN3aco6NF91M7TbVfxUq4B4ySsX)
+![](https://gateway.pinata.cloud/ipfs/QmZjb5Kp3LFcXTVxneoJN3aco6NF91M7TbVfxUq4B4ySsX)
 
 [**Ethereum**](https://www.ethereum.org/) is a Blockchain, which means it operates on a [peer-to-peer network](https://en.wikipedia.org/wiki/Peer-to-peer) composed of thousand of nodes where each node agrees on the next state.
 

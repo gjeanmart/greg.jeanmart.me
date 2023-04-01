@@ -3,7 +3,7 @@ title: (K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster
 date: 2020-04-13 00:00:08
 ---
 
-![](https://ipfs.infura.io/ipfs/QmPkbAuQryPTYbKiZ3X542xCXrkXUwXYWtQfwYLtzh2iER)
+![](https://gateway.pinata.cloud/ipfs/QmPkbAuQryPTYbKiZ3X542xCXrkXUwXYWtQfwYLtzh2iER)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 
@@ -22,7 +22,7 @@ Monitoring is an important part of the maintenance of a Kubernetes cluster to ga
 
 [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) is a common combination of tools to build up a monitoring system where Prometheus acts as a data collector pulling periodically metrics from different systems and Grafana as a dashboard solution to visualise the data.
 
-![](https://ipfs.infura.io/ipfs/QmW2155L91oNeMp9H2VR1nSeoB5GchppXQJCjfTt6wtSW4)
+![](https://gateway.pinata.cloud/ipfs/QmW2155L91oNeMp9H2VR1nSeoB5GchppXQJCjfTt6wtSW4)
 
 Specifically for Kubernetes, a great Open-Source project called [**cluster-monitoring**](https://github.com/carlosedp/cluster-monitoring) offers a scripts to automate the installation and configuration of Prometheus + Grafana and provides a lot of dashboards for Kubernetes out of the box.
 

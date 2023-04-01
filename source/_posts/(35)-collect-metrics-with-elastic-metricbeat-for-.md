@@ -3,7 +3,7 @@ title: (Elastic monitoring - 3/5)  Collect metrics with Elastic Metricbeat for m
 date: 2019-10-19 00:00:03
 ---
 
-![](https://ipfs.infura.io/ipfs/QmfFTZb7ZaiZfDzc34kQfc137WaQ5HewS4JzinqEu2QRpE)
+![](https://gateway.pinata.cloud/ipfs/QmfFTZb7ZaiZfDzc34kQfc137WaQ5HewS4JzinqEu2QRpE)
 
 
 [**Metricbeat**](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-overview.html) is a lightweight shipper installed on a server to periodically collect metrics from the host and services running. This represents the first pillar of observability to monitor our stack.

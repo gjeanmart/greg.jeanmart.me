@@ -3,7 +3,7 @@ title: (POA Guide - Part 2) Bridge assets between a sidechain and a mainchain
 date: 2020-01-21
 ---
 
-![](https://ipfs.infura.io/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2)
+![](https://gateway.pinata.cloud/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2)
 
 
 This article is part of a **POA tutorial series**:
@@ -33,7 +33,7 @@ As part of the layer 2 scalability solutions, sidechain and bridges implement th
 4. User decides to exit his tokens from the sidechain and transfer them back to the mainchain via the bridge (tokens unlocked on the mainchain and burned on the sidechain)
 5. User sells his tokens on the mainchain
 
-![](https://ipfs.infura.io/ipfs/QmWH44b3xpJk1yEiLok7xPZw991J3SgxGaoQ6nj6a8GUhn)
+![](https://gateway.pinata.cloud/ipfs/QmWH44b3xpJk1yEiLok7xPZw991J3SgxGaoQ6nj6a8GUhn)
 
 In this tutorial, we will learn how to deploy a token on the two networks (RinkeBy network as mainchain and POA Sokol as sidechain) and then deploy and use the bridge (ERC20 to ERC20) to let a user transfers his assets from one network to another.
 
@@ -326,7 +326,7 @@ $ yarn install && yarn install:deploy
 
 In this third step, we will deploy the necessary contracts to enable a ERC20 to ERC20 bridge.
 
-![](https://ipfs.infura.io/ipfs/QmaVm2rdtf78fHsG7pRh2GYGXeRdos6tNkWrWtU2AZAT8w)
+![](https://gateway.pinata.cloud/ipfs/QmaVm2rdtf78fHsG7pRh2GYGXeRdos6tNkWrWtU2AZAT8w)
 
 1. Go to the `contracts` folder
 
@@ -597,11 +597,11 @@ $ npm start
 <br />
 4. Open your Internet Browser, unlock Metamask on the Rinkeby network with the account used to deploy BRT token and go to [http://localhost:3000/](http://localhost:3000/)
 
-![](https://ipfs.infura.io/ipfs/QmPNXRHicnw5ZVFiyiZVN7rDEwR8rtVtWsMYq1bLEMovor)
+![](https://gateway.pinata.cloud/ipfs/QmPNXRHicnw5ZVFiyiZVN7rDEwR8rtVtWsMYq1bLEMovor)
 
 If you are on the RinkeBy network, you should see that you own 100 BRT token on the mainchain (RinkeBy) and 0 on the sidechain (POA Sokol)
 
-![](https://ipfs.infura.io/ipfs/QmPbXEgc9q2xZ31hJjLJS4mvbFUy5fLj8SoFP89v25AMeq)
+![](https://gateway.pinata.cloud/ipfs/QmPbXEgc9q2xZ31hJjLJS4mvbFUy5fLj8SoFP89v25AMeq)
 
 You can now transfer BRT token between the mainchain and the sidechain:
 

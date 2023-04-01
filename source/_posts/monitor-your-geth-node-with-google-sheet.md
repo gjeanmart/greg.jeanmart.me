@@ -3,7 +3,7 @@ title: Monitor your Geth node with Google Sheet
 date: 2020-05-03
 ---
 
-![](https://ipfs.infura.io/ipfs/QmdTDdL7AmkJNw2aM7hP5dUNbLMt3Y34iZFovbgkRdJ2Hk)
+![](https://gateway.pinata.cloud/ipfs/QmdTDdL7AmkJNw2aM7hP5dUNbLMt3Y34iZFovbgkRdJ2Hk)
 
 
 In this article, I will explain how to monitor a Geth node and keep track of the syncing process very easily with a **CronJob** and **Google Sheet**

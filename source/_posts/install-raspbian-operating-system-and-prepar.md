@@ -3,7 +3,7 @@ title: (K3S - 2/8) Install Raspbian Operating-System and prepare the system for 
 date: 2020-04-13 00:00:02
 ---
 
-![](https://ipfs.infura.io/ipfs/Qma6gsqaPkdAEKDzke9N7DTHXKKGRnU2RD7sH7tXdLSUjt)
+![](https://gateway.pinata.cloud/ipfs/Qma6gsqaPkdAEKDzke9N7DTHXKKGRnU2RD7sH7tXdLSUjt)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 
@@ -31,7 +31,7 @@ Our cluster will be composed of three machines (I might use the terms _device_, 
 
 We are using a Portable SSD connected to the master node and exposed to the worker via NFS to store the volume data.
 
-![](https://ipfs.infura.io/ipfs/QmfAnBjKB9hj2CMikh4c5TVKHLoKABBS5B5yQbSRRXyAtZ)
+![](https://gateway.pinata.cloud/ipfs/QmfAnBjKB9hj2CMikh4c5TVKHLoKABBS5B5yQbSRRXyAtZ)
 
 
 
@@ -63,9 +63,9 @@ Download [Etcher](https://www.balena.io/etcher/) to flash OS images to SD cards 
 
 Launch Etcher, select first the image extracted of Raspbian, select the Media (SD card) and click on Flash.
 
-![](https://ipfs.infura.io/ipfs/Qmbq9nv6BGxLcBmLvYAQ8fqCGHRcZewPN8DqSRBJDaHmXm)
+![](https://gateway.pinata.cloud/ipfs/Qmbq9nv6BGxLcBmLvYAQ8fqCGHRcZewPN8DqSRBJDaHmXm)
 
-![](https://ipfs.infura.io/ipfs/QmSGCN8edA61AuuhTAhAKoa61XmmvUtzCvTGBQsxtyPHBB)
+![](https://gateway.pinata.cloud/ipfs/QmSGCN8edA61AuuhTAhAKoa61XmmvUtzCvTGBQsxtyPHBB)
 
 **5. Once flashed, navigate to the folder /boot of the SD card and create an empty file `ssh`**
 
@@ -90,7 +90,7 @@ After you power up each device, we will attempt to connect from our local machin
 
 Your network router probably assigns an arbitrary IP address when a device tries to join the network via DHCP. To find the address attributed to the device, you can check either on your router admin panel (usually http://192.168.0.1 assuming your local network is 192.168.0.x) or via a tool like [angryip](https://angryip.org).
 
-![](https://ipfs.infura.io/ipfs/QmaGAcRkvbdsco79EDf49rfXzZzJs3c4RSxCHJnT4m5PBw)
+![](https://gateway.pinata.cloud/ipfs/QmaGAcRkvbdsco79EDf49rfXzZzJs3c4RSxCHJnT4m5PBw)
 
 _E.g. Virgin Media Hub_
 

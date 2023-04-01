@@ -3,7 +3,7 @@ title: Generate a Java Wrapper from your Smart Contract
 date: 2019-07-19
 ---
 
-![](https://ipfs.infura.io/ipfs/QmTfBi56eSEH6PnX1fK7aYsQWv6Tq4mja1KH3Yxk8NFzJ5)
+![](https://gateway.pinata.cloud/ipfs/QmTfBi56eSEH6PnX1fK7aYsQWv6Tq4mja1KH3Yxk8NFzJ5)
 
 
 In this article, we discover how to generate a [Java Wrapper Class](https://www.baeldung.com/java-wrapper-classes) directly from a smart contract to interact with a smart contract in Java.

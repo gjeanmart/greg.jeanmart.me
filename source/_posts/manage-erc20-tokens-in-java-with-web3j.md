@@ -3,7 +3,7 @@ title: Manage ERC20 tokens in Java with Web3j
 date: 2019-08-20
 ---
 
-![](https://ipfs.infura.io/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr)
+![](https://gateway.pinata.cloud/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr)
 
 
 In this article, we learn how to manage [ERC20 (Fungible)](https://en.wikipedia.org/wiki/ERC-20) tokens in Java with the [Web3j](https://web3j.io/) library.

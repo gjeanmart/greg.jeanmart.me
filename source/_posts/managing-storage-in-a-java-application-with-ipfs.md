@@ -3,7 +3,7 @@ title: Managing storage in a Java application with IPFS
 date: 2019-08-14
 ---
 
-![](https://ipfs.infura.io/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f)
+![](https://gateway.pinata.cloud/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f)
 
 
 In this article, we learn how to interact with **[IPFS](https://ipfs.io/) (InterPlanetary File System)** in Java using the official [**java-ipfs-http-client library**](https://github.com/ipfs/java-ipfs-http-client). This library connects to an IPFS node and wraps most of the operations offered by the [HTTP API](https://docs.ipfs.io/reference/api/http/).

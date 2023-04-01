@@ -3,7 +3,7 @@ title: (Elastic monitoring - 1/5) Getting started with Elastic Stack for monitor
 date: 2019-10-19 00:00:01
 ---
 
-![](https://ipfs.infura.io/ipfs/Qmb41iri4YonbWVhjyNkuAanQJMGczpqeLKYjERh38HSUb)
+![](https://gateway.pinata.cloud/ipfs/Qmb41iri4YonbWVhjyNkuAanQJMGczpqeLKYjERh38HSUb)
 
 ### Introduction
 

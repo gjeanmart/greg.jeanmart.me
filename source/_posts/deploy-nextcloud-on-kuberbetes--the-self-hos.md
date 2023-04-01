@@ -3,7 +3,7 @@ title: (K3S - 4/8) Deploy NextCloud on Kuberbetes  The self-hosted Dropbox
 date: 2020-04-13 00:00:04
 ---
 
-![](https://ipfs.infura.io/ipfs/QmWWVPyzfpSc2Pd1EcJ4RyqvQGB6iB7ytNTmVfawExJ3sr)
+![](https://gateway.pinata.cloud/ipfs/QmWWVPyzfpSc2Pd1EcJ4RyqvQGB6iB7ytNTmVfawExJ3sr)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 
@@ -22,7 +22,7 @@ Now we have prepared our RaspberryPi cluster to receive Kubernetes as a self-hos
 
 [NextCloud](https://nextcloud.com/) is an file hosting open-source software similar to Dropbox. Unlike Dropbox, NextCloud is not available as a SaaS but only on-premise which means anyone is allowed to install and operate it on their own private server. NextCloud offers individuals and organisations to gain control over their private data with a safe and secure solutions. NextCloud also provides a long list of add-ons working alongside the file sharing solution such as: Calendar & Contacts management, Audio/Video conferencing, Task Management, Photos albums and more.  
 
-![](https://ipfs.infura.io/ipfs/QmQ7zPeatKZ8PY3Y2Qh4USKg9DHEdTiKbKTFjsrPfqrt8T)
+![](https://gateway.pinata.cloud/ipfs/QmQ7zPeatKZ8PY3Y2Qh4USKg9DHEdTiKbKTFjsrPfqrt8T)
 
 In this article we will learn how to safely install NextCloud on a Kubernetes environment and configure both Desktop and Mobile access from anywhere.
 

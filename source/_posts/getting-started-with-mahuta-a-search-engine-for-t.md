@@ -3,7 +3,7 @@ title: Getting started with Mahuta - A Search engine for the IPFS
 date: 2019-12-10
 ---
 
-![](https://ipfs.infura.io/ipfs/QmWMrtdrHCU5J7N4BQ9SX5Uy1NXK7viCNZT9pqEkt2C3wP)
+![](https://gateway.pinata.cloud/ipfs/QmWMrtdrHCU5J7N4BQ9SX5Uy1NXK7viCNZT9pqEkt2C3wP)
 
 
 [**Mahuta**](https://github.com/ConsenSys/Mahuta) (formerly known as IPFS-Store) is a convenient library and API to aggregate and consolidate files or documents stored by your application on the IPFS network. It provides a solution to collect, store, index and search data used.

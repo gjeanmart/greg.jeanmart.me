@@ -3,7 +3,7 @@ title: Manage an Ethereum account with Java and Web3j
 date: 2020-05-01
 ---
 
-![](https://ipfs.infura.io/ipfs/QmTyEg3Lq2Bf2anauJnHcGtHiAJZ71kAbY2quL7jXZeWkh)
+![](https://gateway.pinata.cloud/ipfs/QmTyEg3Lq2Bf2anauJnHcGtHiAJZ71kAbY2quL7jXZeWkh)
 
 
 The Ethereum blockchain is often compared to a World Computer with a global state. The global state grows after each new block and cosists of many accounts organised in a [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree).

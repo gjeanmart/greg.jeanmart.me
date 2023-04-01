@@ -3,7 +3,7 @@ title: (K3S - 7/8) Self-host your password manager with Bitwarden
 date: 2020-04-13 00:00:07
 ---
 
-![](https://ipfs.infura.io/ipfs/QmfTTYuhANiy3D9u9TbWPu1GgK3hSokKQH27XmnF5egmgH)
+![](https://gateway.pinata.cloud/ipfs/QmfTTYuhANiy3D9u9TbWPu1GgK3hSokKQH27XmnF5egmgH)
 
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
@@ -23,7 +23,7 @@ This article is part of the series *Build your very own self-hosting platform wi
 [Bitwarden](https://bitwarden.com/) is a free, open-source and audited Password Manager, it provides a large range of clients (desktop, web, browser extension and mobiles) to access your password easily and safely from anywhere. While Bitwarden offers a SaaS solutions (they host your passwords in an encrypted way), because Bitwarden is open-source, you can decide to host yourself your password and this is what we are going to learn in this tutorial.
 
 
-![](https://ipfs.infura.io/ipfs/QmcPDteMCafr51JeoHPG3RVk8f1nD5tEvYhDr6VHM9DmFx)
+![](https://gateway.pinata.cloud/ipfs/QmcPDteMCafr51JeoHPG3RVk8f1nD5tEvYhDr6VHM9DmFx)
 
 For information, we will deploy [Bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs), Unofficial Bitwarden compatible server written in Rust, ideal for self-hosting.
 

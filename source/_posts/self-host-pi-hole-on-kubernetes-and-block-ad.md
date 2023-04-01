@@ -3,7 +3,7 @@ title: (K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at
 date: 2020-04-13 00:00:06
 ---
 
-![](https://ipfs.infura.io/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC)
+![](https://gateway.pinata.cloud/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 
@@ -22,7 +22,7 @@ This article is part of the series *Build your very own self-hosting platform wi
 
 Pi Hole is a network-wide ad blocker. In a typical home environment, this can cut out almost all ads to all devices in your home, without having to install an ad blocker on every single device. Technically Pi-Hole acts as a DNS sinkhole which filters out unwanted results using a blacklist domains list. Pi-Hole also offers a great admin interface to configure and analyse your network traffic (DNS, DHCP, Black/White list, regex, etc.).
 
-![](https://ipfs.infura.io/ipfs/QmWNdkLpvCo2aHjAL3k45vndybyv6u1aM5wTZw9UgeXZsB)
+![](https://gateway.pinata.cloud/ipfs/QmWNdkLpvCo2aHjAL3k45vndybyv6u1aM5wTZw9UgeXZsB)
 
 In this new article, we will learn how to deploy Pi-Hole on a Kubernetes self-hosting platform.
 

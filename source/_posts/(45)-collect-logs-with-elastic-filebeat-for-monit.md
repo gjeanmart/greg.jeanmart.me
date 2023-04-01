@@ -3,7 +3,7 @@ title: (Elastic monitoring - 4/5) Collect logs with Elastic Filebeat for monitor
 date: 2019-10-19 00:00:04
 ---
 
-![](https://ipfs.infura.io/ipfs/QmZcCzNro3rnKo22XsMSmVRdxwj1jybedy9SHgQhPVHmpt)
+![](https://gateway.pinata.cloud/ipfs/QmZcCzNro3rnKo22XsMSmVRdxwj1jybedy9SHgQhPVHmpt)
 
 In the next section of this series, we are now going to install [**Filebeat**](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-overview.html), it is a lightweight agent to collect and forward log data to ElasticSearch within the k8s environment (node and pod logs). Moreover, specific [modules](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-modules.html) can be configured to parse and visualise logs format coming from common applications or system (databases, message bus).
 

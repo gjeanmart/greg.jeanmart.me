@@ -3,7 +3,7 @@ title: (K3S - 3/8) Install and configure a Kubernetes cluster with k3s to self-h
 date: 2020-04-13 00:00:03
 ---
 
-![](https://ipfs.infura.io/ipfs/QmNij6VSLpX25UNBJaPm4FowsaLMqPE5yyRQh92Zv3GmpZ)
+![](https://gateway.pinata.cloud/ipfs/QmNij6VSLpX25UNBJaPm4FowsaLMqPE5yyRQh92Zv3GmpZ)
 
 This article is part of the series *Build your very own self-hosting platform with Raspberry Pi and Kubernetes*
 

@@ -3,7 +3,7 @@ title: (K3S - 1/8) Build your very own self-hosting platform with Raspberry Pi a
 date: 2020-04-13 00:00:01
 ---
 
-![](https://ipfs.infura.io/ipfs/QmPFWQJ1gevuXVxMfELZ9XoXx9QEANSonMiEvNw7YP254t)
+![](https://gateway.pinata.cloud/ipfs/QmPFWQJ1gevuXVxMfELZ9XoXx9QEANSonMiEvNw7YP254t)
 
 
 
@@ -54,7 +54,7 @@ As most modern software engineers can attest, containers have offered a dramatic
 
 Now we know, it is easy to run containerized applications, we need an orchestrator to manage our applications across multiple hosts (machines), this will help automating most of the maintenance tasks (reboot after application or host crash, scaling, load balancing, configuration management, etc.).   
 
-![](https://ipfs.infura.io/ipfs/QmXCrk532MtmJPY5eWnyrXvmgi8PCaxdbGh6DFtknHHbdN)
+![](https://gateway.pinata.cloud/ipfs/QmXCrk532MtmJPY5eWnyrXvmgi8PCaxdbGh6DFtknHHbdN)
 
 [Kubernetes (k8s) from Google](https://kubernetes.io) is the market leader in container orchestration, it offers:
 
@@ -74,7 +74,7 @@ Kubernetes comes with a lot of tools that aren't necessarily needed or optimized
 
 A [Raspberry Pi (RPI)](https://www.raspberrypi.org) is Single-Board Computer (SBC) initially launched in 2012 as an educational tool to learn programming but it actually quickly became very popular in the hardware and hacking communities and people now use RPI for hardware projects, home automation, robotics and much more...
 
-![](https://ipfs.infura.io/ipfs/QmexqWd1z8T1XsAWbxwgkgSwimtU4buUD9CoksLwKAoRaZ)
+![](https://gateway.pinata.cloud/ipfs/QmexqWd1z8T1XsAWbxwgkgSwimtU4buUD9CoksLwKAoRaZ)
 
 
 
@@ -151,7 +151,7 @@ I am personally using [this rack case](https://www.amazon.co.uk/gp/product/B07J9
 
 The result looks like this on my side for a total cost around $250 approximately:
 
-![](https://ipfs.infura.io/ipfs/Qme6ME6QJaDXKqX14CA7oSQpySMpdpgLV55DzHdMX5Yc6Q)
+![](https://gateway.pinata.cloud/ipfs/Qme6ME6QJaDXKqX14CA7oSQpySMpdpgLV55DzHdMX5Yc6Q)
 
 
 

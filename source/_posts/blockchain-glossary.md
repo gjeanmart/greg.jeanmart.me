@@ -3,7 +3,7 @@ title: Blockchain glossary
 date: 2019-05-21
 ---
 
-![](https://ipfs.infura.io/ipfs/QmXHu9jhPSs3Sw4nsN6WxTqajBZrtDK8ajifpSECNKibdc)
+![](https://gateway.pinata.cloud/ipfs/QmXHu9jhPSs3Sw4nsN6WxTqajBZrtDK8ajifpSECNKibdc)
 
 
 _A non-exhaustive and comprehensive Blockchain words glossary to help beginners to understand all the different concepts._
