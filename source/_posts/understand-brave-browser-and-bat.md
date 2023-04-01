@@ -3,7 +3,7 @@ title: Understand Brave Browser and BAT
 date: 2020-02-10
 ---
 
-![](https://ipfs.infura.io/ipfs/QmcSyZj8nhpkamxQ3Qp9whvq6EBvwsNURyXQjr3XXqYTsj)
+![](https://gateway.pinata.cloud/ipfs/QmcSyZj8nhpkamxQ3Qp9whvq6EBvwsNURyXQjr3XXqYTsj)
 
 
 [**Brave Browser**](https://www.brave.com/) is a new generation of web browser focusing on speed, privacy and peer2p economy for digital content creation. It is a free and open-source web browser based on [Chromium](https://www.chromium.org/Home) and available on Windows, MacOS, Linux, Android and iOS. The company was co-founded by [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich), the creator of JavaScript and a co-founder of Mozilla.
@@ -17,12 +17,12 @@ So Brave blocks all of that automatically which has two main direct benefits:
 -  **Faster browsing experience:** there is therefore less content to download (no ads or trackers) before accessing a website. [2x faster on desktop - 8x on mobile]
 - **Improved privacy and safety:** it provides anonymity over ads campaigns while browsing the web and also enforce web encryption (HTTPS) to prevent passive or injection attack.
 
-![](https://ipfs.infura.io/ipfs/Qmc7Mko18ABVQoBkNjwtpS4BFex3Lkq81KjfKFtZEs8kNM)
+![](https://gateway.pinata.cloud/ipfs/Qmc7Mko18ABVQoBkNjwtpS4BFex3Lkq81KjfKFtZEs8kNM)
 <center>_Brave browser homepage dashboard_</center>
 
 This feature is called **Brave shields** and can be configured globally (in _Settings / Brave shields defaults_) or specifically for the website you currently visit with the Brave icon at the right side of the URL bar. It shows a popup with the various indicators of the shield (ads and trackers blocked, encrypted connections, cookies and scripts) and the ability to enable/disable the shield entirely or partially for this site.
 
-![](https://ipfs.infura.io/ipfs/QmVzurbN3GsEYNoN2wqk3rWhSSbEAtLMG2btK2zvoRTVbn)
+![](https://gateway.pinata.cloud/ipfs/QmVzurbN3GsEYNoN2wqk3rWhSSbEAtLMG2btK2zvoRTVbn)
 <center>_Brave shield_</center>
 
 
@@ -36,14 +36,14 @@ Consequently Brave enables a transparent, decentralized and more efficient syste
 
 _**On the user side**_, Brave Rewards can be enabled going in _Settings / Brave Rewards_  or [brave://rewards](brave://rewards).
 
-![](https://ipfs.infura.io/ipfs/QmdxuehmUmBVZ87JUfAAu7Jp8CW9eVGm8LzeGnsU2cc5ZC)
+![](https://gateway.pinata.cloud/ipfs/QmdxuehmUmBVZ87JUfAAu7Jp8CW9eVGm8LzeGnsU2cc5ZC)
 <center>_Enable Brave Rewards_</center>
 
 Once enabled, this setting page allows to customise and configure Brave Rewards (enable Ads, Auto-contribute, etc.), see the User's tipping history and manage a BAT wallet.
 
 #### Tipping
 
-![](https://ipfs.infura.io/ipfs/QmRPnVHpgHtRFT7cqnDtQYf7aULhEWAsJ1t9txDKPsp17H)
+![](https://gateway.pinata.cloud/ipfs/QmRPnVHpgHtRFT7cqnDtQYf7aULhEWAsJ1t9txDKPsp17H)
 <center>_Brave Rewards and tipping banner_</center>
 
 At any time, the user can simply click on the BAT icon next to the Shield icon to directly tip the website he is currently visiting. We can see if the website is already a Brave verified publisher or not, if not a tip can still be sent but it will be pending until someone claims it.
@@ -57,7 +57,7 @@ Brave Browser embeds a crypto-wallet which is centrally managed by [Uphold](http
 
 Brave has now included the ability to withdraw BAT in addition to depositing.  To enable withdrawals from the local Uphold.com wallet, the wallet must be verified.  Users must complete Uphold.com KYC requirements to become verified.  The other option is to integrate a supported hardware wallet into the Brave wallet.  Details for hardware wallet management can be found [here](https://support.brave.com/hc/en-us/articles/360035488071-How-do-I-manage-my-Crypto-Wallets-) and local Brave wallet verification and hardware wallet setup can be found [here](https://support.brave.com/hc/en-us/articles/360034535452-How-can-I-add-my-other-Crypto-Wallets-to-Brave-).
 
-![](https://ipfs.infura.io/ipfs/QmNcrimewFSRGVF8sNiaHy8b1A6xn3jiW2xNrToFSjWtbf)
+![](https://gateway.pinata.cloud/ipfs/QmNcrimewFSRGVF8sNiaHy8b1A6xn3jiW2xNrToFSjWtbf)
 <center>_Brave Wallet_</center>
 
 
@@ -65,19 +65,19 @@ Brave has now included the ability to withdraw BAT in addition to depositing.  T
 
 Based on your local browsing history only (number of visits and time spent on sites), Brave proposes to automatically distribute your BAT tokens to content creators with an Auto-Contribute feature.
 
-![](https://ipfs.infura.io/ipfs/QmWEFULJpgRKMKjhpoDLgxBfdbUpuG5Ac52Nt7NLJGKTMa)
+![](https://gateway.pinata.cloud/ipfs/QmWEFULJpgRKMKjhpoDLgxBfdbUpuG5Ac52Nt7NLJGKTMa)
 <center>_Brave Rewards - Auto-Contribute_</center>
 
 
 
 _**On the publisher side**_, in order to receive Brave rewards from your audience, you first need to register and be verified for one or more channels (websites, YouTube or Twitch channel) via [https://publishers.basicattentiontoken.org](https://publishers.basicattentiontoken.org).
 
-![](https://ipfs.infura.io/ipfs/QmZort4TLH9YcQd9WECGRcdFdYZSFVcXUbsMMpvwAmGJQB)
+![](https://gateway.pinata.cloud/ipfs/QmZort4TLH9YcQd9WECGRcdFdYZSFVcXUbsMMpvwAmGJQB)
 <center>_Brave Publisher dashboard_</center>
 
 Interestingly, it is possible to customise your Tipping banner with logo, name, description, links, etc.
 
-![](https://ipfs.infura.io/ipfs/QmXPb1aU5HTjko36ArmnRgYcxcF5kVm66MGjp7BZ4LU5X7)
+![](https://gateway.pinata.cloud/ipfs/QmXPb1aU5HTjko36ArmnRgYcxcF5kVm66MGjp7BZ4LU5X7)
 <center>_Brave Publisher - Tipping Banner_</center>
 
 Finally, in terms of payment, the publisher is required to set up an [Uphold](https://uphold.com/) account with KYC. This part shows obviously the current limits of Brave and BAT as a decentralised peer2p product. Regulations and mass user adoption must be the reason of this choice...
@@ -94,7 +94,7 @@ The rest of the 15% will be then shared between the advertisers, the publishers 
 
 Ads matching happens locally on the user device via a browsing history learning algorithm and never shared those information with anyone, thus respecting privacy!
 
-![](https://ipfs.infura.io/ipfs/QmPZjq1rcSRE6NfBnPieor3f9aNidEFoNH4UWug97NfH9r)
+![](https://gateway.pinata.cloud/ipfs/QmPZjq1rcSRE6NfBnPieor3f9aNidEFoNH4UWug97NfH9r)
 <center>_Brave Rewards - Enable Ads_</center>
 
 
@@ -103,7 +103,7 @@ Ads matching happens locally on the user device via a browsing history learning 
 
 To conclude, Brave Browser provides a privacy-first solution to build a sustainable ecosystem for the web by enabling peer2p value sharing.
 
-![](https://ipfs.infura.io/ipfs/QmbwTUeAfWjpPM9vyTHLnXPAEx9kZnyJMsA188ezmgnCEu)
+![](https://gateway.pinata.cloud/ipfs/QmbwTUeAfWjpPM9vyTHLnXPAEx9kZnyJMsA188ezmgnCEu)
 
 
 
