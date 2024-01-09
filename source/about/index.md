@@ -5,9 +5,17 @@ date: 2020-12-12 16:34:25
 
 ![](/images/greg_profile.png)
 
+{% raw %}
+<div style="display: flex; justify-content: flex-end">
+  <div><a href="https://docs.google.com/document/d/1Lx5nWjPEVkzmONIkch_Yum3_RKgj2sDozKFqQnUMYDI/export?format=pdf&attachment=false" target="_blank"><img width="48" src="https://play-lh.googleusercontent.com/BvILG98J_N1q5T5bFkXpb9niOmEuwfMlZ838ODhYfVRF-IcCvhZuR2QnvrccQ7-v-OA" /></a></div>
+</div>
+{% endraw %}
+
+
+
 ## Career Profile
 
-Passionate Software Engineer, I enjoy constantly pushing my personal and professional boundaries to new horizons. I am currently living in Auvergne (France) and working as CTO of [Multis](https://multis.co).
+12+ years experienced Software Engineer with a strong background in FinTech and Blockchain. Led the development of a €9M+ funded B2B spending & treasury management platform at  [Multis](https://multis.co). Proven track record in team leadership, innovative solutions, and technology exploration.
 
 Since 2016, I am an active member in the Blockchain and cryptocurrency space and more precisely within the [Ethereum](http://ethereum.org) community, I am a true believer of digital decentralization, especially in Finance and a privacy advocate.
 
@@ -25,25 +33,29 @@ Last but not least, I am a proud husband & father, and happy owner of a lovely D
 
 ### [Multis](https://multis.co) • CTO (Apr. 2021 to present) & Lead Engineer (Apr. 2020 to Mar. 2021)
 
-[Multis](https://multis.co) is a small and ambitious startup building the future of business banking and spend management with crypto-currencies and Blockchain technologies to help businesses access and leverage open finance¹.
+[Multis](https://multis.co) is a B2B spending & treasury management platform for crypto-native businesses leveraging crypto-currencies and Decentralized Finance (DeFi)¹. <span style="color:blue">Trusted by 250+ businesses</span>
 
-As a CTO, I'm responsible for building and maintaining our current and future products at the crossroads of spending and treasury management, banking, crypto-currencies, and Decentralized Finance², as well as leading and hiring a world-class engineering team to address the challenges of today and tomorrow.
-
-I work in collaboration with other engineers, product & ops people to research, develop and scale various financial solutions to support our customers. We designed a platform for crypto-native businesses and organizations offering safety, robustness, and easiness across many functions such as bookkeeping, treasury management, crypto wallets & payments, decentralized finance, on/off-ramp, business banking, and corporate cards. Multis strives to integrate with large Fintech/Crypto players (e.g: [SAFE](https://safe.global), [SynapseFi](https://synapsefi.com/), [Plaid](https://plaid.com), [Powens](https://powens.com), [Bridge.xyz](https://bridge.xyz), [Vezgo](https://vezgo.com)) while maintaining high UI/UX standards to streamline finance operations.
-
-Multis is backed by investors including Sequoia Capital, Coinbase Venture and Y Combinator³.
+• Responsible for building and maintaining our products and infrastructure
+• Hired and led a world-class engineering team (7 engineers)
+• Implemented assets & transactions monitoring for 10+ Blockchains (including Ethereum, Polygon & Bitcoin), 50+ Exchanges (via [Vezgo](https://vezgo.com)), and 10k+ financial institutions (via [Plaid](https://plaid.com) and [Powens](https://powens.com)). <span style="color:blue">10M+ transactions recorded</span>
+• Implemented a cryptocurrency payment module on top of 8 Blockchains (including Ethereum, Polygon, and Arbitrum) leveraging [SAFE](https://safe.global) (multi-signature), [Metamask](https://metamask.io/), [Web3Auth](https://web3auth.io/), and [Ledger](https://www.ledger.com/). <span style="color:blue">$200M+ payout</span>
+• Integrated a Bank-as-a-Service provider ([SynapseFi](https://synapsefi.com/)) enabling bank accounts, cards, and on/off-ramp².
+• Multis is backed by investors including Sequoia Capital, Coinbase Venture and Y Combinator³.
+• _**Technologies**: TypeScript, NestJS, Ethereum, SAFE, Clojure(Script), Re-Frame, Tailwind, GCP, Firebase, PostgreSQL, Redis_
 
 _¹[<font size="1">TechCrunch (feb. 2022) · Multis wants to build the financial backbone of crypto-native organizations</font>](https://techcrunch.com/2022/02/17/multis-wants-to-build-the-financial-backbone-of-crypto-native-organizations)_
 _²[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account for cryptocurrencies</font>](https://techcrunch.com/2020/09/29/multis-is-a-business-bank-account-for-cryptocurrencies)_
 _³[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
 
+
 ### [Kauri](https://kauri.io) • Senior Software Engineer / Co-Founder (Oct. 2017 - Apr. 2020)
 
-[Kauri](https://kauri.io) was a project incubated by [ConsenSys](https://consensys.net) aiming to primarily improve the on-boarding experience for web3 developers with a platform to learn, share, contribute and maintain high-quality technical content¹. The platform was built on top of decentralized technologies securing data on IPFS and Ethereum to bring trustless content ownership, content incentivization (bounties, tips) and provide an open-by-default API to distribute content².
+[Kauri](https://kauri.io) was a project incubated by [ConsenSys](https://consensys.net) (Blockchain startups studio) aiming to improve the onboarding experience for web3 developers with a platform to learn, share, contribute, and maintain high-quality technical content¹. <span style="color:blue">5000 articles published by 1000 contributors</span>
 
-I worked in collaboration with other engineers to design, build and maintain Kauri as a decentralized protocol and platform. I was also regularly involved in the company, content and product strategies as a founding member.
-
-During that time, Kauri.io and Consensys also strived to promote educational content to beginner and advanced Blockchain developers online or IRL (events, conferences, hackhaton)³.
+• The platform was built on top of decentralized technologies securing data on IPFS and Ethereum to bring trustless content ownership, content incentivization, and an open-by-default API to distribute content².
+• Kauri.io and Consensys also strived to promote educational content to beginner and advanced Blockchain developers online or IRL (events, conferences, hackhaton)³.
+• Worked on Protocol Design, Backend & Frontend development, infrastructure, and content strategy.
+• _**Technologies**: Java, SpringBoot, TypeScript, NextJS, Ethereum, Solidity, IPFS, Kafka, ElasticSearch, MongoDB, GCP, K8S_
 
 _¹[<font size="1">ConsensSys (mar. 2018) · Kauri: The Knowledge Network for the Ethereum Ecosystem</font>](https://medium.com/consensys-media/kauri-the-knowledge-network-for-the-ethereum-ecosystem-bccc80c0f3ab)_
 _²[<font size="1">YouTube (mar. 2018) · Joshua Cassidy of Kauri.io · Talks About Curating Open-Source Knowledge</font>](https://www.youtube.com/watch?v=wclmiAEzQ5M)_
@@ -52,17 +64,21 @@ _³[<font size="1">TheNextWeb (dec. 2018) · ConsenSys teaches devs how to make 
 
 ### [Ai-London](https://www.ai-london.com) • Tech Lead / Head of Innovation (Jan. 2016 - Oct. 2017)
 
-[Ai-London](https://www.ai-london.com) (acquired by [Lumera](https://lumera.com/)¹) is a Life, Savings and Investment software provider. They offer to financial institutions across the world a large range of software including Ai-PAS, an end-to-end modular Policy Administration System enabling insurers to achieve optimized business outcomes across their organization with existing and future front end investments.
+[Ai-London](https://www.ai-london.com) (acquired by [Lumera](https://lumera.com/)¹) is a Life, Savings, and Investment software provider offering financial institutions across the world a large range of financial software.
 
-During the two years working for Ai-London, I started as Technical Leader responsible of refactoring and maintaining Ai-PAS. Then my role shifted to Head of Innovation where I explored in collaboration with the CTO, new technical areas relevant for the Insurance & Financial industry such as Big Data, Machine Learning and Blockchain.
+• 2016 - Worked as Head of Middleware (Team Lead of 5 developers) for Ai-PAS, an end-to-end modular Policy Administration System.
+• 2017 - Worked as Head of innovation exploring in collaboration with the CTO, new technical areas relevant to the Insurance & Financial industry such as Big Data, Machine Learning, and Blockchain.
+• _**Technologies**: Java, Spring, JBoss, Javascript, Angular, Keycloak, OracleDB, Ethereum_
 
 _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-london-for-continued-european-expansion</font>](https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-london-for-continued-european-expansion/)_
 
+
 ### [RS2i](https://www.rs2i.fr) • Software Engineer & Junior Manager (Feb. 2011 - Dec. 2015)
 
-[RS2i](https://www.rs2i.fr) is a consultancy firm based in Paris and specialized in Enterprise solutions for medium to large companies. They implement custom software solutions in the following areas: ESB (Enterprise Service Bus), BPM (Business Process Management), Business Analytics, Big Data and ECM (Enterprise Content Management).
+[RS2i](https://www.rs2i.fr) is a consultancy firm based in Paris, specializing in Enterprise solutions (BPM, ESB, ECM, Big Data) for medium to large companies across Europe.
 
-Within RS2i, I had the opportunity to learn and understand the principles of complex Information Technologies Systems in very different domains and technologies. I joined as an intern after the university and grew from Junior developer to business solution architect (specialized in Java J2EE and [TIBCO technologies](https://www.tibco.com)) and project manager in a few years working for a large range of clients between Paris and Brussels.
+• Worked as Software Engineer, Architect, or Technical Manager for several customers in a wide range of industries (Finance, Insurance, Energy, Transport, Media).
+• Specialized in Java J2EE and  [TIBCO](https://www.tibco.com) solutions integrations
 
 
 ![](/images/favicon.ico)
@@ -72,15 +88,51 @@ Within RS2i, I had the opportunity to learn and understand the principles of com
 
 ### 🎙 Podcasts
 
-• [CTO'z #49 · Grégoire Jeanmart @Multis - "Voyage en pays crypto" (Jul. 2022 🇫🇷)](https://podcast.ausha.co/cto-z-1/cto-z-49-gregoire-jeanmart-atmultis-voyage-en-pays-crypto)
+• 🇫🇷 [CTO'z #49 · Grégoire Jeanmart @Multis - "Voyage en pays crypto"](https://podcast.ausha.co/cto-z-1/cto-z-49-gregoire-jeanmart-atmultis-voyage-en-pays-crypto) Jul. 2022
 
 ### 🗣️ Conferences
 
-• [DappCon 2022 · Building Within The Safe Ecosystem For A B2B Usecase, Meissner & Jeanmart (Sept. 2022 🇬🇧)](https://www.youtube.com/watch?v=5Zcf9qVAQeA)
-• [EthCC 2018 · Joshua CASSIDY & Grégoire JEANMART - An introduction to KAURI Q&A (Mar. 2018 🇬🇧)](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184)
+• 🇬🇧 [DappCon 2022 · Building Within The Safe Ecosystem For A B2B Usecase, Meissner & Jeanmart](https://www.youtube.com/watch?v=5Zcf9qVAQeA) Sept. 2022
+• 🇬🇧 [EthCC 2018 · Joshua CASSIDY & Grégoire JEANMART - An introduction to KAURI Q&A](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184) Mar. 2018
+
 
 ![](/images/favicon.ico)
 
+
+## Articles and Publications
+
+• 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](https://greg.jeanmart.me/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-/) Feb. 2020
+• 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](https://greg.jeanmart.me/2020/04/13/build-your-very-own-self-hosting-platform-wi/) Apr. 2020
+• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](https://greg.jeanmart.me/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/) Oct. 2019
+• 🇬🇧 [Manage an Ethereum account with Java and Web3j](https://greg.jeanmart.me/2020/05/01/manage-an-ethereum-account-with-java-and-web3j/) May 2020
+• 🇬🇧 [Multis integrates TheGraph to offer an even stronger multisig](https://medium.com/multis/multis-integrates-the-graph-to-offer-an-even-stronger-multisig-wallet-b590a4207f8e) Jul. 2020
+• _See more on [greg.jeanmart.me/blog/](https://greg.jeanmart.me/blog/)_
+
+
+![](/images/favicon.ico)
+
+
+## Open-Source projects and contributions
+
+• [Rotki extension](https://github.com/gjeanmart/rotki-extension) (Chrome extension, [Rotki](https://rotki.com), Clojure/script, re-frame): The extension connects to [Rotki](https://rotki.com) backend API (running locally or remotely) and provides basic insights about your portfolio.
+• [Mahuta](https://github.com/Consensys/Mahuta) (IPFS, Java, Spring, ElasticSearch): IPFS Storage service with search capability.
+• [Awesome-state-machine](https://github.com/kauri-io/awesome-state-machine) (Java, Spring): State Machine library for Spring-Boot
+• [Pihole-kubernetes](https://github.com/MoJo2600/pihole-kubernetes) (K8S, Helm)
+• [Java-ipfs-http-client](https://github.com/ipfs-shipyard/java-ipfs-http-client) (Java, IPFS)
+• [Eventeum](https://github.com/eventeum/eventeum) (Java, Ethereum, Kafka)
+• _See more on [github.com/gjeanmart](https://github.com/gjeanmart)_
+
+
+![](/images/favicon.ico)
+
+
 ## Skills and Technologies
 
-*Under construction*
+• **Technical Skills**: Fullstack
+&nbsp;&nbsp;• Programming: TypeScript, JavaScript, Java, Clojure, Solidity, Kotlin, PHP, Python
+&nbsp;&nbsp;• Frameworks: SpringBoot, NestJS, NextJS, Express, React, Re-Frame, Hardhat,  Angular, Tailwind
+&nbsp;&nbsp;• Infrastructure: GCP, Firebase, Azure, OracleDB, MySQL, PostgreSQL, MongoDB, ElasticSearch, Kafka, RabbitMQ, Redis, Git, GitHub, Docker, K8S
+• **Management skills**: Project & Budget planning, Agile methodologies, Team leadership & mentoring, Design Thinking
+
+
+![](/images/favicon.ico)
