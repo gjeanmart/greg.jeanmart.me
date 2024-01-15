@@ -1,6 +1,7 @@
 ---
 title: (K3S - 2/8) Install Raspbian Operating-System and prepare the system for Kubernetes
 date: 2020-04-13 00:00:02
+updated: 2024-01-15 00:00:00
 ---
 
 ![](https://gateway.pinata.cloud/ipfs/Qma6gsqaPkdAEKDzke9N7DTHXKKGRnU2RD7sH7tXdLSUjt)
@@ -24,9 +25,9 @@ Our cluster will be composed of three machines (I might use the terms _device_, 
 
 | Hostname | IP | Description |
 |---|---|---|
-| kube-master | 192.168.0.22 | A Master represents the main node of the cluster responsible of the orchestration. It can act as a worker as well and run applications |
-| kube-worker1 | 192.168.0.23 | A Worker is a machine dedicated to run applications only. It is remotely managed by the master node |
-| kube-worker2 | 192.168.0.24 | A Worker is a machine dedicated to run applications only. It is remotely managed by the master node |
+| kube-master | 192.168.1.20 | A Master represents the main node of the cluster responsible of the orchestration. It can act as a worker as well and run applications |
+| kube-worker1 | 192.168.1.21 | A Worker is a machine dedicated to run applications only. It is remotely managed by the master node |
+| kube-worker2 | 192.168.1.22 | A Worker is a machine dedicated to run applications only. It is remotely managed by the master node |
 
 
 We are using a Portable SSD connected to the master node and exposed to the worker via NFS to store the volume data.
@@ -46,40 +47,41 @@ We are using a Portable SSD connected to the master node and exposed to the work
 
 ### Flash the OS on the Micro SD card
 
-**1. Download the latest version of the Raspbian Linux OS for RaspberryPi**
 
-Go to the [download page](https://www.raspberrypi.org/downloads/raspbian/) and download Raspbian Buster Lite.
+**1. Download Raspberry Pi Imager**
 
-- Raspbian is a Debian-based computer operating system for Raspberry Pi.
-- Buster Lite is a minimal version of Raspbian that doesn't contain a Desktop or Recommended software. We can start from a very clean, light and fresh install using this version.
+Go to the [download page](https://www.raspberrypi.com/software/) and download Raspberry Pi Imager depending on your OS.
 
-**2. Unzip the archive to obtain the image `2019-09-26-raspbian-buster-lite.img`**
+![](https://i.ibb.co/X7rWSbT/Screenshot-at-Dec-31-13-55-46.png)
 
-**3. Plug an Micro SD Card into your local machine**
 
-**4. Use Etcher and flash the image on the SD card**
+**2. Plug an Micro SD Card into your local machine**
 
-Download [Etcher](https://www.balena.io/etcher/) to flash OS images to SD cards & USB drives, safely and easily.
+**3. Launch Raspberry Pi Imager**
 
-Launch Etcher, select first the image extracted of Raspbian, select the Media (SD card) and click on Flash.
+- Choose your Raspberry Pi device version, Operating System (I recommend the LITE version) and the location of your SD card. Press "Next"
 
-![](https://gateway.pinata.cloud/ipfs/Qmbq9nv6BGxLcBmLvYAQ8fqCGHRcZewPN8DqSRBJDaHmXm)
+![](https://i.ibb.co/R08VPs0/Screenshot-at-Dec-31-13-57-05.png)
 
-![](https://gateway.pinata.cloud/ipfs/QmSGCN8edA61AuuhTAhAKoa61XmmvUtzCvTGBQsxtyPHBB)
 
-**5. Once flashed, navigate to the folder /boot of the SD card and create an empty file `ssh`**
+- Click on "Edit Settings"
+You can set the hostname (`kube-master` for instance), the SSH username/password and the WIFI (if your Raspberry PI supports it). Press "SAVE"
 
-Adding the file named `ssh` onto the boot partition enables SSH by default.
+![](https://i.ibb.co/8xYZtBs/image-2.png)
 
-```shell
-$ cd /media/<USER_ID>/boot
-$ touch ssh
-```
+Press "YES"
+
+![](https://i.ibb.co/VtqFY00/Screenshot-at-Dec-31-14-01-21.png)
+
+
+Wait for the image to be flashed on the SD card
+
+![](https://i.ibb.co/P1XKJxm/Screenshot-at-Dec-31-14-02-24.png)
+
 
 **6. Unplug the Micro SD Card from your local machine and plug it to the Raspberry Pi**
 
-**7. Plug the power to the Raspberry Pi as well as an Ethernet cable**
-
+**7. Plug the power to the Raspberry Pi as well as an Ethernet cable (only if you haven't configure WIFI)**
 
 
 ### Power up and connect via SSH
@@ -88,104 +90,49 @@ After you power up each device, we will attempt to connect from our local machin
 
 **1. Determine the device IP address**
 
-Your network router probably assigns an arbitrary IP address when a device tries to join the network via DHCP. To find the address attributed to the device, you can check either on your router admin panel (usually http://192.168.0.1 assuming your local network is 192.168.0.x) or via a tool like [angryip](https://angryip.org).
+Your network router probably assigns an arbitrary IP address when a device tries to join the network via DHCP. To find the address attributed to the device, you can check either on your router admin panel (usually http://192.168.1.1 assuming your local network is 192.168.1.x) or via a tool like [angryip](https://angryip.org).
 
-![](https://gateway.pinata.cloud/ipfs/QmaGAcRkvbdsco79EDf49rfXzZzJs3c4RSxCHJnT4m5PBw)
+![](https://i.ibb.co/gSRwyw6/Screenshot-at-Dec-31-14-04-58.png)
 
-_E.g. Virgin Media Hub_
+_E.g. Freebox_
 
-In my case, the device named _raspberrypi_ (hostname) is assigned to the IP address **192.168.0.22**.
+In my case, the device named _raspberrypi_ (hostname) is assigned to the IP address **192.168.1.20**.
 
 **2. Connect via SSH to the machine**
 
 From a new terminal (or Putty), execute the following command `ssh pi@<IP>` to connect remotely to the node. You will be asked to accept to establish the connection (answer `yes`) and then to enter the password. The default password after a fresh Raspbian installation is `raspberry` (this will be change after this step).
 
 ```
-greg@laptop:~$ ssh pi@192.168.0.22
-
-The authenticity of host '192.168.0.22 (192.168.0.22)' can't be established.
-ECDSA key fingerprint is SHA256:lwJ1ARp4uu94nJdD08HdFj0b8np/oTnMGA3q0yApLT0.
+greg@laptop:~$ ssh pi@192.168.1.20
+The authenticity of host '192.168.1.20 (192.168.1.20)' can't be established.
+ED25519 key fingerprint is SHA256:8EkC38flpX0BGUIuP/fVRI/E2NqX6V1rNZzCXXXXX.
+This key is not known by any other names
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.0.22' (ECDSA) to the list of known hosts.
-
-pi@192.168.0.22's password: raspberry
-Linux raspberrypi 4.19.75-v7l+ #1270 SMP Tue Sep 24 18:51:41 BST 2019 armv7l
+Warning: Permanently added '192.168.1.20' (ED25519) to the list of known hosts.
+pi@192.168.1.20's password:
+Linux kube-master 6.1.0-rpi7-rpi-v8 #1 SMP PREEMPT Debian 1:6.1.63-1+rpt1 (2023-11-24) aarch64
 
 The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
+the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
 
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law
 
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
-
-pi@raspberrypi:~ $
+pi@kube-master:~ $
 ```
 
 Well done, you are now connected remotely to the machine. Do the same for the other machines of the cluster.
-
-
 
 
 ### Configure the OS
 
 Before starting installing the Kubernetes cluster, we need to run a few common steps and security checks.
 
-
-#### Change password
-
-The default password configured by Raspbian is well known, so it is highly recommended to change it to something else only you know:
-
-```
-pi@raspberrypi:~ $ passwd
-
-Changing password for pi.
-Current password: raspberry
-New password: <new_password>
-Retype new password: <new_password>
-passwd: password updated successfully
-```
-
-
-
-#### Change hostname
-
-As we saw on the router, the default machine hostname is `raspberrypi`, keeping this could be quite confusing when we'd have two more machines with the same name. To change the hostname, two files needs to be edited:
-
-**1. Edit the file `/etc/hostname` and replace `raspberrypi` by `kube-master` or `kube-worker-x`**
-
-```
-pi@raspberrypi:~ $ sudo vi /etc/hostname
-
-kube-master
-```
-
-_Struggling with `vi`? take a look at the [Vim cheat-sheet](https://devhints.io/vim) or alternatively, use nano._
-
-
-**2. Edit the file `/etc/hosts` and replace `raspberrypi` (line 6) by `kube-master` or `kube-worker-x`**
-
-```
-pi@raspberrypi:~ $ sudo vi /etc/hosts
-
-127.0.0.1       localhost
-::1             localhost ip6-localhost ip6-loopback
-ff02::1         ip6-allnodes
-ff02::2         ip6-allrouters
-
-127.0.1.1       kube-master
-
-```
-
-
 #### Upgrade the system
 
 To make sure, the system is up-to-date, run the following command to download the latest update and security patches. This step might take a few minutes.
 
 ```
-pi@raspberrypi:~ $ sudo apt-get update && sudo apt-get upgrade -y
+pi@kube-master:~ $ sudo apt-get update && sudo apt-get upgrade -y
 
 Get:1 http://raspbian.raspberrypi.org/raspbian buster InRelease [15.0 kB]
 Get:2 http://archive.raspberrypi.org/debian buster InRelease [25.1 kB]
@@ -202,6 +149,8 @@ Processing triggers for libc-bin (2.28-10+rpi1) ...
 
 #### Configure a static IP
 
+_Note: This could be also done at the network level via the router admin (DHCP)._
+
 By default, the router assigns a arbitrary IP address to the device which means it is highly possible that the router will assign a new different IP address after a reboot. To avoid to recheck our router, it is possible to assign a static IP to the machine.  
 
 Edit the file `/etc/dhcpcd.conf` and add the four lines below:
@@ -210,12 +159,13 @@ Edit the file `/etc/dhcpcd.conf` and add the four lines below:
 pi@raspberrypi:~ $ sudo vi /etc/dhcpcd.conf
 
 interface eth0
-static ip_address=192.168.0.<X>/24
-static routers=192.168.0.1
+static ip_address=192.168.1.<X>/24
+static routers=192.168.1.1
 static domain_name_servers=1.1.1.1
 ```
 
-PS: This could be also done at the network level via the router admin (DHCP).
+
+_Struggling with `vi`? take a look at the [Vim cheat-sheet](https://devhints.io/vim) or alternatively, use nano._
 
 
 
@@ -226,30 +176,29 @@ We need to enable _container features_ in the kernel in order to run containers.
 Edit the file `/boot/cmdline.txt`:
 
 ```
-pi@raspberrypi:~ $ sudo vi /boot/cmdline.txt
+pi@kube-master:~ $ sudo vi /boot/cmdline.txt
 ```
 
 and add the following properties **at the end of the line**:
 
 ```
-cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
+elevator=deadline cgroup_memory=1 cgroup_enable=memory
 ```
-
 
 #### Restart and connect to the static IP with the new password and check the hostname.
 
 ```
-pi@raspberrypi:~ $ sudo reboot
+pi@kube-master:~ $ sudo reboot
 
-Connection to 192.168.0.22 closed by remote host.
-Connection to 192.168.0.22 closed.
+Connection to 192.168.1.20 closed by remote host.
+Connection to 192.168.1.20 closed.
 ```
 
 Reconnect after a few seconds
 
 ```
-greg@laptop:~$ ssh pi@192.168.0.22
-pi@192.168.0.22's password: <new_password>
+greg@laptop:~$ ssh pi@192.168.1.20
+pi@192.168.1.20's password: <PASSWORD>
 ```
 
 Check if the hostname has been updated
@@ -261,14 +210,16 @@ kube-master
 ```
 
 
-#### Firewall
+<!--
+DEPRECATED
+ #### Firewall
 
 Switch Debian firewall to legacy config:
 
 ```shell
 $ sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 $ sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-```
+``` -->
 
 
 
@@ -456,9 +407,6 @@ Add the following line where `192.168.0.22:/mnt/ssd` is the IP of `kube-master` 
 ```
 pi@kube-worker1:~ $ sudo reboot
 ```
-
-
-
 
 
 ### Conclusion

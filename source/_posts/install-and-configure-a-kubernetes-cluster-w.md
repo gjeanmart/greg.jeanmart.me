@@ -1,6 +1,7 @@
 ---
 title: (K3S - 3/8) Install and configure a Kubernetes cluster with k3s to self-host applications
 date: 2020-04-13 00:00:03
+updated: 2024-01-15 00:00:00
 ---
 
 ![](https://gateway.pinata.cloud/ipfs/QmNij6VSLpX25UNBJaPm4FowsaLMqPE5yyRQh92Zv3GmpZ)
@@ -24,7 +25,6 @@ Once the cluster is up and each node connected to each other, we will install so
 
 - **[Helm](https://helm.sh/):** Package manager for Kubernetes
 - **[MetalLB](https://metallb.universe.tf/):** Load-balancer implementation for bare metal Kubernetes clusters
-- **[Nginx](https://github.com/kubernetes/ingress-nginx):** Kubernetes Ingress Proxy
 - **[Cert Manager](https://cert-manager.io):** Native Kubernetes certificate management controller.
 - **[Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/):** A web-based Kubernetes user interface
 
@@ -44,11 +44,11 @@ $ ssh pi@192.168.0.22
 
 **2. Configure the following environment variables**
 
-The first line specifies in which mode we would like to write the k3s configuration (required when not running commands as `root`) and the second line actually says k3s not to deploy its default load balancer named _servicelb_ and proxy _traefik_, instead we will install manually [_metalb_](https://metallb.universe.tf/) as load balancer and [_nginx_](https://www.nginx.com/) as proxy which are in my opinion better and more widely used.
+The first line specifies in which mode we would like to write the k3s configuration (required when not running commands as `root`) and the second line actually says k3s not to deploy its default load balancer named _servicelb_, instead we will install manually [_metalb_](https://metallb.universe.tf/) which is in my opinion better and more widely used.
 
 ```
 $ export K3S_KUBECONFIG_MODE="644"
-$ export INSTALL_K3S_EXEC=" --no-deploy servicelb --no-deploy traefik"
+$ export INSTALL_K3S_EXEC=" --disable=servicelb"
 ```
 
 
@@ -59,12 +59,13 @@ The next command simply downloads and executes the k3s installer. The installati
 ```
 $ curl -sfL https://get.k3s.io | sh -
 
-[INFO]  Finding latest release
-[INFO]  Using v1.17.0+k3s.1 as release
-[INFO]  Downloading hash https://github.com/rancher/k3s/releases/download/v1.17.0+k3s.1/sha256sum-arm.txt
-[INFO]  Downloading binary https://github.com/rancher/k3s/releases/download/v1.17.0+k3s.1/k3s-armhf
+[INFO]  Finding release for channel stable
+[INFO]  Using v1.28.4+k3s2 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.28.4+k3s2/sha256sum-arm64.txt
+[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.28.4+k3s2/k3s-arm64
 [INFO]  Verifying binary download
 [INFO]  Installing k3s to /usr/local/bin/k3s
+[INFO]  Skipping installation of SELinux RPM
 [INFO]  Creating /usr/local/bin/kubectl symlink to k3s
 [INFO]  Creating /usr/local/bin/crictl symlink to k3s
 [INFO]  Creating /usr/local/bin/ctr symlink to k3s
@@ -74,6 +75,8 @@ $ curl -sfL https://get.k3s.io | sh -
 [INFO]  systemd: Creating service file /etc/systemd/system/k3s.service
 [INFO]  systemd: Enabling k3s unit
 Created symlink /etc/systemd/system/multi-user.target.wants/k3s.service → /etc/systemd/system/k3s.service.
+[INFO]  Host iptables-save/iptables-restore tools not found
+[INFO]  Host ip6tables-save/ip6tables-restore tools not found
 [INFO]  systemd: Starting k3s
 ```
 
@@ -86,14 +89,19 @@ The installer creates a systemd service which can be used for `stop`, `start`, `
 $ sudo systemctl status k3s
 
 ● k3s.service - Lightweight Kubernetes
-   Loaded: loaded (/etc/systemd/system/k3s.service; enabled; vendor preset: enabled)
-   Active: active (running) since Fri 2020-01-10 19:26:41 GMT; 9s ago
-     Docs: https://k3s.io
-  Process: 900 ExecStartPre=/sbin/modprobe br_netfilter (code=exited, status=0/SUCCESS)
-  Process: 902 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)
- Main PID: 904 (k3s-server)
-    Tasks: 14
-   Memory: 395.0M
+     Loaded: loaded (/etc/systemd/system/k3s.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2023-12-31 13:34:57 GMT; 21s ago
+       Docs: https://k3s.io
+    Process: 1695 ExecStartPre=/bin/sh -xc ! /usr/bin/systemctl is-enabled --quiet nm-cloud-setup.service (code=exited, status=0/SUCCESS)
+    Process: 1697 ExecStartPre=/sbin/modprobe br_netfilter (code=exited, status=0/SUCCESS)
+    Process: 1698 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)
+   Main PID: 1699 (k3s-server)
+      Tasks: 57
+     Memory: 484.3M
+        CPU: 1min 45.687s
+     CGroup: /system.slice/k3s.service
+             ├─1699 "/usr/local/bin/k3s server"
+             └─1804 "containerd "
 (...)
 ```
 
@@ -104,8 +112,8 @@ k3s also installed the [Kubernetes Command Line Tools](https://kubernetes.io/doc
 ```
 $ kubectl get nodes -o wide
 
-NAME          STATUS   ROLES    AGE   VERSION         INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION   CONTAINER-RUNTIME
-kube-master   Ready    master   29m   v1.17.0+k3s.1   192.168.0.22   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7l+     containerd://1.3.0-k3s.5
+NAME          STATUS   ROLES                  AGE   VERSION        INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION      CONTAINER-RUNTIME
+kube-master   Ready    control-plane,master   51s   v1.28.4+k3s2   192.168.1.20   <none>        Debian GNU/Linux 12 (bookworm)   6.1.0-rpi7-rpi-v8   containerd://1.7.7-k3s1
 ```
 
 - To get the details of all the services deployed
@@ -114,9 +122,9 @@ kube-master   Ready    master   29m   v1.17.0+k3s.1   192.168.0.22   <none>     
 $ kubectl get pods -A -o wide
 
 NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE   IP          NODE          NOMINATED NODE   READINESS GATES
-kube-system   metrics-server-6d684c7b5-w2qdj            1/1     Running   0          30m   10.42.0.3   kube-master   <none>           <none>
-kube-system   local-path-provisioner-58fb86bdfd-jmdjh   1/1     Running   0          30m   10.42.0.4   kube-master   <none>           <none>
-kube-system   coredns-d798c9dd-vh56g                    1/1     Running   0          30m   10.42.0.2   kube-master   <none>           <none>
+kube-system   local-path-provisioner-84db5d44d9-jx6sj   1/1     Running   0          42s   10.42.0.4   kube-master   <none>           <none>
+kube-system   coredns-6799fbcd5-ztjxv                   1/1     Running   0          42s   10.42.0.3   kube-master   <none>           <none>
+kube-system   metrics-server-67c658944b-5dlg2           0/1     Running   0          42s   10.42.0.2   kube-master   <none>           <none>
 ```
 
 
@@ -140,7 +148,7 @@ In the second part, we are now installing the k3s agent to connect on each worke
 **1. Connect via ssh to the worker node**
 
 ```
-$ ssh pi@192.168.0.23
+$ ssh pi@192.168.1.21
 ```
 
 
@@ -150,7 +158,7 @@ The first line specifies in which mode we would like to write the k3s configurat
 
 ```
 $ export K3S_KUBECONFIG_MODE="644"
-$ export K3S_URL="https://192.168.0.22:6443"
+$ export K3S_URL="https://192.168.1.20:6443"
 $ export K3S_TOKEN="K106edce2ad174510a840ff7e49680fc556f8830173773a1ec1a5dc779a83d4e35b::server:5a9b70a1f5bc02a7cf775f97fa912345"
 ```
 
@@ -211,8 +219,14 @@ kube-worker1   Ready    <none>   2m47s   v1.17.0+k3s.1   192.168.0.23   <none>  
 kube-worker2   Ready    <none>   2m9s    v1.17.0+k3s.1   192.168.0.24   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7+        containerd://1.3.0-k3s.5
 ```
 
+**5. Configure the environment variable KUBECONFIG**
+In order to be read by other tools (cf. Helm), we need to configure the environment variable `KUBECONFIG` to point to the K3S config
 
+```
+$ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+```
 
+_Note: Put this line into your `~/.bashrc` if you want to have this environment variable still up after a restart._
 
 ### Connect remotely to the cluster
 
@@ -228,13 +242,13 @@ Read the [following page](https://kubernetes.io/docs/tasks/tools/install-kubectl
 The command `scp` allows to transfer file via SSH from/to a remote machine. We simply need to download the file `/etc/rancher/k3s/k3s.yaml` located on the master node to our local machine into `~/.kube/config`.
 
 ```
-$ scp pi@192.168.0.22:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+$ scp pi@192.168.1.20:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 ```
 
-The file contains a localhost endpoint `127.0.0.1`, we just need to replace this by the IP address of the master node instead (in my case `192.168.0.22`).
+The file contains a localhost endpoint `127.0.0.1`, we just need to replace this by the IP address of the master node instead (in my case `192.168.1.20`).
 
 ```
-$ sed -i '' 's/127\.0\.0\.1/192\.168\.0\.22/g' ~/.kube/config
+$ sed -i '' 's/127\.0\.0\.1/192\.168\.1\.20/g' ~/.kube/config
 ```
 
 
@@ -244,9 +258,9 @@ $ sed -i '' 's/127\.0\.0\.1/192\.168\.0\.22/g' ~/.kube/config
 $ kubectl get nodes -o wide
 
 NAME           STATUS   ROLES    AGE   VERSION         INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION     CONTAINER-RUNTIME
-kube-worker1   Ready    <none>   18m   v1.17.0+k3s.1   192.168.0.23   <none>        Debian GNU/Linux 10 (buster)     5.4.6-rockchip64   containerd://1.3.0-k3s.5
-kube-worker2   Ready    <none>   17m   v1.17.0+k3s.1   192.168.0.24   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7+        containerd://1.3.0-k3s.5
-kube-master    Ready    master   44h   v1.17.0+k3s.1   192.168.0.22   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7l+       containerd://1.3.0-k3s.5
+kube-worker1   Ready    <none>   18m   v1.17.0+k3s.1   192.168.1.22   <none>        Debian GNU/Linux 10 (buster)     5.4.6-rockchip64   containerd://1.3.0-k3s.5
+kube-worker2   Ready    <none>   17m   v1.17.0+k3s.1   192.168.1.21   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7+        containerd://1.3.0-k3s.5
+kube-master    Ready    master   44h   v1.17.0+k3s.1   192.168.1.20   <none>        Raspbian GNU/Linux 10 (buster)   4.19.75-v7l+       containerd://1.3.0-k3s.5
 ```
 
 
@@ -263,12 +277,17 @@ Helm provides a solution to define, install, upgrade k8s applications based on c
 
 Refer to the [following page](https://helm.sh/docs/intro/install) to install `helm` on your local machine. **You must install Helm version >= 3.x.y**
 
-Example for Linux:
+Example for Linux / MacOS:
 
-- Download the package on [GitHub](https://github.com/helm/helm/releases)
-- Run `$ tar -zxvf helm-v3.<X>.<Y>-linux-amd64.tar.gz` (replace `3.<Y>.<Y>` by the latest version)
-- Execute `$ mv linux-amd64/helm /usr/local/bin/helm`
-
+```
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+Downloading https://get.helm.sh/helm-v3.13.1-linux-arm64.tar.gz
+Verifying checksum... Done.
+Preparing to install helm into /usr/local/bin
+helm installed into /usr/local/bin/helm
+```
 
 **2. Check the version**
 
@@ -276,7 +295,7 @@ Verify that you have Helm version 3.x installed.
 
 ```
 $ helm version
-version.BuildInfo{Version:"v3.0.2", GitCommit:"19e47ee3283ae98139d98460de796c1be1e3975f", GitTreeState:"clean", GoVersion:"go1.13.5"}
+version.BuildInfo{Version:"v3.13.1", GitCommit:"3547a4b5bf5edb5478ce352e18858d8a552a4110", GitTreeState:"clean", GoVersion:"go1.20.8"}
 ```
 
 
@@ -285,7 +304,7 @@ version.BuildInfo{Version:"v3.0.2", GitCommit:"19e47ee3283ae98139d98460de796c1be
 Configure the repository `stable https://kubernetes-charts.storage.googleapis.com` to access the [official charts](https://github.com/helm/charts/tree/master/stable)
 
 ```
-$ helm repo add stable https://kubernetes-charts.storage.googleapis.com
+$ helm repo add stable https://charts.helm.sh/stable
 "stable" has been added to your repositories
 
 $ helm repo update
@@ -310,54 +329,76 @@ I also recommend checking this page to learn more [how to use Helm cli](https://
 To install MetalLB from Helm, you simply need to run the following command `helm install ...` with:
 
 - `metallb`: the name to give to the deployment
-- `stable/metallb`: the name of the [chart](https://github.com/helm/charts/tree/master/stable/metallb)
+- `stable/metallb`: the name of the [chart](https://metallb.universe.tf/installation/#installation-with-helm)
 - `--namespace kube-system`: the namespace in which we want to deploy MetalLB.
-- `--set configInline...`: to configures MetalLB in **Layer 2** mode (see [documentation](https://metallb.universe.tf/configuration/) for more details). The IPs range `192.168.0.240-192.168.0.250` is used to constitute a pool of virtual IP addresses.
 
 ```
-$ helm repo add stable https://charts.helm.sh/stable
-$ helm install metallb stable/metallb --namespace kube-system \
-  --set configInline.address-pools[0].name=default \
-  --set configInline.address-pools[0].protocol=layer2 \
-  --set configInline.address-pools[0].addresses[0]=192.168.0.240-192.168.0.250
+$ helm repo add metallb https://metallb.github.io/metallb
+$ helm repo update
+
+$ helm install metallb metallb/metallb --namespace kube-system 
 ```
 
 After a few seconds, you should observe the MetalLB components deployed under `kube-system` namespace.
 
 ```
-$ kubectl get pods -n kube-system -l app=metallb -o wide
+$ kubectl get pods -n kube-system -l app.kubernetes.io/name=metallb -o wide
 
 NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE     IP             NODE           NOMINATED NODE   READINESS GATES
-kube-system   metallb-speaker-s7cvp                     1/1     Running   0          2m47s   192.168.0.22   kube-master    <none>           <none>
-kube-system   metallb-speaker-jx64v                     1/1     Running   0          2m47s   192.168.0.23   kube-worker1   <none>           <none>
+kube-system   metallb-speaker-s7cvp                     1/1     Running   0          2m47s   192.168.1.20   kube-master    <none>           <none>
+kube-system   metallb-speaker-jx64v                     1/1     Running   0          2m47s   192.168.1.21   kube-worker1   <none>           <none>
 kube-system   metallb-controller-6fb88ff94b-4g256       1/1     Running   0          2m47s   10.42.1.7      kube-worker1   <none>           <none>
-kube-system   metallb-speaker-k5kbh                     1/1     Running   0          2m47s   192.168.0.24   kube-worker2   <none>           <none>
+kube-system   metallb-speaker-k5kbh                     1/1     Running   0          2m47s   192.168.1.22   kube-worker2   <none>           <none>
 ```
+
+Now, we need to configure the Layer-2 settings in MetalLB, including the IP addresses reserved for the load balancer.
+
+```
+$ kubectl apply -f - <<EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: k3s-lb-pool
+  namespace: kube-system
+spec:
+  addresses:
+  - 192.168.1.240-192.168.1.249
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: k3s-lb-pool
+  namespace: kube-system
+spec:
+  ipAddressPools:
+  - k3s-lb-pool
+EOF
+```
+
 
 All done. No every time a new Kubenertes service of type _LoadBalancer_ is deployed, MetalLB will assign an IP from the pool to access the application.
 
 
-
-
-
-### Install Nginx - Web Proxy
+### Install Nginx - Web Proxy (DEPRECATED)
 
 [Nginx](https://www.nginx.com/) is a recognized high-performance web server / reverse proxy. It can be used as [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) to expose HTTP and HTTPS routes from outside the cluster to services within the cluster.
 
-Similarly to MetalLB, we will use the following [stable/nginx-ingress Helm chart](https://github.com/helm/charts/tree/master/stable/nginx-ingress) to install our proxy server.
+Similarly to MetalLB, we will use the following [stable/nginx-ingress Helm chart](https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/) to install our proxy server.
 
-The only config change done here is disabling `defaultBackend` which isn't required.
 
 ```
-$ helm install nginx-ingress stable/nginx-ingress --namespace kube-system \
-    --set defaultBackend.enabled=false
+$ helm repo add nginx-stable https://helm.nginx.com/stable
+$ helm repo update
+
+
+$ helm install nginx-ingress nginx-stable/nginx-ingress --namespace kube-system
 ```
 
 
 After a few seconds, you should observe the Nginx component deployed under `kube-system` namespace.
 
 ```
-$ kubectl get pods -n kube-system -l app=nginx-ingress -o wide
+$ kubectl get pods -n kube-system -l app.kubernetes.io/name=nginx-ingress -o wide
 
 NAME                                             READY   STATUS    RESTARTS   AGE     IP          NODE           NOMINATED NODE   READINESS GATES
 nginx-ingress-controller-996c5bf9-k4j64   1/1     Running   0          76s   10.42.1.13   kube-worker1   <none>           <none>
@@ -366,13 +407,13 @@ nginx-ingress-controller-996c5bf9-k4j64   1/1     Running   0          76s   10.
 Interestingly, Nginx service is deployed in LoadBalancer mode, you can observe MetalLB allocates a virtual IP (column ` EXTERNAL-IP`) to Nginx with the command here:
 
 ```
-$ kubectl get services  -n kube-system -l app=nginx-ingress -o wide
+$ kubectl get services  -n kube-system -l app.kubernetes.io/name=nginx-ingress -o wide
 
 NAME                            TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE   SELECTOR
-nginx-ingress-controller   LoadBalancer   10.43.253.188   192.168.0.240   80:30423/TCP,443:32242/TCP   92s   app=nginx-ingress,component=controller,release=nginx-ingress
+nginx-ingress-controller   LoadBalancer   10.43.253.188   192.168.1.190   80:30423/TCP,443:32242/TCP   92s   app=nginx-ingress,component=controller,release=nginx-ingress
 ```
 
-From you local machine, you can try to externally access Nginx via the LoadBalancer IP (in my case `http://192.168.0.240`) and it should return the following message "404 not found" because nothing is deployed yet.
+From you local machine, you can try to externally access Nginx via the LoadBalancer IP (in my case `http://192.168.1.190`) and it should return the following message "404 not found" because nothing is deployed yet.
 
 ![](https://i.imgur.com/DQI2Nwr.png)
 
@@ -388,7 +429,7 @@ From you local machine, you can try to externally access Nginx via the LoadBalan
 Install the CustomResourceDefinition resources.
 
 ```
-$ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.crds.yaml
+$ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
 ```
 
 
@@ -397,7 +438,8 @@ $ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/rel
 cert-manager Helm charts aren't hosted by the offical Helm hub, you need to configure a new repository named JetStack which maintains those charts ([here](https://github.com/jetstack/cert-manager/tree/master/deploy/charts/cert-manager)).
 
 ```
-$ helm repo add jetstack https://charts.jetstack.io && helm repo update
+$ helm repo add jetstack https://charts.jetstack.io \
+  && helm repo update
 ```
 
 
@@ -406,7 +448,9 @@ $ helm repo add jetstack https://charts.jetstack.io && helm repo update
 Run the following command to install the cert-manager components under the `kube-system` namespace.
 
 ```
-$ helm install cert-manager jetstack/cert-manager --namespace kube-system  --version v0.16.0
+$ helm install cert-manager jetstack/cert-manager \
+  --namespace kube-system \
+  --version v1.13.3
 ```
 
 Check that all three cert-manager components are running.
@@ -428,43 +472,55 @@ We now going to configure two certificate issuers from which signed x509 certifi
 - _letsencrypt-staging_: will be used for testing purpose only
 - _letsencrypt-prod_: will be used for production purpose.
 
-Run the following commands (change `<EMAIL>` by your email).
+Run the following commands (change `<YOUR EMAIL>` by your email).
 
 ```
 $ cat <<EOF | kubectl apply -f -
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: <EMAIL>
+    email: <YOUR EMAIL>
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
     - http01:
         ingress:
-          class: nginx
+          ingressClassName: traefik          
 EOF
 ```
 
 ```
 $ cat <<EOF | kubectl apply -f -
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: <EMAIL>
+    email: <YOUR EMAIL>
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
     - http01:
         ingress:
-          class: nginx
+          ingressClassName: traefik             
+EOF
+```
+
+We can also add a ClusterIssuer for self-signed certficates for anything running locally (within our private network)
+```
+$ cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: self-signed-issuer
+spec:
+  selfSigned: {}
 EOF
 ```
 
@@ -477,18 +533,19 @@ The following k8s config file allows to access the service `service_name` (port 
 
 ```yaml
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: self-signed-issuer | letsencrypt-staging | letsencrypt-prod
 spec:
   tls:
   - hosts:
     - <domain>
-    secretName: "<domain>-staging-tls"
+    secretName: "<domain>-tls"
   rules:
   - host: <domain>
     http:
@@ -587,29 +644,27 @@ This method will be used to declare persistent storage volume for each of our ap
 
 [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) is a web-based Kubernetes user interface allowing similar operations as _kubectl_.
 
-![](https://s14-eu5.startpage.com/cgi-bin/serveimage?url=https:%2F%2Fmiro.medium.com%2Fmax%2F5760%2F1*xA3NgdUJHa0t09NH3xPv-A.png&sp=c9182253abe18efb13bc730e52fda946)
+![](https://kubernetes.io/images/docs/ui-dashboard.png)
 
 
 
-**1. Install kubernetes-dashboard via the official "recommended" manifests file**
+**1. Install kubernetes-dashboard via Helm**
 
-Execute the following command and replace `<VERSION>` by the latest version (see [release page](https://github.com/kubernetes/dashboard/releases))
-
-_Tested with version: **v2.0.3**_
 
 ```
-$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/<VERSION>/aio/deploy/recommended.yaml
+$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+$ helm repo update
+$ helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --namespace kube-system
 ```
 
 
-After a few seconds, you should see to pods running in the namespace `kubernetes-dashboard`.
+After a few seconds, you should see to pods running in the namespace `kube-system`.
 
 ```
-$ kubectl get pods -n kubernetes-dashboard
+$ kubectl get pods -n kube-system -l app.kubernetes.io/name=kubernetes-dashboard
 
 NAME                                        READY   STATUS    RESTARTS   AGE
-dashboard-metrics-scraper-b68468655-jg6pz   1/1     Running   0          26m
-kubernetes-dashboard-64999dbccd-79whq       1/1     Running   0          26m
+kubernetes-dashboard-65cd84fc57-gspfp       1/1     Running   0          26m
 ```
 
 
@@ -624,7 +679,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-user
-  namespace: kubernetes-dashboard
+  namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -637,7 +692,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: admin-user
-  namespace: kubernetes-dashboard
+  namespace: kube-system
 ---
 EOF
 ```
@@ -648,21 +703,8 @@ EOF
 In order to authenticate to the dashboard web page, we will need to provide a token we can retrieve by executing the command:
 
 ```
-$ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
-
-Name:         admin-user-token-tr2dp
-Namespace:    kubernetes-dashboard
-Labels:       <none>
-Annotations:  kubernetes.io/service-account.name: admin-user
-              kubernetes.io/service-account.uid: 9507154d-0742-4af0-87c9-1fe97143f5fe
-
-Type:  kubernetes.io/service-account-token
-
-Data
-====
-ca.crt:     526 bytes
-namespace:  20 bytes
-token:      eyJhbGciOiJSUzI1Ni...GscCR9APmOxm53jwLj8XFqw [COPY HERE]
+$ kubectl -n kube-system create token admin-user
+GscCR9APmOxm53jwLj8XFqw [COPY HERE]
 ```
 
 *Copy the token value*
@@ -681,7 +723,7 @@ Starting to serve on 127.0.0.1:8001
 
 **5. Connect to kubernetes-dashboard**
 
-Now we have a secure channel, you can access kubernetes-dashboard via the following URL: [http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/).
+Now we have a secure channel, you can access kubernetes-dashboard via the following URL: [http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy/](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy/).
 
 Select "Token", copy/paste the token previously retrieved and click on "Sign in".
 
@@ -709,8 +751,7 @@ If you want to uninstall completely the Kubernetes from a machine.
 Connect to the worker node and run the following commands:
 
 ```
-$ sudo /usr/local/bin/k3s-agent-uninstall.sh
-$ sudo rm -rf /var/lib/rancher
+$ /usr/local/bin/k3s-agent-uninstall.sh
 ```
 
 
@@ -719,8 +760,7 @@ $ sudo rm -rf /var/lib/rancher
 Connect to the master node and run the following commands:
 
 ```
-$ sudo /usr/local/bin/k3s-uninstall.sh
-$ sudo rm -rf /var/lib/rancher
+$ /usr/local/bin/k3s-uninstall.sh
 ```
 
 

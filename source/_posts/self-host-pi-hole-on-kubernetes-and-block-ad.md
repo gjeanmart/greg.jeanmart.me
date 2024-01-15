@@ -1,6 +1,7 @@
 ---
 title: (K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level
 date: 2020-04-13 00:00:06
+updated: 2024-01-15 00:00:00
 ---
 
 ![](https://gateway.pinata.cloud/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC)
@@ -144,10 +145,11 @@ pihole          Bound    pihole          500Mi      RWO            manual       
 
 In the next part, we are now going to deploy Pi-Hole using a modified version open-source Helm chart [pihole-kubernetes](https://github.com/MoJo2600/pihole-kubernetes).
 
-**1. Install the repo **
+**1. Install the repo**
 
 ```
-$ helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/ && helm repo update
+$ helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/ \ 
+  && helm repo update
 ```
 
 
@@ -270,8 +272,10 @@ pihole-695f4bd7c8-xwswq   1/1     Running   1          45m   192.168.0.22   kube
 $ kubectl get services -n pihole -o wide
 
 NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                 AGE   SELECTOR
-pihole-tcp   ClusterIP   10.43.35.133   <none>        80/TCP,443/TCP,53/TCP   45m   app=pihole,release=pihole
-pihole-udp   ClusterIP   10.43.96.245   <none>        53/UDP,67/UDP           45m   app=pihole,release=pihole
+pihole        pihole-web                ClusterIP      10.43.148.13    <none>          80/TCP,443/TCP               9s
+pihole        pihole-dns-tcp            LoadBalancer   10.43.179.115   192.168.1.241   53:31076/TCP                 9s
+pihole        pihole-dns-udp            LoadBalancer   10.43.251.46    192.168.1.241   53:32176/UDP                 9s
+pihole        pihole-dhcp               LoadBalancer   10.43.35.57     192.168.1.241   67:31310/UDP                 9s
 ```
 
 
@@ -288,32 +292,41 @@ Create the following Ingress config file `pihole.ingress.yml` to map the route `
 ```yaml
 ## pihole.ingress.yml
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: pihole
   name: pihole-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: self-signed-issuer
 spec:
+  tls:
+  - hosts:
+    - pihole.192.168.1.240.nip.io
+    secretName: pihole-tls
   rules:
-  - host: pihole.192.168.0.240.nip.io
+  - host: pihole.192.168.1.240.nip.io
     http:
       paths:
         - path: /
+          pathType: Prefix
           backend:
-            serviceName: pihole-tcp
-            servicePort: 8000
+            service:
+              name: pihole-web
+              port:
+                number: 80       
 ---
 ```
 
 
 **2. Deploy the ingress**
 
-Deploy the Ingress by applying the file `pihole.ingress.yaml`.
+Deploy the Ingress by applying the file `pihole.ingress.yml`.
 
 ```
-$ kubectl apply -f pihole.ingress.yaml
+$ kubectl apply -f pihole.ingress.yml
 ingress.extensions/pihole-ingress created
 ```
 
@@ -321,7 +334,7 @@ ingress.extensions/pihole-ingress created
 
 ### Result
 
-You can now access Pi-Hole via [pihole.192.168.0.240.nip.io/admin](http://pihole.192.168.0.240.nip.io/admin).
+You can now access Pi-Hole via [pihole.192.168.1.190.nip.io/admin](http://pihole.192.168.1.190.nip.io/admin).
 
 ![](https://i.imgur.com/FlgpGwV.png)
 

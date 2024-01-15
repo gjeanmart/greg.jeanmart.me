@@ -151,7 +151,8 @@ In the next part, we are now going to deploy NextCloud using the [stable/nextclo
 Run the following command to download the Chart values into the local file `nextcloud.values.yml`.
 
 ```
-$ helm show values stable/nextcloud >> nextcloud.values.yml
+$ helm repo add nextcloud https://nextcloud.github.io/helm/ && helm repo update
+$ helm show values nextcloud/nextcloud >> nextcloud.values2.yml
 ```
 
 If you open the file, you will see the default configuration values to setup NextCloud. Instead of using the flag `--set property=value` like before, we will use the file `nextcloud.values.yml` to make all the changes.
@@ -186,7 +187,7 @@ Take a look at the file if you want to make more customisation to NextCloud:
 In the part, we will install the Helm chart under the namespace `nextcloud` with `nextcloud.values.yml` as configuration file.
 
 ```
-$ helm install nextcloud stable/nextcloud \
+$ helm install nextcloud nextcloud/nextcloud \
   --namespace nextcloud \
   --values nextcloud.values.yml
 ```
@@ -274,9 +275,9 @@ metadata:
   namespace: "nextcloud" # Same namespace as the deployment
   name: "nextcloud-ingress" # Name of the ingress (see kubectl get ingress -A)
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Encrypt using the ClusterIssuer deployed while setting up Cert-Manager
-    nginx.ingress.kubernetes.io/proxy-body-size:  "50m" # Increase the size of the maximum allowed size of the client request body
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: true
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
   - hosts:
