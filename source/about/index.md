@@ -31,21 +31,25 @@ Last but not least, I am a proud husband & father, and happy owner of a lovely D
 
 ## Professional Experiences
 
-### [Multis](https://multis.co) • CTO (Apr. 2021 to present) & Lead Engineer (Apr. 2020 to Mar. 2021)
+### [Safe](https://safe.global) • Tech Lead (Apr. 2024 to present)
 
-[Multis](https://multis.co) is a B2B spending & treasury management platform for crypto-native businesses leveraging crypto-currencies and Decentralized Finance (DeFi)¹. <span style="color:blue">Trusted by 250+ businesses</span>
+
+### [Multis](https://multis.co) • CTO (Apr. 2021 to Apr. 2024) & Lead Engineer (Apr. 2020 to Mar. 2021)
+
+[Multis](https://multis.co) (acquired by [Safe](https://safe.global)¹) is a B2B spending & treasury management platform for crypto-native businesses leveraging crypto-currencies and Decentralized Finance (DeFi)². <span style="color:blue">Trusted by 250+ businesses</span>
 
 • Responsible for building and maintaining our products and infrastructure
 • Hired and led a world-class engineering team (7 engineers)
 • Implemented assets & transactions monitoring for 10+ Blockchains (including Ethereum, Polygon & Bitcoin), 50+ Exchanges (via [Vezgo](https://vezgo.com)), and 10k+ financial institutions (via [Plaid](https://plaid.com) and [Powens](https://powens.com)). <span style="color:blue">10M+ transactions recorded</span>
 • Implemented a cryptocurrency payment module on top of 8 Blockchains (including Ethereum, Polygon, and Arbitrum) leveraging [SAFE](https://safe.global) (multi-signature), [Metamask](https://metamask.io/), [Web3Auth](https://web3auth.io/), and [Ledger](https://www.ledger.com/). <span style="color:blue">$200M+ payout</span>
-• Integrated a Bank-as-a-Service provider ([SynapseFi](https://synapsefi.com/)) enabling bank accounts, cards, and on/off-ramp².
-• Multis is backed by investors including Sequoia Capital, Coinbase Venture and Y Combinator³.
+• Integrated a Bank-as-a-Service provider ([SynapseFi](https://synapsefi.com/)) enabling bank accounts, cards, and on/off-ramp³.
+• Multis is backed by investors including Sequoia Capital, Coinbase Venture and Y Combinator⁴.
 • _**Technologies**: TypeScript, NestJS, Ethereum, SAFE, Clojure(Script), Re-Frame, Tailwind, GCP, Firebase, PostgreSQL, Redis_
 
-_¹[<font size="1">TechCrunch (feb. 2022) · Multis wants to build the financial backbone of crypto-native organizations</font>](https://techcrunch.com/2022/02/17/multis-wants-to-build-the-financial-backbone-of-crypto-native-organizations)_
-_²[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account for cryptocurrencies</font>](https://techcrunch.com/2020/09/29/multis-is-a-business-bank-account-for-cryptocurrencies)_
-_³[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
+_¹[<font size="1">Safe (apr. 2024) · Multis Team Joins Safe to Build Cross-Chain Smart Wallet Infrastructure/font>](https://safe.global/blog/multis-joins-safe-to-build-cross-chain-smart-wallet)_
+_²[<font size="1">TechCrunch (feb. 2022) · Multis wants to build the financial backbone of crypto-native organizations</font>](https://techcrunch.com/2022/02/17/multis-wants-to-build-the-financial-backbone-of-crypto-native-organizations)_
+_³[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account for cryptocurrencies</font>](https://techcrunch.com/2020/09/29/multis-is-a-business-bank-account-for-cryptocurrencies)_
+_⁴[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
 
 
 ### [Kauri](https://kauri.io) • Senior Software Engineer / Co-Founder (Oct. 2017 - Apr. 2020)
@@ -92,6 +96,7 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 
 ### 🗣️ Conferences
 
+• 🇬🇧 [SafeCon 2024 · Keystore Introductory Workshop](https://www.youtube.com/watch?v=hHmOo7A3vNU) Jun. 2024
 • 🇬🇧 [DappCon 2022 · Building Within The Safe Ecosystem For A B2B Usecase, Meissner & Jeanmart](https://www.youtube.com/watch?v=5Zcf9qVAQeA) Sept. 2022
 • 🇬🇧 [EthCC 2018 · Joshua CASSIDY & Grégoire JEANMART - An introduction to KAURI Q&A](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184) Mar. 2018
 
