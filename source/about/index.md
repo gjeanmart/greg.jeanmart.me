@@ -33,9 +33,11 @@ Last but not least, I am a proud husband & father, and happy owner of a lovely D
 
 ### [Safe](https://safe.global) • Tech Lead (Apr. 2024 to present)
 
-[Safe](https://safe.global/) is the leading smart account infrastructure in the Ethereum ecosystem, enabling secure, modular, and programmable asset management. 
+[Safe](https://safe.global) is the leading smart account infrastructure in the Ethereum ecosystem, enabling secure, modular, and programmable asset management. 
 
-As the Tech Lead for [Safenet](https://safe.global/safenet), I am spearheading the development of a chain abstraction protocol that enhances the security and usability of smart accounts. Safenet enables seamless cross-chain transactions, collateralized execution, and advanced transaction validation. My role includes designing the architecture, leading development efforts, and ensuring robust security mechanisms to improve user experience and interoperability across blockchain networks.
+As the Tech Lead for [Safenet¹](https://safe.global/safenet), I am spearheading the development of a chain abstraction protocol that enhances the security and usability of smart accounts. Safenet enables seamless cross-chain transactions, collateralized execution, and advanced transaction validation. My role includes designing the architecture, leading development efforts, and ensuring robust security mechanisms to improve user experience and interoperability across blockchain networks.
+
+_¹[<font size="1">Safe (dec. 2024) · Introducing Safenet</font>](https://safe.global/blog/multis-joins-safe-to-build-cross-chain-smart-wallet)_
 
 ### [Multis](https://multis.co) • CTO (Apr. 2021 to Apr. 2024) & Lead Engineer (Apr. 2020 to Mar. 2021)
 
