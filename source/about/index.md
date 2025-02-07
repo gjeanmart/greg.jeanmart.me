@@ -19,7 +19,7 @@ date: 2020-12-12 16:34:25
 
 Since 2016, I am an active member in the Blockchain and cryptocurrency space and more precisely within the [Ethereum](http://ethereum.org) community, I am a true believer of digital decentralization, especially in Finance and a privacy advocate.
 
-My key values are converging between **team spirit**, **open-source**, **transparency** and **knowledge sharing**. I am a constant learner, problem solver and hard worker who love contributing to something greater than me.
+My key values revolve around **team spirit**, **open-source**, **transparency** and **knowledge sharing**. I am a constant learner, problem solver and hard worker who loves contributing to something greater than me.
 
 Before moving to the blockchain space, I worked in Finance and IT as Lead Developer, Software Architect and Technical Manager in Europe (London, Paris, Brussels) for large and small companies in a wide range of areas (Finance, Insurance, Energy, Media).
 
@@ -33,6 +33,9 @@ Last but not least, I am a proud husband & father, and happy owner of a lovely D
 
 ### [Safe](https://safe.global) • Tech Lead (Apr. 2024 to present)
 
+[Safe](https://safe.global/) is the leading smart account infrastructure in the Ethereum ecosystem, enabling secure, modular, and programmable asset management. 
+
+As the Tech Lead for [Safenet](https://safe.global/safenet), I am spearheading the development of a chain abstraction protocol that enhances the security and usability of smart accounts. Safenet enables seamless cross-chain transactions, collateralized execution, and advanced transaction validation. My role includes designing the architecture, leading development efforts, and ensuring robust security mechanisms to improve user experience and interoperability across blockchain networks.
 
 ### [Multis](https://multis.co) • CTO (Apr. 2021 to Apr. 2024) & Lead Engineer (Apr. 2020 to Mar. 2021)
 
@@ -92,6 +95,7 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 
 ### 🎙 Podcasts
 
+• 🇬🇧 [Off-Chain Podcast #050 Greg Jeanmart: Revolutionising Cross-Chain Liquidity with Safenet](https://www.youtube.com/watch?v=-bXQVObGyLk) Jan. 2025
 • 🇫🇷 [CTO'z #49 · Grégoire Jeanmart @Multis - "Voyage en pays crypto"](https://podcast.ausha.co/cto-z-1/cto-z-49-gregoire-jeanmart-atmultis-voyage-en-pays-crypto) Jul. 2022
 
 ### 🗣️ Conferences
