@@ -39,7 +39,7 @@ As the Tech Lead for [Safenet](https://safe.global/safenet)¹, I am working on t
 
 _¹[<font size="1">Safe (dec. 2024) · Introducing Safenet</font>](https://safe.global/blog/introducing-safenet)_
 
-### [Multis](https://multis.co) • CTO (Apr. 2021 to Apr. 2024) & Lead Engineer (Apr. 2020 to Mar. 2021)
+### [Multis](https://multis.co) • CTO & Lead Engineer (Apr. 2020 to Apr. 2024)
 
 [Multis](https://multis.co) (acquired by [Safe](https://safe.global)¹) is a B2B spending & treasury management platform for crypto-native businesses leveraging crypto-currencies and Decentralized Finance (DeFi)². <span style="color:blue">Trusted by 250+ businesses</span>
 
@@ -57,7 +57,7 @@ _³[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account 
 _⁴[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
 
 
-### [Kauri](https://kauri.io) • Senior Software Engineer / Co-Founder (Oct. 2017 - Apr. 2020)
+### [Kauri](https://kauri.io) • Co-Founder & Senior Software Engineer (Oct. 2017 - Apr. 2020)
 
 [Kauri](https://kauri.io) was a project incubated by [ConsenSys](https://consensys.net) (Blockchain startups studio) aiming to improve the onboarding experience for web3 developers with a platform to learn, share, contribute, and maintain high-quality technical content¹. <span style="color:blue">5000 articles published by 1000 contributors</span>
 
