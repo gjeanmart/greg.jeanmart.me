@@ -51,7 +51,7 @@ _¹[<font size="1">Safe (dec. 2024) · Introducing Safenet</font>](https://safe.
 • Multis is backed by investors including Sequoia Capital, Coinbase Venture and Y Combinator⁴.
 • _**Technologies**: TypeScript, NestJS, Ethereum, SAFE, Clojure(Script), Re-Frame, Tailwind, GCP, Firebase, PostgreSQL, Redis_
 
-_¹[<font size="1">Safe (apr. 2024) · Multis Team Joins Safe to Build Cross-Chain Smart Wallet Infrastructure</font>](https://safe.global/blog/multis-joins-safe-to-build-cross-chain-smart-wallet)_
+_¹[<font size="1">Safe (apr. 2024) · Multis Team Joins Safe to Build Cross-Chain Smart Wallet Infrastructure</font>](https://safefoundation.org/blog/multis-joins-safe-to-build-cross-chain-smart-wallet)_
 _²[<font size="1">TechCrunch (feb. 2022) · Multis wants to build the financial backbone of crypto-native organizations</font>](https://techcrunch.com/2022/02/17/multis-wants-to-build-the-financial-backbone-of-crypto-native-organizations)_
 _³[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account for cryptocurrencies</font>](https://techcrunch.com/2020/09/29/multis-is-a-business-bank-account-for-cryptocurrencies)_
 _⁴[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
