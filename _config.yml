@@ -29,7 +29,7 @@ archive_dir: blog
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: index.html
+skip_render:
 
 # Writing
 new_post_name: :title.md # File name of new posts

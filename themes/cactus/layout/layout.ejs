@@ -1,21 +1,61 @@
 <!DOCTYPE html>
-<html<%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
-<%- partial('_partial/head') %>
-<body class="max-width mx-auto px3 <%- theme.direction -%>">
-    <% if (is_post()) { %>
-      <%- partial('_partial/post/actions_desktop') %>
-    <% } %>
-    <div class="content index py4">
-        <% if (!is_post()) { %>
-          <%- partial('_partial/header') %>
-        <% } %>
-        <%- body %>
-        <% if (is_post()) { %>
-          <%- partial('_partial/post/actions_mobile') %>
-        <% } %>
-        <%- partial('_partial/footer') %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grégoire Jeanmart - Coming Soon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .container { max-width: 600px; }
+        .icon { font-size: 4rem; margin-bottom: 1.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; letter-spacing: 2px; }
+        p { font-size: 1.2rem; opacity: 0.9; line-height: 1.6; margin-bottom: 2rem; }
+        .contact { font-size: 0.9rem; opacity: 0.7; }
+        .contact a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5); }
+        .contact a:hover { border-bottom-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🔧</div>
+        <h1>Under Construction</h1>
+        <p>I'm currently working on something new. The site will be back soon with fresh content.</p>
+        <p class="contact">In the meantime, feel free to reach out on.</p>
     </div>
-    <%- partial('_partial/styles') %>
-    <%- partial('_partial/scripts') %>
 </body>
 </html>
+
+<!-- ORIGINAL LAYOUT - UNCOMMENT TO RESTORE
+<!DOCTYPE html>
+<html<%%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
+<%%-partial('_partial/head') %>
+<body class="max-width mx-auto px3 <%%- theme.direction -%>">
+    <%% if (is_post()) { %>
+      <%%-partial('_partial/post/actions_desktop') %>
+    <%% } %>
+    <div class="content index py4">
+        <%% if (!is_post()) { %>
+          <%%-partial('_partial/header') %>
+        <%% } %>
+        <%%- body %>
+        <%% if (is_post()) { %>
+          <%%-partial('_partial/post/actions_mobile') %>
+        <%% } %>
+        <%%-partial('_partial/footer') %>
+    </div>
+    <%%-partial('_partial/styles') %>
+    <%%-partial('_partial/scripts') %>
+</body>
+</html>
+-->
