@@ -5,17 +5,15 @@ date: 2019-08-14
 
 ![](https://gateway.pinata.cloud/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f)
 
-
 In this article, we learn how to interact with **[IPFS](https://ipfs.io/) (InterPlanetary File System)** in Java using the official [**java-ipfs-http-client library**](https://github.com/ipfs/java-ipfs-http-client). This library connects to an IPFS node and wraps most of the operations offered by the [HTTP API](https://docs.ipfs.io/reference/api/http/).
 
 The following diagram describes a Java program connected to an IPFS node via the **java-ipfs-http-client** library to the API Server.
 
 ![](https://imgur.com/RRB6chj.png)
 
--   API server (default port: 5001): Full API
--   Gateway server (default port: 8080): Read Only API (access to data only)
--   P2P (default port: 4001): Peer-to-peer interface
-
+- API server (default port: 5001): Full API
+- Gateway server (default port: 8080): Read Only API (access to data only)
+- P2P (default port: 4001): Peer-to-peer interface
 
 <br />
 
@@ -23,17 +21,17 @@ The following diagram describes a Java program connected to an IPFS node via the
 
 To run this tutorial, we must have the following installed:
 
--   Java programming language (> 8)
+- Java programming language (> 8)
 
 ```shell
 $ java -version
 java version "1.8.0_201"
 ```
 
--   A package and dependency manager, for example [Maven](https://maven.apache.org) or [Gradle](https://gradle.org)
--   An IDE (Integrated development environment), for this tutorial, we use Eclipse
--   A running IPFS node (> 0.4.x)
-    _Follow [the following article](https://kauri.io/article/b01b9b7bebcd4ebf80edf021bdd0e232/v2/installing-ipfs) to learn how to install an IPFS node (go-ipfs)_
+- A package and dependency manager, for example [Maven](https://maven.apache.org) or [Gradle](https://gradle.org)
+- An IDE (Integrated development environment), for this tutorial, we use Eclipse
+- A running IPFS node (> 0.4.x)
+  _Follow [the following article](https://kauri.io/article/b01b9b7bebcd4ebf80edf021bdd0e232/v2/installing-ipfs) to learn how to install an IPFS node (go-ipfs)_
 
 ### Dependencies
 
@@ -78,7 +76,6 @@ dependencies {
 }
 ```
 
-
 <br />
 
 ### Connect to IPFS
@@ -109,7 +106,6 @@ If the IPFS node sits behind a proxy with SSL (like [Infura](https://infura.io/)
 IPFS ipfs = new IPFS("/dnsaddr/ipfs.infura.io/tcp/5001/https");
 ```
 
-
 <br />
 
 ### Add content to IPFS
@@ -120,15 +116,15 @@ When adding a file on the IPFS network, the file is uploaded to the IPFS node we
 
 We use the `ipfs.add(NamedStreamable file): List<MerkleNode>` method to store content on the IPFS node we are connected to. This method takes a `NamedStreamable` or a `List<NamedStreamable>` as input. `NamedStreamable` has four different implementations:
 
--   `FileWrapper` wraps a `java.io.File`
--   `InputStreamWrapper` wraps a `java.io.InputStream`
--   `ByteArrayWrapper` wraps a `byte[]`
--   `DirWrapper` wraps a `(String name, List<NamedStreamable> children)` to describe a hierarchical files structure
+- `FileWrapper` wraps a `java.io.File`
+- `InputStreamWrapper` wraps a `java.io.InputStream`
+- `ByteArrayWrapper` wraps a `byte[]`
+- `DirWrapper` wraps a `(String name, List<NamedStreamable> children)` to describe a hierarchical files structure
 
 We can also add optional parameters to the method:
 
--   `wrap` [boolean]&#x3A; Wrap files into a directory.
--   `hashOnly` [boolean]&#x3A; Only chunk and hash - do not write to the datastore.
+- `wrap` [boolean]&#x3A; Wrap files into a directory.
+- `hashOnly` [boolean]&#x3A; Only chunk and hash - do not write to the datastore.
 
 Finally, the method returns a list of `MerkleNode` which represents the content-addressable objects just added on the IPFS network.
 
@@ -138,7 +134,7 @@ We can use `NamedStreamable.FileWrapper` to pass a `java.io.File` to IPFS.
 
 ```java
 try {
-  NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File("/home/gjeanmart/Documents/hello.txt"));
+  NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File("/home/gr3g/Documents/hello.txt"));
   MerkleNode response = ipfs.add(file).get(0);
   System.out.println("Hash (base 58): " + response.hash.toBase58());
 } catch (IOException ex) {
@@ -152,7 +148,7 @@ If you are dealing with a `java.io.InputStream`, use `NamedStreamable.InputStrea
 
 ```java
 try {
-  NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(new FileInputStream("/home/gjeanmart/Documents/hello.txt"));
+  NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(new FileInputStream("/home/gr3g/Documents/hello.txt"));
   MerkleNode response = ipfs.add(is).get(0);
   System.out.println("Hash (base 58): " + response.name.get() + " - " + addResponse.hash.toBase58());
 } catch (IOException ex) {
@@ -188,8 +184,8 @@ Use:
 
 ```java
 try {
-  NamedStreamable.FileWrapper file1 = new NamedStreamable.FileWrapper(new File("/home/gjeanmart/Documents/hello.txt"));
-  NamedStreamable.FileWrapper file2 = new NamedStreamable.FileWrapper(new File("/home/gjeanmart/Documents/hello2.txt"));
+  NamedStreamable.FileWrapper file1 = new NamedStreamable.FileWrapper(new File("/home/gr3g/Documents/hello.txt"));
+  NamedStreamable.FileWrapper file2 = new NamedStreamable.FileWrapper(new File("/home/gr3g/Documents/hello2.txt"));
 
   NamedStreamable.DirWrapper directory = new NamedStreamable.DirWrapper("folder", Arrays.asList(file1, file2));
   List<MerkleNode> response = ipfs.add(directory);
@@ -208,10 +204,10 @@ IPFS is a peer-to-peer network essentially used to share linked Objects from a g
 
 A `MerkleNode` is composed of the following information:
 
--   **hash** (multihash): a unique identifier of the Object within IPFS
--   **name** (optional): Name of the object (usually the folder or filename)
--   **size** (optional): Size of the object
--   **links** (zero or more): A list of child Objects
+- **hash** (multihash): a unique identifier of the Object within IPFS
+- **name** (optional): Name of the object (usually the folder or filename)
+- **size** (optional): Size of the object
+- **links** (zero or more): A list of child Objects
 
 #### MultiHash
 
@@ -254,7 +250,6 @@ String hash = multihash.toHex();
 ```java
 byte[] hash = multihash.toBytes();
 ```
-
 
 <br />
 
@@ -307,12 +302,11 @@ try{
   String hash = "QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o"; // Hash of a file
   Multihash multihash = Multihash.fromBase58(hash);
   InputStream inputStream = infuraIPFS.catStream(filePoinhashter2);
-  Files.copy(inputStream, Paths.get("/home/gjeanmart/Documents/helloResult.txt"));
+  Files.copy(inputStream, Paths.get("/home/gr3g/Documents/helloResult.txt"));
 } catch (IOException ex) {
   throw new RuntimeException("Error whilst communicating with the IPFS node", ex);
 }
 ```
-
 
 <br />
 
@@ -374,11 +368,10 @@ try {
 
 We can request different types of pinned keys to list:
 
--   `all`: All Objects
--   `direct`: Objects pinned directly
--   `indirect`: Objects referenced by recursive pins
--   `recursive`: Roots of recursive pins (like direct, but also pin the children of the object)
-
+- `all`: All Objects
+- `direct`: Objects pinned directly
+- `indirect`: Objects referenced by recursive pins
+- `recursive`: Roots of recursive pins (like direct, but also pin the children of the object)
 
 <br />
 
@@ -493,7 +486,6 @@ try {
 
 ![](https://i.imgur.com/AtD5wxv.png)
 
-
 <br />
 
 ### Other operations
@@ -527,13 +519,12 @@ peers.forEach(multihash ->
 
 ![](https://i.imgur.com/vuRKfVF.png)
 
-
 <br />
 
 ### References
 
--   [GitHub Repository](https://github.com/gjeanmart/kauri-content/tree/master/java-ipfs)
--   [API Server documentation](https://docs.ipfs.io/reference/api/http/)
--   [Introduction to IPFS (by Consensys)](https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0)
--   [IPFS Introduction by Example (by Christian Lundkvist)](http://whatdoesthequantsay.com/2015/09/13/ipfs-introduction-by-example)
--   [The definitive guide to publishing content on the decentralized web (by Textile)](https://medium.com/textileio/the-definitive-guide-to-publishing-content-on-ipfs-ipns-dfe751f1e8d0)
+- [GitHub Repository](https://github.com/gjeanmart/kauri-content/tree/master/java-ipfs)
+- [API Server documentation](https://docs.ipfs.io/reference/api/http/)
+- [Introduction to IPFS (by Consensys)](https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0)
+- [IPFS Introduction by Example (by Christian Lundkvist)](http://whatdoesthequantsay.com/2015/09/13/ipfs-introduction-by-example)
+- [The definitive guide to publishing content on the decentralized web (by Textile)](https://medium.com/textileio/the-definitive-guide-to-publishing-content-on-ipfs-ipns-dfe751f1e8d0)

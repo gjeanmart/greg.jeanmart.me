@@ -7,7 +7,7 @@ date: 2019-10-19 00:00:01
 
 ### Introduction
 
-In this article, we will learn how to set up a monitoring stack for your Kubernetes environment (*k8s* in short). This kind of solution allows your team to gain visibility on your infrastructure and each application with a minimal impact on the existing.
+In this article, we will learn how to set up a monitoring stack for your Kubernetes environment (_k8s_ in short). This kind of solution allows your team to gain visibility on your infrastructure and each application with a minimal impact on the existing.
 
 The goal of observability is to provide tools to operators responsible of running the production to detect undesirables behaviours (service downtime, errors, slow responses) and have actionable information to find the root cause of an issue. It is usually represented under three pillars:
 
@@ -16,14 +16,13 @@ The goal of observability is to provide tools to operators responsible of runnin
 - **Tracing or APM (Application Monitoring Performance)** provides a much deeper vision of an application where every requests and steps in the execution of the service is recorded (http calls, database queries, etc.). Using tracing, we can detect slow performance or debug a specific user at a low level and improve or fix our system accordingly.
 
 ![](https://peter.bourgon.org/img/instrumentation/01.png)
-*Source: [Peter Bourgon](https://peter.bourgon.org/blog/2017/02/21/metrics-tracing-and-logging.html)*
+_Source: [Peter Bourgon](https://peter.bourgon.org/blog/2017/02/21/metrics-tracing-and-logging.html)_
 
 The concept of 360 observability is fully aligned with devops and agile principles to continuously observe, detect and improve the system over time.
 
-In this article, we will use the **Elastic stack** (version **7.3.0**) composed of ElasticSearch, Kibana, Filebeat, Metricbeat and APM-Server on a Kubernetes environment to monitor and log a production environment. This article series will walk-through a standard Kubernetes deployment, which,  in my opinion, gives a better understanding overall of each step of the installation and configuration. Of course, other methods exist to install and configure some services using tools such as *Helm* or [*Elastic Cloud on Kubernetes*](https://www.elastic.co/elasticsearch-kubernetes) but the purpose of this article is to give the readers a good understanding of each component in this "fairly" complex architecture to help them tweak it for their own system, something that is sometime limited with automated installer.
+In this article, we will use the **Elastic stack** (version **7.3.0**) composed of ElasticSearch, Kibana, Filebeat, Metricbeat and APM-Server on a Kubernetes environment to monitor and log a production environment. This article series will walk-through a standard Kubernetes deployment, which, in my opinion, gives a better understanding overall of each step of the installation and configuration. Of course, other methods exist to install and configure some services using tools such as _Helm_ or [_Elastic Cloud on Kubernetes_](https://www.elastic.co/elasticsearch-kubernetes) but the purpose of this article is to give the readers a good understanding of each component in this "fairly" complex architecture to help them tweak it for their own system, something that is sometime limited with automated installer.
 
 ![](https://imgur.com/JLPgAwx.png)
-
 
 <br />
 
@@ -53,13 +52,11 @@ First on all, we will increase the default memory size (2GB) allocated to a mini
 $ minikube config set memory 8192
 ```
 
-
 <br />
 
 #### 2. Start minikube
 
 Now let's start minikube using the following command. It might take a few minutes...
-
 
 ```shell
 $ minikube start
@@ -75,18 +72,17 @@ $ minikube start
 ⚠️  For more information, see:
 👉  https://github.com/kubernetes/minikube/blob/master/docs/vmdriver-none.md
 
-⚠️  kubectl and minikube configuration will be stored in /home/gjeanmart
+⚠️  kubectl and minikube configuration will be stored in /home/gr3g
 ⚠️  To use kubectl or minikube commands as your own user, you may
 ⚠️  need to relocate them. For example, to overwrite your own settings:
 
-    ▪ sudo mv /home/gjeanmart/.kube /home/gjeanmart/.minikube $HOME
+    ▪ sudo mv /home/gr3g/.kube /home/gr3g/.minikube $HOME
     ▪ sudo chown -R $USER $HOME/.kube $HOME/.minikube
 
 💡  This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
 ⌛  Verifying: apiserver proxy etcd scheduler controller dns
 🏄  Done! kubectl is now configured to use "minikube"
 ```
-
 
 <br />
 
@@ -108,9 +104,7 @@ minikube   Ready    master   40m   v1.15.0
 
 Bravo, we have now a running k8s local environment, you can run the command `$ kubectl get pods -A` to see what pods (containers) are currently running (mostly k8s system components).
 
-
 <br />
-
 
 #### 4. Deploy a sample application
 
@@ -132,8 +126,8 @@ metadata:
     app: mongo
 spec:
   ports:
-  - port: 27017
-    protocol: TCP
+    - port: 27017
+      protocol: TCP
   selector:
     app: mongo
 ---
@@ -153,28 +147,28 @@ spec:
         app: mongo
     spec:
       containers:
-      - name: mongo
-        image: mongo
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: mongo-persistent-storage
-          mountPath: /data/db
+        - name: mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
   volumeClaimTemplates:
-  - metadata:
-      name: mongo-persistent-storage
-      annotations:
-        volume.beta.kubernetes.io/storage-class: "standard"
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: standard
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: mongo-persistent-storage
+        annotations:
+          volume.beta.kubernetes.io/storage-class: "standard"
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 1Gi
 ---
 ```
 
-*See [full file](https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/mongo.yml)*
+_See [full file](https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/mongo.yml)_
 
 Deploy MongoDB using the command:
 
@@ -213,8 +207,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8080
-    protocol: TCP
+    - port: 8080
+      protocol: TCP
   selector:
     app: spring-boot-simple
 ---
@@ -236,17 +230,17 @@ spec:
         app: spring-boot-simple
     spec:
       containers:
-      - image: gjeanmart/spring-boot-simple:0.0.1-SNAPSHOT
-        imagePullPolicy: Always
-        name: spring-boot-simple
-        env:
-          - name: SPRING_DATA_MONGODB_HOST
-            value: mongo
-        ports:
-        - containerPort: 8080
+        - image: gjeanmart/spring-boot-simple:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
+          name: spring-boot-simple
+          env:
+            - name: SPRING_DATA_MONGODB_HOST
+              value: mongo
+          ports:
+            - containerPort: 8080
 ```
 
-*See [full file](https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/spring-boot-simple.yml)*
+_See [full file](https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/spring-boot-simple.yml)_
 
 Run the command to deploy spring-boot-simple:
 
@@ -275,27 +269,26 @@ Note the external port of the API on the node: `30049` and get your node static 
 
 Once you get all the information you need, simply run the following commands to test our sample API (replace `<IP>:<PORT>` by your values).
 
-*Greetings*
+_Greetings_
 
 ```shell
 $ curl -X GET  http://10.154.0.2:30049/
 Greetings from Spring Boot!
 ```
 
-*Post a message*
+_Post a message_
 
 ```shell
 $ curl -X POST http://10.154.0.2:30049/message -d 'hello world'
 {"id":"5d5abdebdc0e820001bc5c74","message":"hello+world=","postedAt":"2019-08-19T15:19:07.075+0000"}
 ```
 
-*Get all messages*
+_Get all messages_
 
 ```shell
 $ curl -X GET http://10.154.0.2:30049/message
 [{"id":"5d5abdebdc0e820001bc5c74","message":"hello+world=","postedAt":"2019-08-19T15:19:07.075+0000"}]
 ```
-
 
 <br />
 
@@ -317,7 +310,7 @@ or apply the file `monitoring.namespace.yml`:
 apiVersion: v1
 kind: Namespace
 metadata:
-   name: monitoring
+  name: monitoring
 ---
 ```
 
@@ -327,14 +320,13 @@ like this:
 $ kubectl apply -f monitoring.namespace.yml
 ```
 
-
 <br />
 <br />
 
 ### Next steps
 
 In the following article, we will get started with the installation of ElasticSearch and Kibana:
-[Install ElasticSearch and Kibana to store and visualize monitoring data](/2019/10/19/(25)-install-elasticsearch-and-kibana-to-store-an)
+[Install ElasticSearch and Kibana to store and visualize monitoring data](</2019/10/19/(25)-install-elasticsearch-and-kibana-to-store-an>)
 
 <br />
 <br />

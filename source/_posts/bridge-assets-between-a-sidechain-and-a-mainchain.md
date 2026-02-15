@@ -5,14 +5,13 @@ date: 2020-01-21
 
 ![](https://gateway.pinata.cloud/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2)
 
-
 This article is part of a **POA tutorial series**:
 
 - [(POA Guide - Part 1) - Develop and deploy a smart contract](/2020/01/21/develop-and-deploy-a-smart-contract)
 - [(POA Guide - Part 2)- Bridge assets between a sidechain and a mainchain](/2020/01/21/bridge-assets-between-a-sidechain-and-a-mainchain)
 - POA - Part 3 - Meta-transaction [Coming soon]
 
------------------------------------------------------
+---
 
 ### Introduction
 
@@ -23,7 +22,7 @@ An asset token usually has two purposes:
 - A monetary use where a token can be traded, exchanged or just kept as a long term investment
 - An application use where a token can be employed on a Dapp (voting, stacking, playing, etc...)
 
-Both usages require different network properties to enable the best experience, the monetary use may need a strong  network security and liveness and an access to a large network of assets to facilitate trade while the application use needs faster and cheaper transactions for a better user experience.
+Both usages require different network properties to enable the best experience, the monetary use may need a strong network security and liveness and an access to a large network of assets to facilitate trade while the application use needs faster and cheaper transactions for a better user experience.
 
 As part of the layer 2 scalability solutions, sidechain and bridges implement this paradigm of two chains for two usages and try to solve the scalability and UX issues due to the Ethereum mainnet being usually considered too slow (15 tx/sec) and too expensive on gas fees to enable a good user experience for most of the use cases (games or social apps). In this context, the general flow is the following:
 
@@ -37,7 +36,7 @@ As part of the layer 2 scalability solutions, sidechain and bridges implement th
 
 In this tutorial, we will learn how to deploy a token on the two networks (RinkeBy network as mainchain and POA Sokol as sidechain) and then deploy and use the bridge (ERC20 to ERC20) to let a user transfers his assets from one network to another.
 
------------------------------------------------------
+---
 
 ### Requirements
 
@@ -59,7 +58,6 @@ Solidity v0.5.0 (solc-js)
 Node v8.15.1
 Web3.js v1.0.0-beta.37
 ```
-
 
 <br />
 ### Step 1: Deploy an ERC20 token called BRidge Token `BRT` on the mainchain (Rinkeby network)
@@ -106,7 +104,7 @@ To make sure your smart contract compiles, you can execute the command `truffle 
 
 4. Deploy the smart contract on the RinkeBy network
 
-*Note:* Make sure the account used to deploy the contract is funded with RinkeBy ethers (see [faucet](https://faucet.rinkeby.io/)).
+_Note:_ Make sure the account used to deploy the contract is funded with RinkeBy ethers (see [faucet](https://faucet.rinkeby.io/)).
 
 Once our smart contracts compile, we need to deploy it. To do so, we need first to complete the migration script, create a file `./migrations/2_deploy_contract.js`
 
@@ -114,17 +112,20 @@ Once our smart contracts compile, we need to deploy it. To do so, we need first 
 // 2_deploy_contract.js
 const BridgeToken = artifacts.require("./BridgeToken.sol");
 
-module.exports = function(deployer, network, accounts) {
-    // Deploy the smart contract
-    deployer.deploy(BridgeToken, {from: accounts[0]}).then(function(instance) {
-        // Mint 100 tokens
-        return instance.mint(accounts[0], web3.utils.toBN("100000000000000000000"), {from: accounts[0]});
-    });
+module.exports = function (deployer, network, accounts) {
+  // Deploy the smart contract
+  deployer.deploy(BridgeToken, { from: accounts[0] }).then(function (instance) {
+    // Mint 100 tokens
+    return instance.mint(
+      accounts[0],
+      web3.utils.toBN("100000000000000000000"),
+      { from: accounts[0] },
+    );
+  });
 };
 ```
 
 The migration script deploys the contract and additionally mint and distribute 100 BRT tokens to the deployer account.
-
 
 Next step consists in configuring a connection to the RinkeBy network in order to deploy a smart contract.
 
@@ -149,7 +150,7 @@ Finally let's configure the connection to the RinkeBy network. Edit the file `./
 
 ```javascript
 // truffle.js
-require('dotenv').config();
+require("dotenv").config();
 const HDWalletProvider = require("truffle-hdwallet-provider");
 
 module.exports = {
@@ -157,14 +158,17 @@ module.exports = {
     development: {
       host: "localhost",
       port: 8545,
-      network_id: "*"
+      network_id: "*",
     },
     rinkeby: {
-        provider: new HDWalletProvider(process.env.MNEMONIC, "https://rinkeby.infura.io/v3/" + process.env.INFURA_API_KEY),
-        network_id: 4,
-        gas: 4500000
-    }
-  }
+      provider: new HDWalletProvider(
+        process.env.MNEMONIC,
+        "https://rinkeby.infura.io/v3/" + process.env.INFURA_API_KEY,
+      ),
+      network_id: 4,
+      gas: 4500000,
+    },
+  },
 };
 ```
 
@@ -183,7 +187,7 @@ Compiling your contracts...
 > Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
 > Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
 > Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
-> Artifacts written to /home/gjeanmart/workspace/tutorials/bridge_token/build/contracts
+> Artifacts written to /home/gr3g/workspace/tutorials/bridge_token/build/contracts
 > Compiled successfully using:
    - solc: 0.5.8+commit.23d335f2.Emscripten.clang
 
@@ -301,7 +305,6 @@ Summary
 
 As a result, we can identify our Smart Contract `BridgeToken` as been deployed at the address `0x40A6a864133985E1146DDfEb48c7391CD07596F5` (see [block explorer](https://rinkeby.etherscan.io/address/0x40A6a864133985E1146DDfEb48c7391CD07596F5))
 
-
 <br />
 ### Step 2: Initialise the monorepo `tokenbridge`
 
@@ -344,17 +347,17 @@ $ npm run compile
 <br />
 3. Create a configuration file in `./deploy/.env`
 
-*Note 1* : the following properties to change
+_Note 1_ : the following properties to change
 
 - `PRIVATE_KEY` Account responsible for deploying, administrating the contracts and validating transfers
 - `ACCOUNT_ADMIN` Account responsible for deploying, administrating the contracts and validating transfers.
 - `ERC20_TOKEN_ADDRESS` Address of the ERC20 token deployed above.
 
-*Note 2* : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)
+_Note 2_ : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)
 
-*Note 3* : Make sure the account `ACCOUNT_ADMIN` is funded with **RinkeBy ethers** and **POA Sokol ethers**.
+_Note 3_ : Make sure the account `ACCOUNT_ADMIN` is funded with **RinkeBy ethers** and **POA Sokol ethers**.
 
-*Note 4* : No block reward (rewardable token) has been configured.
+_Note 4_ : No block reward (rewardable token) has been configured.
 
 ```
 BRIDGE_MODE=ERC_TO_ERC
@@ -457,7 +460,6 @@ Contracts Deployment have been saved to `bridgeDeploymentResults.json`
 
 **Save the JSON information above.**
 
-
 <br />
 ### Step 4: Configure and deploy the Bridge Oracle
 
@@ -470,7 +472,7 @@ $ cd ../oracle
 <br />
 2. Create a configuration file in `./.env`
 
-*Note 1* : Open the saved JSON file `bridgeDeploymentResults.json` to get the home and foreign bridge contract address and deployment block numbers.
+_Note 1_ : Open the saved JSON file `bridgeDeploymentResults.json` to get the home and foreign bridge contract address and deployment block numbers.
 
 ```javascript
 {
@@ -489,15 +491,15 @@ $ cd ../oracle
 
 ```
 
-*Note 2* : the following properties to change
+_Note 2_ : the following properties to change
 
 - `PRIVATE_KEY` Account responsible for deploying, administrating the contracts and validating transfers
-- `ACCOUNT_ADMIN`  Account responsible for deploying, administrating the contracts and validating transfers
+- `ACCOUNT_ADMIN` Account responsible for deploying, administrating the contracts and validating transfers
 - `ERC20_TOKEN_ADDRESS` Address of the ERC20 token deployed above.
 
-*Note 3* : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)
+_Note 3_ : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)
 
-*Note 4* : Make sure the account `ACCOUNT_ADMIN` is funded with RinkeBy ethers and POA sokol ethers.
+_Note 4_ : Make sure the account `ACCOUNT_ADMIN` is funded with RinkeBy ethers and POA sokol ethers.
 
 ```
 BRIDGE_MODE=ERC_TO_ERC
@@ -543,7 +545,7 @@ This docker package is composed of a Reddit database, Rabbit MQ broker and NodeJ
 $ docker-compose up --build
 ```
 
-*Use the flag `-d` to run the Bridge Oracle in the background (daemon)*
+_Use the flag `-d` to run the Bridge Oracle in the background (daemon)_
 
 ![](https://imgur.com/Hgow8Fl.gif)
 
@@ -561,7 +563,7 @@ $ cd ../ui
 <br />
 2. Create a configuration file in `./.env`
 
-*Note 1*: Open the saved JSON file `bridgeDeploymentResults.json` to get the home and foreign bridge contract address and deployment block numbers.
+_Note 1_: Open the saved JSON file `bridgeDeploymentResults.json` to get the home and foreign bridge contract address and deployment block numbers.
 
 ```javascript
 {
@@ -607,7 +609,6 @@ You can now transfer BRT token between the mainchain and the sidechain:
 
 ![](https://imgur.com/lPYryIU.gif)
 
-
 <br />
 <br />
 -----------------------------------------------------
@@ -616,5 +617,5 @@ You can now transfer BRT token between the mainchain and the sidechain:
 
 - [poa-bridge-contracts GitHub](https://github.com/poanetwork/poa-bridge-contracts)
 - [token-bridge (monorepo) GitHub](https://github.com/poanetwork/tokenbridge)
-- [Introducing the ERC20 to ERC20 TokenBridge](https://medium.com/poa-network/introducing-the-erc20-to-erc20-tokenbridge-ce266cc1a2d0) (November 2018)  
+- [Introducing the ERC20 to ERC20 TokenBridge](https://medium.com/poa-network/introducing-the-erc20-to-erc20-tokenbridge-ce266cc1a2d0) (November 2018)
 - [Introducing POA Bridge and POA20](https://medium.com/poa-network/introducing-poa-bridge-and-poa20-55d8b78058ac) (April 2018)

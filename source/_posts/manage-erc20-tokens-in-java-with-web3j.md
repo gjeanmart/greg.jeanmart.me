@@ -5,7 +5,6 @@ date: 2019-08-20
 
 ![](https://gateway.pinata.cloud/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr)
 
-
 In this article, we learn how to manage [ERC20 (Fungible)](https://en.wikipedia.org/wiki/ERC-20) tokens in Java with the [Web3j](https://web3j.io/) library.
 
 [ERC20](https://kauri.io/article/d3e24cbf13fd4af9892773552555c480/v1/erc-20-token-standard) is an Ethereum Smart Contract standard for implementing tokens in a compliant way, so it is easy to interact and integrate tokens with any application (dapps, wallets, exchanges, etc.).
@@ -16,11 +15,11 @@ For more details about ERC20, see the article [ERC-20 Token Standard](https://ka
 
 To follow this tutorial, you need the following software installed on your computer:
 
--   [Java programming language](https://www.oracle.com/technetwork/java/javase/downloads/index.html) (> 8)
--   A package and dependency manager, for example [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/install/)
--   An IDE (Integrated development environment), for this tutorial, we use [Eclipse](https://www.eclipse.org/downloads/)
--   [Truffle](https://www.trufflesuite.com/ganache): a development framework to develop, test and deploy Ethereum smart contract
--   [Ganache-cli](https://github.com/trufflesuite/ganache-cli): your local personal blockchain for Ethereum development.
+- [Java programming language](https://www.oracle.com/technetwork/java/javase/downloads/index.html) (> 8)
+- A package and dependency manager, for example [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/install/)
+- An IDE (Integrated development environment), for this tutorial, we use [Eclipse](https://www.eclipse.org/downloads/)
+- [Truffle](https://www.trufflesuite.com/ganache): a development framework to develop, test and deploy Ethereum smart contract
+- [Ganache-cli](https://github.com/trufflesuite/ganache-cli): your local personal blockchain for Ethereum development.
 
 Start ganache by running the command:
 
@@ -74,12 +73,14 @@ We need to first complete the migration script. Create a file called `./migratio
 // 2_deploy_contract.js
 const JavaToken = artifacts.require("./JavaToken.sol");
 
-module.exports = function(deployer, network, accounts) {
- // Deploy the smart contract
- deployer.deploy(JavaToken, {from: accounts[0]}).then(function(instance) {
- // Mint 100 tokens
- return instance.mint(accounts[0], web3.utils.toBN("100"), {from: accounts[0]});
- });
+module.exports = function (deployer, network, accounts) {
+  // Deploy the smart contract
+  deployer.deploy(JavaToken, { from: accounts[0] }).then(function (instance) {
+    // Mint 100 tokens
+    return instance.mint(accounts[0], web3.utils.toBN("100"), {
+      from: accounts[0],
+    });
+  });
 };
 ```
 
@@ -94,9 +95,9 @@ module.exports = {
     development: {
       host: "localhost",
       port: 8545,
-      network_id: "*"
-    }
-  }
+      network_id: "*",
+    },
+  },
 };
 ```
 
@@ -115,7 +116,7 @@ Compiling your contracts...
 > Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
 > Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
 > Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
-> Artifacts written to /home/gjeanmart/workspace/tutorials/kauri-content/java-erc20/JVM/build/contracts
+> Artifacts written to /home/gr3g/workspace/tutorials/kauri-content/java-erc20/JVM/build/contracts
 > Compiled successfully using:
  - solc: 0.5.8+commit.23d335f2.Emscripten.clang
 

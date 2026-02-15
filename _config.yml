@@ -105,5 +105,5 @@ theme_config:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:gjeanmart/greg.jeanmart.me.git
+  repo: git@github.com:gjeanmart/gr3g.tech.git
   branch: main

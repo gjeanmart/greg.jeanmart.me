@@ -83,25 +83,25 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 
 ### 🎙 Podcasts
 
-• 🇬🇧 [Off-Chain Podcast #050 Greg Jeanmart: Revolutionising Cross-Chain Liquidity with Safenet](https://www.youtube.com/watch?v=-bXQVObGyLk) Jan. 2025
-• 🇫🇷 [CTO'z #49 · Grégoire Jeanmart @Multis - "Voyage en pays crypto"](https://podcast.ausha.co/cto-z-1/cto-z-49-gregoire-jeanmart-atmultis-voyage-en-pays-crypto) Jul. 2022
+• 🇬🇧 [Off-Chain Podcast #050 Gr3g: Revolutionising Cross-Chain Liquidity with Safenet](https://www.youtube.com/watch?v=-bXQVObGyLk) Jan. 2025
+• 🇫🇷 [CTO'z #49 · Gr3g @Multis - "Voyage en pays crypto"](https://podcast.ausha.co/cto-z-1/cto-z-49-gregoire-jeanmart-atmultis-voyage-en-pays-crypto) Jul. 2022
 
 ### 🗣️ Conferences
 
 • 🇬🇧 [SafeCon 2024 · Keystore Introductory Workshop](https://www.youtube.com/watch?v=hHmOo7A3vNU) Jun. 2024
 • 🇬🇧 [DappCon 2022 · Building Within The Safe Ecosystem For A B2B Usecase, Meissner & Jeanmart](https://www.youtube.com/watch?v=5Zcf9qVAQeA) Sept. 2022
-• 🇬🇧 [EthCC 2018 · Joshua CASSIDY & Grégoire JEANMART - An introduction to KAURI Q&A](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184) Mar. 2018
+• 🇬🇧 [EthCC 2018 · Josh & Gr3g - An introduction to KAURI Q&A](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184) Mar. 2018
 
 ![](/images/favicon.ico)
 
 ## Articles and Publications
 
-• 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](https://greg.jeanmart.me/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-/) Feb. 2020
-• 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](https://greg.jeanmart.me/2020/04/13/build-your-very-own-self-hosting-platform-wi/) Apr. 2020
-• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](<https://greg.jeanmart.me/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/>) Oct. 2019
-• 🇬🇧 [Manage an Ethereum account with Java and Web3j](https://greg.jeanmart.me/2020/05/01/manage-an-ethereum-account-with-java-and-web3j/) May 2020
+• 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](https://gr3g.tech/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-/) Feb. 2020
+• 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](https://gr3g.tech/2020/04/13/build-your-very-own-self-hosting-platform-wi/) Apr. 2020
+• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](<https://gr3g.tech/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/>) Oct. 2019
+• 🇬🇧 [Manage an Ethereum account with Java and Web3j](https://gr3g.tech2020/05/01/manage-an-ethereum-account-with-java-and-web3j/) May 2020
 • 🇬🇧 [Multis integrates TheGraph to offer an even stronger multisig](https://medium.com/multis/multis-integrates-the-graph-to-offer-an-even-stronger-multisig-wallet-b590a4207f8e) Jul. 2020
-• _See more on [greg.jeanmart.me/blog/](https://greg.jeanmart.me/blog/)_
+• _See more on [gr3g.tech/blog/](https://gr3g.tech/blog/)_
 
 ![](/images/favicon.ico)
 

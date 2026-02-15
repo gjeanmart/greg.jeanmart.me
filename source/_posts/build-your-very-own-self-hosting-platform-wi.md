@@ -5,8 +5,6 @@ date: 2020-04-13 00:00:01
 
 ![](https://gateway.pinata.cloud/ipfs/QmPFWQJ1gevuXVxMfELZ9XoXx9QEANSonMiEvNw7YP254t)
 
-
-
 ### Preface
 
 **Self-hosting** is a new trend which attracts more people every day, whether you are looking for more privacy, or disapprove big [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) companies methods to monetize your data or simply because you enjoy hacking things at home and challenge yourself. This series is for you!
@@ -17,16 +15,13 @@ Another important concept is **open-source software** (OSS), giving access to an
 
 Here is a metaphor I really like about self-hosting:
 
-> *Having a hosted website is like being a renter, rather than a homeowner.*
+> _Having a hosted website is like being a renter, rather than a homeowner._
 
-> *On the one hand, you have a place to live and your landlord takes care of certain fees and maintenance.*
+> _On the one hand, you have a place to live and your landlord takes care of certain fees and maintenance._
 
-> *On the other hand, you depend on the mercy of the landlord to keep things liveable for you, and you can’t redesign the house as you please.*
+> _On the other hand, you depend on the mercy of the landlord to keep things liveable for you, and you can’t redesign the house as you please._
 
 [source](https://medium.com/swlh/the-step-by-step-guide-to-starting-your-own-self-hosted-website-from-scratch-d10a8e6ccf0c)
-
-
-
 
 ### Introduction
 
@@ -37,10 +32,7 @@ As I mentioned, self-hosting can be quite complicated and require knowledge. So 
 - Maintenance easiness
 - Simple resource management
 
-
 Before starting, let me explain a few important concepts here.
-
-
 
 #### Container
 
@@ -48,17 +40,15 @@ As most modern software engineers can attest, containers have offered a dramatic
 
 [Docker](https://www.docker.com) is currently the most known container software in the industry.
 
-
-
 #### Why Kubernetes?
 
-Now we know, it is easy to run containerized applications, we need an orchestrator to manage our applications across multiple hosts (machines), this will help automating most of the maintenance tasks (reboot after application or host crash, scaling, load balancing, configuration management, etc.).   
+Now we know, it is easy to run containerized applications, we need an orchestrator to manage our applications across multiple hosts (machines), this will help automating most of the maintenance tasks (reboot after application or host crash, scaling, load balancing, configuration management, etc.).
 
 ![](https://gateway.pinata.cloud/ipfs/QmXCrk532MtmJPY5eWnyrXvmgi8PCaxdbGh6DFtknHHbdN)
 
 [Kubernetes (k8s) from Google](https://kubernetes.io) is the market leader in container orchestration, it offers:
 
-- **Portability**: Kubernetes works on most of the cloud provider and CPU architectures, an infrastructure can easily be moved from one another without complete re-architecture.  
+- **Portability**: Kubernetes works on most of the cloud provider and CPU architectures, an infrastructure can easily be moved from one another without complete re-architecture.
 - **Scalability**: Multiple-instance of an application and load-balancing is made very easy
 - **Availability** Kubernetes addresses high availability at both the application and the infrastructure level.
 - **Open-source** A vast ecosystem and community
@@ -68,20 +58,16 @@ For those reasons, Kubernetes is a good choice to orchestrate our future self-ho
 
 Kubernetes comes with a lot of tools that aren't necessarily needed or optimized for ARM devices like the RaspberryPi so the company Rancher launched [k3s](https://k3s.io), a lightweight Kubernetes ideal for IOT and Single-Board computers.
 
-
-
 #### Why Raspberry Pi
 
 A [Raspberry Pi (RPI)](https://www.raspberrypi.org) is Single-Board Computer (SBC) initially launched in 2012 as an educational tool to learn programming but it actually quickly became very popular in the hardware and hacking communities and people now use RPI for hardware projects, home automation, robotics and much more...
 
 ![](https://gateway.pinata.cloud/ipfs/QmexqWd1z8T1XsAWbxwgkgSwimtU4buUD9CoksLwKAoRaZ)
 
-
-
 Since 2012, the Raspberry Pi foundation launched several generations:
 
 | Product                 | SoC          | Speed   | RAM   | USB Ports      | Ethernet   | Wireless   | Bluetooth |
-|-------------------------|--------------|---------|-------|----------------|------------|------------|-----------|
+| ----------------------- | ------------ | ------- | ----- | -------------- | ---------- | ---------- | --------- |
 | Raspberry Pi Model A+   | BCM2835      | 700MHz  | 512MB | 1              | No         | No         | No        |
 | Raspberry Pi Model B+   | BCM2835      | 700MHz  | 512MB | 4              | 100Base-T  | No         | No        |
 | Raspberry Pi 2 Model B  | BCM2836/7    | 900MHz  | 1GB   | 4              | 100Base-T  | No         | No        |
@@ -95,10 +81,7 @@ Since 2012, the Raspberry Pi foundation launched several generations:
 | Raspberry Pi Zero W     | BCM2835      | 1000MHz | 512MB | 1              | No         | 802.11n    | 4.1       |
 | Raspberry Pi Zero WH    | BCM2835      | 1000MHz | 512MB | 1              | No         | 802.11n    | 4.1       |
 
-
 [Raspberry Pi - Hardware history](https://elinux.org/RPi_HardwareHistory)
-
-
 
 The main benefits of using Raspberry Pi are:
 
@@ -107,54 +90,41 @@ The main benefits of using Raspberry Pi are:
 - **Great community**: It has a huge community of passionate hobbyists and professionals which provides knowledge and addons across the web.
 - **Size**: The raspberry pi is small (credit card size) and fits almost anywhere.
 
-
-
-
 #### Keep Control and Enjoy!
 
 I have been hosting stuff by myself for a while now and I've always struggled with maintenance in the long run (service not working correctly on ARM, machine freeze, configuration management mess). So when I recently decided to migrate everything on Kubernetes, it has been quite challenging but finally got it working and I haven't touched it since, every single services are running like a charm, they may have crashed a couple of times but Kubernetes recovered everything without me noticing the downtime.
-
-
-
-
-
 
 ### Hardware requirement
 
 In order to build our self-hosting platform, we need the following hardware materials:
 
 - **Single-Board Computers:**
-First of all, we need computers. I would recommend to start at least with two so your applications can fallback on the second node if one crashes. I also highly suggest to use Raspberry Pi 4 (4GB) but you can stack up any kind of ARM based computers.
-For example in my case, I use one [RaspberryPi 4B](https://www.amazon.co.uk/Raspberry-Pi-ARM-Cortex-A72-Bluetooth-Micro-HDMI/dp/B07TC2BK1X), one [NanoPi-m4](https://www.amazon.co.uk/FriendlyARM-Rockchip-dual-band-Support-learning/dp/B07GXP3ZR4) and two [RaspberryPi 3B+](https://www.amazon.co.uk/Raspberry-Pi-3-Model-B/dp/B07BDR5PDW).
-The cost of one board is around $50.
+  First of all, we need computers. I would recommend to start at least with two so your applications can fallback on the second node if one crashes. I also highly suggest to use Raspberry Pi 4 (4GB) but you can stack up any kind of ARM based computers.
+  For example in my case, I use one [RaspberryPi 4B](https://www.amazon.co.uk/Raspberry-Pi-ARM-Cortex-A72-Bluetooth-Micro-HDMI/dp/B07TC2BK1X), one [NanoPi-m4](https://www.amazon.co.uk/FriendlyARM-Rockchip-dual-band-Support-learning/dp/B07GXP3ZR4) and two [RaspberryPi 3B+](https://www.amazon.co.uk/Raspberry-Pi-3-Model-B/dp/B07BDR5PDW).
+  The cost of one board is around $50.
 
 - **Power supply:**
-Depending on the board, you need a power supply, a Raspberry Pi 4 requires a [5V 3A USB C/Type-C Power Supply Adapter](https://www.amazon.co.uk/Jun_Electronic-Type-C-Supply-Adapter-Raspberry/dp/B07TWMFB92) which shouldn't cost more than $10.
+  Depending on the board, you need a power supply, a Raspberry Pi 4 requires a [5V 3A USB C/Type-C Power Supply Adapter](https://www.amazon.co.uk/Jun_Electronic-Type-C-Supply-Adapter-Raspberry/dp/B07TWMFB92) which shouldn't cost more than $10.
 
 - **Micro-SD card:**
-In order to run the operating-system on each board, we need a Micro-SD card of 16GB minimum (for e.g [SanDisk 16GB](https://www.amazon.co.uk/SanDisk-microSDHC-Memory-Adapter-Performance/dp/B073K14CVB) which costs around $5 piece)
+  In order to run the operating-system on each board, we need a Micro-SD card of 16GB minimum (for e.g [SanDisk 16GB](https://www.amazon.co.uk/SanDisk-microSDHC-Memory-Adapter-Performance/dp/B073K14CVB) which costs around $5 piece)
 
 - **A portable SSD disk (optional):**
-Because the hosting-platform will run programs (containers) on any hosts we have, we need to build a share drive between each host. I chose to run a NFS share from a portable [USB3 512GB SSD disk](https://www.amazon.co.uk/Samsung-MU-PA500B-Portable-SSD-500GB/dp/B074MCM721) (cost: $90) but we could imagine more reliable solution such as a NAS (e.g Synology).
+  Because the hosting-platform will run programs (containers) on any hosts we have, we need to build a share drive between each host. I chose to run a NFS share from a portable [USB3 512GB SSD disk](https://www.amazon.co.uk/Samsung-MU-PA500B-Portable-SSD-500GB/dp/B074MCM721) (cost: $90) but we could imagine more reliable solution such as a NAS (e.g Synology).
 
 - **Ethernet Cables:** (optional but recommended)
-Our hosts machines need access to a network and Internet, I recommend using Ethernet instead of WIFI.
+  Our hosts machines need access to a network and Internet, I recommend using Ethernet instead of WIFI.
 
 - **Ethernet Switch (optional):**
-Routers usually have only 4 or 5 Ethernet ports so if you don't want to use them all, you can dedicate an Ethernet switch to the homelab like [this one](https://www.amazon.co.uk/gp/product/B07HP5TN4S) which costs around $15.  
+  Routers usually have only 4 or 5 Ethernet ports so if you don't want to use them all, you can dedicate an Ethernet switch to the homelab like [this one](https://www.amazon.co.uk/gp/product/B07HP5TN4S) which costs around $15.
 
 - **Case with cooling fan (optional but recommended):**
-Finally, cooling fans and heatsink are also highly recommended to keep the CPU cool and reduce the risk of hardware failure due to overheating.
-I am personally using [this rack case](https://www.amazon.co.uk/gp/product/B07J9VMNBL/) including fans and heatsinks (cost $20)
-
-
+  Finally, cooling fans and heatsink are also highly recommended to keep the CPU cool and reduce the risk of hardware failure due to overheating.
+  I am personally using [this rack case](https://www.amazon.co.uk/gp/product/B07J9VMNBL/) including fans and heatsinks (cost $20)
 
 The result looks like this on my side for a total cost around $250 approximately:
 
 ![](https://gateway.pinata.cloud/ipfs/Qme6ME6QJaDXKqX14CA7oSQpySMpdpgLV55DzHdMX5Yc6Q)
-
-
-
 
 ### Table of content
 
@@ -169,11 +139,7 @@ Alright, now we defined what we gonna do and why, let's get started!
 7. [Self-host your password manager with Bitwarden](/2020/04/13/self-host-your-password-manager-with-bitward)
 8. [Deploy Prometheus and Grafana to monitor a Kubernetes cluster](/2020/04/13/deploy-prometheus-and-grafana-to-monitor-a-k)
 
-_If you'd like to see an article in this series: please contact me on Twitter [@gregjeanmart](https://twitter.com/GregJeanmart)_
-
-
-
-
+_If you'd like to see an article in this series: please contact me on Twitter [@gr3g_0_0](https://twitter.com/gr3g_0_0)_
 
 ### References
 

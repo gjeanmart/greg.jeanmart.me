@@ -5,7 +5,6 @@ date: 2019-07-05
 
 ![](https://gateway.pinata.cloud/ipfs/QmdhzPG6wt6YXQQWfBLcGiZriBrZmwniwdrKJ7D7QKKgvR)
 
-
 [Loom Network](https://loomx.io/) is a Layer 2 scaling solution for Ethereum focusing on social and gaming dApps that require a very high throughput. Loom SDK enables to generate a sidechain called dAppChain using a dPoS consensus optimised for high-scalability. Loom is contributing on Plasma which is a mechanism to securely transfer a digital asset (ERC20 or ERC721) to a mainchain.
 
 You can run your own DAppChain using the Loom software or connect to a public one (plasma-chain, social-chain or gaming-chain) running under a dPoS Ethereum blockchain to enable scalable dApps.
@@ -31,17 +30,17 @@ local address: 0xc69c707D6bFDfeC42FE221a334b8DAb2A2DD4Cef
 local address base64: xpxwfWv9/sQv4iGjNLjasqLdTO8=
 
 $ ls -l | grep key
--rw-rw-r-- 1 gjeanmart gjeanmart        88 Oct 24 16:35 priv_key
--rw-rw-r-- 1 gjeanmart gjeanmart        44 Oct 24 16:35 pub_key
+-rw-rw-r-- 1 gr3g gr3g        88 Oct 24 16:35 priv_key
+-rw-rw-r-- 1 gr3g gr3g        44 Oct 24 16:35 pub_key
 ```
 
-*The keypair is created under the same folder.*
+_The keypair is created under the same folder._
 
 3. Go to the [Loom Faucet](https://faucet.dappchains.com/)
 
 4. Enter your address generated above
 
-5. Click on *Request* and wait until you see **100 faucet-karma**
+5. Click on _Request_ and wait until you see **100 faucet-karma**
 
 ![](https://gateway.pinata.cloud/ipfs/QmVvPTJktFDRBxyzSmFJzPXaVgWtG83JvUTLdsWKU5uadK)
 
@@ -73,7 +72,7 @@ Commands:
 
 3. Let’s now write a simple Smart Contract that increments and store a counter
 
- Create a file in `contracts/Counter.sol` and paste the following Solidity code
+Create a file in `contracts/Counter.sol` and paste the following Solidity code
 
 ```
 pragma solidity ^0.4.20;
@@ -95,11 +94,11 @@ contract Counter {
 }
 ```
 
-*You can verify that your code compiles correctly with the following command* `$ truffle compile`
+_You can verify that your code compiles correctly with the following command_ `$ truffle compile`
 
 4. Now, we need to create a deployment script
 
-  Create a file in `migrations/2_deploy_contracts.js` and paste the following code
+Create a file in `migrations/2_deploy_contracts.js` and paste the following code
 
 ```
 var Counter = artifacts.require("./Counter.sol");
@@ -111,11 +110,11 @@ module.exports = function(deployer) {
 
 5. Finally we need to configure the connection to the Loom extdev network as well as our wallet info
 
-  Install the following JavaScript dependencies:
+Install the following JavaScript dependencies:
 
-  * [truffle-hdwallet-provider](https://github.com/trufflesuite/truffle-hdwallet-provider) enables to sign transactions for addresses derived from a 12-word mnemonic
-  * [loom-truffle-provider](https://github.com/loomnetwork/loom-truffle-provider) is an adapter that allows Truffle Suite to communicate with Loom DappChain
-  * [dotenv](https://www.npmjs.com/package/dotenv) is a module to configure environment variables
+- [truffle-hdwallet-provider](https://github.com/trufflesuite/truffle-hdwallet-provider) enables to sign transactions for addresses derived from a 12-word mnemonic
+- [loom-truffle-provider](https://github.com/loomnetwork/loom-truffle-provider) is an adapter that allows Truffle Suite to communicate with Loom DappChain
+- [dotenv](https://www.npmjs.com/package/dotenv) is a module to configure environment variables
 
 ```
 $ npm install truffle-hdwallet-provider loom-truffle-provider dotenv --save-dev
@@ -188,8 +187,8 @@ $ cd frontend
 
 2. Install the necessary dependencies
 
-  * [web3 (1.0.0-beta.34)](https://github.com/ethereum/web3.js/) This is the Ethereum compatible JavaScript API which implements the Generic JSON RPC spec
-  * [loom-js](https://github.com/loomnetwork/loom-js) is a JavaScript library for building browser apps & NodeJS services that interact with Loom
+- [web3 (1.0.0-beta.34)](https://github.com/ethereum/web3.js/) This is the Ethereum compatible JavaScript API which implements the Generic JSON RPC spec
+- [loom-js](https://github.com/loomnetwork/loom-js) is a JavaScript library for building browser apps & NodeJS services that interact with Loom
 
 ```
 $ npm install web3@1.0.0-beta.34 loom-js --save
@@ -203,11 +202,11 @@ $ npm install web3@1.0.0-beta.34 loom-js --save
 "link-contracts:win32": "cd src && mklink \\D contracts ..\\..\\build\\contracts"
 ```
 
-*The full code of this file is available here: [package.json](https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/package.json)*
+_The full code of this file is available here: [package.json](https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/package.json)_
 
 4. Open an edit `frontend/src/App.js`
 
-  * Imports
+- Imports
 
 ```
 import Web3 from 'web3'
@@ -215,8 +214,7 @@ import { Client, LocalAddress, CryptoUtils, LoomProvider } from 'loom-js'
 import Counter from './contracts/Counter.json'
 ```
 
-
-  * Connect to the Loom network with web3 and loom-js
+- Connect to the Loom network with web3 and loom-js
 
 ```
 // Read the user private key (from browser storage or input)
@@ -241,8 +239,7 @@ this.web3Provider = new LoomProvider(this.client, CryptoUtils.B64ToUint8Array(pr
 this.web3 = new Web3(this.web3Provider)
 ```
 
-
-* Use web3 to load the smart contract Truffle artifacts
+- Use web3 to load the smart contract Truffle artifacts
 
 ```
 
@@ -252,8 +249,7 @@ this.counter = new this.web3.eth.Contract(Counter.abi, Counter.networks['extdev-
 })
 ```
 
-
-* Interaction with the smart contract
+- Interaction with the smart contract
 
 ```
 // Get the counter value
@@ -272,7 +268,7 @@ increment() {
 }
 ```
 
-*The full code of this file is available here: [App.js](https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/src/App.js)*
+_The full code of this file is available here: [App.js](https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/src/App.js)_
 
 5. Create a link to the Truffle JSON artefacts
 
@@ -311,11 +307,12 @@ const address = LocalAddress.fromPublicKey(publicKey).toString();
 
 **karma** : is a ERC20 token, sybil resistant, that can be used to prevent spam attack via a reputation-based transaction limiting system.
 
-###  Links and resources
+### Links and resources
 
 **extdev**
-* Network ID: extdev-plasma-us1
-* Faucet: https://faucet.dappchains.com/
-* Documentation: https://loomx.io/developers/docs/en/phaser-sdk-demo-websocket.html
+
+- Network ID: extdev-plasma-us1
+- Faucet: https://faucet.dappchains.com/
+- Documentation: https://loomx.io/developers/docs/en/phaser-sdk-demo-websocket.html
 
 **Code**: https://github.com/gjeanmart/kauri-content/tree/master/loom_tutorial_extdev_part1
