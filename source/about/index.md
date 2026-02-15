@@ -96,10 +96,10 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 
 ## Articles and Publications
 
-• 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](https://gr3g.tech/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-/) Feb. 2020
-• 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](https://gr3g.tech/2020/04/13/build-your-very-own-self-hosting-platform-wi/) Apr. 2020
-• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](<https://gr3g.tech/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/>) Oct. 2019
-• 🇬🇧 [Manage an Ethereum account with Java and Web3j](https://gr3g.tech2020/05/01/manage-an-ethereum-account-with-java-and-web3j/) May 2020
+• 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](/2020/02/22/running-an-ethereum-full-node-on-a-raspberrypi-4-) Feb. 2020
+• 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](/2020/04/12/build-your-very-own-self-hosting-platform-wi) Apr. 2020
+• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](</2019/10/18/(15)-getting-started-with-elastic-stack-for-monit>) Oct. 2019
+• 🇬🇧 [Manage an Ethereum account with Java and Web3j](/2020/04/30/manage-an-ethereum-account-with-java-and-web3j) May 2020
 • 🇬🇧 [Multis integrates TheGraph to offer an even stronger multisig](https://medium.com/multis/multis-integrates-the-graph-to-offer-an-even-stronger-multisig-wallet-b590a4207f8e) Jul. 2020
 • _See more on [gr3g.tech/blog/](https://gr3g.tech/blog/)_
 
