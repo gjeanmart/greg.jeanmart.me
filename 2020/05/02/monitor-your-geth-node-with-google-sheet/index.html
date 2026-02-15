@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In this article, I will explain how to monitor a Geth node and keep track of the syncing process very easily with a CronJob and Google Sheet   Capture and store geth and system metrics every 15 minIn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Monitor your Geth node with Google Sheet">
+<meta property="og:url" content="https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="In this article, I will explain how to monitor a Geth node and keep track of the syncing process very easily with a CronJob and Google Sheet   Capture and store geth and system metrics every 15 minIn">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmdTDdL7AmkJNw2aM7hP5dUNbLMt3Y34iZFovbgkRdJ2Hk">
+<meta property="og:image" content="https://i.imgur.com/TVu2khM.png">
+<meta property="og:image" content="https://i.imgur.com/JfNlSeo.png">
+<meta property="og:image" content="https://i.imgur.com/Iqsa7dS.png">
+<meta property="og:image" content="https://i.imgur.com/bEyHJAV.png">
+<meta property="article:published_time" content="2020-05-02T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmdTDdL7AmkJNw2aM7hP5dUNbLMt3Y34iZFovbgkRdJ2Hk">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Monitor your Geth node with Google Sheet</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/01/20/the-4-day-workweek/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&text=Monitor your Geth node with Google Sheet"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&is_video=false&description=Monitor your Geth node with Google Sheet"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monitor your Geth node with Google Sheet&body=Check out this article: https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&name=Monitor your Geth node with Google Sheet&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&t=Monitor your Geth node with Google Sheet"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Capture-and-store-geth-and-system-metrics-every-15-min"><span class="toc-number">1.</span> <span class="toc-text">Capture and store geth and system metrics every 15 min</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Render-the-data-into-a-spreadsheet"><span class="toc-number">2.</span> <span class="toc-text">Render the data into a spreadsheet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Congrats"><span class="toc-number">3.</span> <span class="toc-text">Congrats</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Monitor your Geth node with Google Sheet
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-02T22:00:00.000Z" itemprop="datePublished">2020-05-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmdTDdL7AmkJNw2aM7hP5dUNbLMt3Y34iZFovbgkRdJ2Hk"></p>
+<p>In this article, I will explain how to monitor a Geth node and keep track of the syncing process very easily with a <strong>CronJob</strong> and <strong>Google Sheet</strong></p>
+<br />
+
+<h3 id="Capture-and-store-geth-and-system-metrics-every-15-min"><a href="#Capture-and-store-geth-and-system-metrics-every-15-min" class="headerlink" title="Capture and store geth and system metrics every 15 min"></a>Capture and store geth and system metrics every 15 min</h3><p>In the first step, we are configuring a cronjob (15 min scheduled task) on our Linux system where Geth is installed to capture some interesting metrics about the syncing state of Geth (blocks, states, peers) and the operating system (e.g CPU, memory, disk, load average).</p>
+<p>Use the command <code>$ crontab -e</code> to edit the crontab file and add the following line at the end to capture all the metrics and print them into a semi-column seperated CSV file.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> crontab -e</span></span><br><span class="line"></span><br><span class="line">*/15 * * * * echo $(date --iso-8601=seconds)\;$(/usr/local/bin/geth --verbosity 0 --datadir /mnt/ssd/ethereum/ --exec &#x27;var a = admin.peers; var s = eth.syncing; s.currentBlock + &quot;;&quot; + s.highestBlock + &quot;;&quot; + (s.highestBlock-s.currentBlock) + &quot;;&quot; + s.pulledStates + &quot;;&quot; + s.knownStates + &quot;;&quot; + a.length&#x27; attach | tr -d &quot;\&quot;&quot;)\;$(df /dev/sda --output=used | sed -n 2p)\;$(iostat /dev/sda -d -x | awk &#123;&#x27;print $4&quot;;&quot;$5&quot;;&quot;$16&#x27;&#125; | sed -n 4p)\;$(free | awk &#123;&#x27;print $3&quot;;&quot;$2&#x27;&#125; | sed -n 2p)\;$(free | awk &#123;&#x27;print $3&quot;;&quot;$2&#x27;&#125; | sed -n 3p)\;$(cat /proc/loadavg | awk &#123;&#x27;print $1&quot;;&quot;$2&quot;;&quot;$3&#x27;&#125;)\;$(iostat -c | sed -n 4p | awk &#123;&#x27;print $1&#x27;&#125;)\;$(cat /sys/devices/virtual/thermal/thermal_zone?/temp | sed -n 1p | awk &#x27;&#123; print $1/1000 &#125;&#x27;) &gt;&gt; /home/pi/geth_metrics.csv</span><br></pre></td></tr></table></figure>
+
+<p>Please find below a detailed explanation of each metrics:</p>
+<ul>
+<li><code>date --iso-8601=seconds</code> prints the current date and time</li>
+<li><code>/usr/local/bin/geth --verbosity 0 --datadir /mnt/ssd/ethereum/ --exec &#39;var a = admin.peers; var s = eth.syncing; s.currentBlock + &quot;;&quot; + s.highestBlock + &quot;;&quot; + (s.highestBlock-s.currentBlock) + &quot;;&quot; + s.pulledStates + &quot;;&quot; + s.knownStates + &quot;;&quot; + a.length&#39; attach | tr -d &quot;\&quot;&quot;</code> connects to geth (<strong><code>--datadir</code> might differ</strong>) and retrieve the following information: number of peers connected, current block, highest block, pulled states count, known states counts</li>
+<li><code>df /dev/sda --output=used | sed -n 2p</code> prints the used disk space</li>
+<li><code>iostat /dev/sda -d -x | awk &#123;&#39;print $4&quot;;&quot;$5&quot;;&quot;$16&#39;&#125; | sed -n 4p</code> returns the current disk speed (read/write) as well as the percentage utilization of the disk</li>
+<li><code>free | awk &#123;&#39;print $3&quot;;&quot;$2&#39;&#125; | sed -n 2p</code> prints the used and total memory of the system</li>
+<li><code>free | awk &#123;&#39;print $3&quot;;&quot;$2&#39;&#125; | sed -n 3p</code> prints the used and total swap of the system</li>
+<li><code>cat /proc/loadavg | awk &#123;&#39;print $1&quot;;&quot;$2&quot;;&quot;$3&#39;&#125;</code> returns the current load average (1min, 5min, 15min)</li>
+<li><code>iostat -c | sed -n 4p | awk &#123;&#39;print $1&#39;&#125;</code> prints the current CPU percentage utilization</li>
+<li><code>cat /sys/devices/virtual/thermal/thermal_zone?/temp | sed -n 1p | awk &#39;&#123; print $1/1000 &#125;&#39;</code> gives the CPU temperature`</li>
+</ul>
+<p><em>You can replace <code>/home/pi/geth_metrics.csv</code> by any files on the system.</em></p>
+<br />
+
+<p>As a result, every 15 min, the CSV file will be appended with new metrics.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;home&#x2F;pi&#x2F;geth_metrics.csv</span><br><span class="line"></span><br><span class="line">2019-07-18T21:26:35+00:00;101961;8177084;8075123;161917;180980;2;253504;0.62;117.12;0.04;778208;3902632;0;1048572;0.38;1.00;1.19;12.67;73.333</span><br><span class="line">2019-07-18T21:30:01+00:00;159477;8177085;8017608;275001;278183;1;268872;0.56;202.80;0.07;1044764;3902632;0;1048572;0.60;0.84;1.08;12.24;73.888</span><br><span class="line">2019-07-18T21:33:33+00:00;250481;8177085;7926604;428601;433461;2;349988;0.52;371.21;0.15;1116412;3902632;0;1048572;1.71;1.09;1.12;12.35;81.111</span><br><span class="line">2019-07-18T21:45:01+00:00;627247;8177085;7549838;968580;984164;2;770176;0.44;1158.09;1.05;1392844;3902632;0;1048572;1.57;1.56;1.38;13.72;81.111</span><br><span class="line">2019-07-18T22:00:01+00:00;1082609;8130757;7048148;1426403;1435807;4;1591660;0.58;2266.40;9.37;1924360;3902632;94180;1048572;4.52;3.60;2.46;16.52;85</span><br><span class="line">2019-07-18T22:15:01+00:00;1567205;8130757;6563552;2057942;2073322;4;2634280;53.69;3269.29;17.25;1933836;3902632;88048;1048572;5.23;4.92;3.96;21.52;85</span><br><span class="line">2019-07-18T22:30:01+00:00;1989925;8130757;6140832;2483400;2495245;5;3853104;136.76;3859.22;24.92;2338120;3902632;93864;1048572;5.22;5.23;4.79;24.50;85</span><br><span class="line">2019-07-18T22:45:01+00:00;2299173;8130757;5831584;2920692;2929477;4;5301752;361.05;4269.15;30.82;2176872;3902632;119088;1048572;2.85;4.18;4.56;25.60;86.25</span><br><span class="line">2019-07-18T23:15:01+00:00;2906725;8177462;5270737;4027097;4044446;5;6535608;657.72;4665.52;40.31;2398636;3902632;150656;1048572;5.69;5.09;4.78;26.53;84.444</span><br><span class="line">2019-07-18T23:30:01+00:00;3159185;8177462;5018277;4536810;4546514;5;7505728;828.10;4816.98;44.13;2413820;3902632;163456;1048572;6.61;5.24;4.80;26.54;85.625</span><br><span class="line">2019-07-18T23:45:01+00:00;3361105;8177462;4816357;5048547;5067699;5;8213208;1028.79;4985.85;46.91;2571084;3902632;311896;1048572;6.79;5.02;4.68;26.51;83.333</span><br><span class="line">2019-07-19T00:00:01+00:00;3477846;8177462;4699616;5342584;5357046;7;8652872;1163.52;5077.63;49.44;2612572;3902632;245560;1048572;2.26;2.69;3.72;26.00;83.888</span><br><span class="line">2019-07-19T00:15:01+00:00;3653603;8177462;4523859;5552829;5563140;6;9690200;1247.86;5207.35;51.82;2619068;3902632;152392;1048572;1.32;2.95;3.94;25.91;80.555</span><br><span class="line">2019-07-19T00:30:02+00:00;3739227;8177462;4438235;5654646;5667718;8;10495560;1344.81;5289.54;53.96;2725264;3902632;150148;1048572;6.14;4.95;4.02;25.23;77.5</span><br><span class="line">2019-07-19T00:45:01+00:00;3765126;8177462;4412336;5702220;5717080;11;11417168;1435.85;5333.76;55.48;1745124;3902632;153204;1048572;1.78;1.79;2.75;24.23;73.888</span><br><span class="line">2019-07-19T01:00:02+00:00;3843678;8177462;4333784;5820804;5890068;9;11633704;1523.96;5406.01;57.08;2412956;3902632;164576;1048572;1.41;2.65;3.18;23.96;80.555</span><br><span class="line">2019-07-19T01:15:01+00:00;3888203;8177462;4289259;6108650;6136919;11;12499780;1624.54;5543.22;57.88;2689468;3902632;163144;1048572;5.75;4.31;3.36;23.63;83.888</span><br><span class="line">2019-07-19T01:30:01+00:00;3916105;8177462;4261357;6241422;6258778;12;12976984;1742.07;5643.39;58.81;2853616;3902632;165184;1048572;5.34;3.03;2.83;23.01;85</span><br></pre></td></tr></table></figure>
+
+
+<br />
+
+<h3 id="Render-the-data-into-a-spreadsheet"><a href="#Render-the-data-into-a-spreadsheet" class="headerlink" title="Render the data into a spreadsheet"></a>Render the data into a spreadsheet</h3><p>Now we have a consistent way to capture periodically our Geth and system metrics into a CSV, we can download this file and upload it to a Google Spreadsheet template.</p>
+<ol>
+<li>Download the CSV file</li>
+</ol>
+<p>Connect via SSH using SCP to download the CSV file.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scp user@xx.xx.xx.xx:/home/pi/geth_metrics.csv ~/Downloads/geth_metrics.csv</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Create a copy of the spreadsheet template</li>
+</ol>
+<p>Open the <a target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/1lxJ5_v3ozJ7YbN1JlglYvF7x8ssRsPLOrxSIX-obvow/edit?usp=sharing">template</a> and create a copy</p>
+<p><img src="https://i.imgur.com/TVu2khM.png"></p>
+<ol start="3">
+<li>Import the CSV data into the <code>raw</code> sheet</li>
+</ol>
+<ul>
+<li>Select the tab sheet called <code>raw</code></li>
+<li>Click on <em>File &gt; Import</em></li>
+<li>Go to the <em>Upload</em> tab</li>
+<li>Select the file <code>geth_metrics.csv</code> downloaded</li>
+<li>In the popup<ul>
+<li>Import location: Replace current sheet</li>
+<li>Separator type: custom <code>;</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/JfNlSeo.png"></p>
+<ul>
+<li>Click on “Import Data”</li>
+</ul>
+<ol start="4">
+<li>Once imported, you should be able to navigate to the “Table” sheet and visualise every single metrics over time</li>
+</ol>
+<p><img src="https://i.imgur.com/Iqsa7dS.png"></p>
+<p>In the “Charts” sheet, you can visualise diagrams for each metrics</p>
+<p><img src="https://i.imgur.com/bEyHJAV.png"></p>
+<p><strong>Replay those steps every time you want to update the Geth metrics dashboard</strong>  </p>
+<br />
+
+<h3 id="Congrats"><a href="#Congrats" class="headerlink" title="Congrats"></a>Congrats</h3><p>You can now:</p>
+<ul>
+<li>Track precisely the performance of your Geth node</li>
+<li>Observe the system health, investigate unusual behaviour and find the root cause of a problem</li>
+<li>Shill on Twitter your nice diagrams rather than dirty system logs</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Capture-and-store-geth-and-system-metrics-every-15-min"><span class="toc-number">1.</span> <span class="toc-text">Capture and store geth and system metrics every 15 min</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Render-the-data-into-a-spreadsheet"><span class="toc-number">2.</span> <span class="toc-text">Render the data into a spreadsheet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Congrats"><span class="toc-number">3.</span> <span class="toc-text">Congrats</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&text=Monitor your Geth node with Google Sheet"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&is_video=false&description=Monitor your Geth node with Google Sheet"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monitor your Geth node with Google Sheet&body=Check out this article: https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&title=Monitor your Geth node with Google Sheet"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&name=Monitor your Geth node with Google Sheet&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/05/02/monitor-your-geth-node-with-google-sheet/&t=Monitor your Geth node with Google Sheet"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

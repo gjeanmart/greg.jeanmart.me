@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In this article, we learn how to manage ERC20 (Fungible) tokens in Java with the Web3j library. ERC20 is an Ethereum Smart Contract standard for implementing tokens in a compliant way, so it is easy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Manage ERC20 tokens in Java with Web3j">
+<meta property="og:url" content="https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="In this article, we learn how to manage ERC20 (Fungible) tokens in Java with the Web3j library. ERC20 is an Ethereum Smart Contract standard for implementing tokens in a compliant way, so it is easy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr">
+<meta property="og:image" content="https://i.imgur.com/LP872u8.png">
+<meta property="og:image" content="https://i.imgur.com/02ImlCO.png">
+<meta property="og:image" content="https://i.imgur.com/hlknQTK.png">
+<meta property="og:image" content="https://i.imgur.com/sHkle8C.png">
+<meta property="og:image" content="https://i.imgur.com/9zomWIV.png">
+<meta property="article:published_time" content="2019-08-19T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Manage ERC20 tokens in Java with Web3j</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/13/managing-storage-in-a-java-application-with-ipfs/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&text=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&is_video=false&description=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Manage ERC20 tokens in Java with Web3j&body=Check out this article: https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&name=Manage ERC20 tokens in Java with Web3j&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&t=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisites"><span class="toc-number">1.</span> <span class="toc-text">Prerequisites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contract-deployment"><span class="toc-number">2.</span> <span class="toc-text">Contract deployment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Load-the-contract-with-Web3j"><span class="toc-number">3.</span> <span class="toc-text">Load the contract with Web3j</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Create-a-new-project-and-import-the-Web3j-dependency"><span class="toc-number">3.1.</span> <span class="toc-text">1. Create a new project and import the Web3j dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Create-a-new-class-to-load-an-ERC20-Smart-Contract-wrapper"><span class="toc-number">3.2.</span> <span class="toc-text">2. Create a new class to load an ERC20 Smart Contract wrapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Get-token-information"><span class="toc-number">3.3.</span> <span class="toc-text">3. Get token information</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer-tokens"><span class="toc-number">4.</span> <span class="toc-text">Transfer tokens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-notified-of-transfer-events"><span class="toc-number">5.</span> <span class="toc-text">Get notified of transfer events</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Manage ERC20 tokens in Java with Web3j
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-08-19T22:00:00.000Z" itemprop="datePublished">2019-08-20</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmNbLGwKQ8CoXz6kk9TFaXWaHgeTK8dRvSLfTXzWUgZsYr"></p>
+<p>In this article, we learn how to manage <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ERC-20">ERC20 (Fungible)</a> tokens in Java with the <a target="_blank" rel="noopener" href="https://web3j.io/">Web3j</a> library.</p>
+<p><a target="_blank" rel="noopener" href="https://kauri.io/article/d3e24cbf13fd4af9892773552555c480/v1/erc-20-token-standard">ERC20</a> is an Ethereum Smart Contract standard for implementing tokens in a compliant way, so it is easy to interact and integrate tokens with any application (dapps, wallets, exchanges, etc.).</p>
+<p>For more details about ERC20, see the article <a target="_blank" rel="noopener" href="https://kauri.io/article/d3e24cbf13fd4af9892773552555c480">ERC-20 Token Standard</a>.</p>
+<h3 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h3><p>To follow this tutorial, you need the following software installed on your computer:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">Java programming language</a> (&gt; 8)</li>
+<li>A package and dependency manager, for example <a target="_blank" rel="noopener" href="https://maven.apache.org/">Maven</a> or <a target="_blank" rel="noopener" href="https://gradle.org/install/">Gradle</a></li>
+<li>An IDE (Integrated development environment), for this tutorial, we use <a target="_blank" rel="noopener" href="https://www.eclipse.org/downloads/">Eclipse</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.trufflesuite.com/ganache">Truffle</a>: a development framework to develop, test and deploy Ethereum smart contract</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/trufflesuite/ganache-cli">Ganache-cli</a>: your local personal blockchain for Ethereum development.</li>
+</ul>
+<p>Start ganache by running the command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ganache-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="Contract-deployment"><a href="#Contract-deployment" class="headerlink" title="Contract deployment"></a>Contract deployment</h3><p>Before starting, we need an ERC20 token contract deployed on the Ethereum blockchain (Ganache in our case). There are many ways to do this (Read <a target="_blank" rel="noopener" href="https://kauri.io/article/d3e24cbf13fd4af9892773552555c480">Develop your ERC-20 Tokens explained</a> and <a target="_blank" rel="noopener" href="https://kauri.io/article/cbd1b524cd284bf6ae6ab76e71f5ea56">OpenZeppelin Part 3: Token Standards</a>). For the sake of this tutorial, we use the simplest solution using <a target="_blank" rel="noopener" href="https://openzeppelin.com/contracts/">OpenZeppelin</a> reusable contracts, Truffle and Ganache.</p>
+<p><strong>1. First create a project folder for our ERC20 called JVM and initialize a Truffle project</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir JVM</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> JVM</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> truffle init</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2. Then we install the Open-Zeppelin Solidity library which contains a lot of high-quality, fully tested and audited reusable smart contracts</strong></p>
+<p>Import the OpenZeppelin smart contracts using npm packages.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm init -y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install openzeppelin-solidity --save-exact</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>3. Create a contract file <code>./contracts/JavaToken.sol</code></strong></p>
+<p>The smart contract inherits all the functionality and rules from the reusable OpenZeppelin contract <code>ERC20Mintable</code>. We only need to configure the following constant variables as below:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; JavaToken.sol</span><br><span class="line">pragma solidity ^0.5.8;</span><br><span class="line"></span><br><span class="line">import &quot;openzeppelin-solidity&#x2F;contracts&#x2F;token&#x2F;ERC20&#x2F;ERC20Mintable.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract JavaToken is ERC20Mintable &#123;</span><br><span class="line"> string public constant name &#x3D; &quot;Java Token&quot;;</span><br><span class="line"> string public constant symbol &#x3D; &quot;JVM&quot;;</span><br><span class="line"> uint8 public constant decimals &#x3D; 18;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. Deploy the smart contract on our local Ganache network</strong></p>
+<p>We need to first complete the migration script. Create a file called <code>./migrations/2_deploy_contract.js</code>, and add the code below to the file:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2_deploy_contract.js</span></span><br><span class="line"><span class="keyword">const</span> JavaToken = artifacts.require(<span class="string">&quot;./JavaToken.sol&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">deployer, network, accounts</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Deploy the smart contract</span></span><br><span class="line">  deployer.deploy(JavaToken, &#123; <span class="attr">from</span>: accounts[<span class="number">0</span>] &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">instance</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Mint 100 tokens</span></span><br><span class="line">    <span class="keyword">return</span> instance.mint(accounts[<span class="number">0</span>], web3.utils.toBN(<span class="string">&quot;100&quot;</span>), &#123;</span><br><span class="line">      <span class="keyword">from</span>: accounts[<span class="number">0</span>],</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>The migration script deploys the contract, mints and distributes 100 JVM tokens to the deployer account (the Ganache first account).</p>
+<p>The next step is to configure a connection to the Ganache network in order to deploy a smart contract. Change the file <code>./truffle-config.js</code>to the code below:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// truffle-config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  networks: &#123;</span><br><span class="line">    development: &#123;</span><br><span class="line">      host: <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">      port: <span class="number">8545</span>,</span><br><span class="line">      network_id: <span class="string">&quot;*&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>To deploy the smart contracts on the Ganache network, run the command below (do not forget to start ganache-cli beforehand):</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> truffle migrate --network development</span></span><br><span class="line"></span><br><span class="line">Compiling your contracts...</span><br><span class="line">===========================</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling ./contracts/JavaToken.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling ./contracts/Migrations.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/access/Roles.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Artifacts written to /home/gr3g/workspace/tutorials/kauri-content/java-erc20/JVM/build/contracts</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiled successfully using:</span></span><br><span class="line"> - solc: 0.5.8+commit.23d335f2.Emscripten.clang</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Starting migrations...</span><br><span class="line">======================</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network name: <span class="string">&#x27;development&#x27;</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network id: 1565778588423</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Block gas <span class="built_in">limit</span>: 0x6691b7</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1_initial_migration.js</span><br><span class="line">======================</span><br><span class="line"></span><br><span class="line"> Deploying &#x27;Migrations&#x27;</span><br><span class="line"> ----------------------</span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> transaction <span class="built_in">hash</span>: 0x6161e15461a5c748a532b2191600986b8798be4842e78791238e9e77af5e1310</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Blocks: 0 Seconds: 0</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> contract address: 0xC59fC6035859Dd35871c5d9211a0713ed608d59D</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> block number: 6</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> block timestamp: 1565778631</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> account: 0xB0C24796Fc9212AB371c8Caf1ea3F33cC1d4c8a0</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> balance: 99.95438236</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> gas used: 261393</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> gas price: 20 gwei</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> value sent: 0 ETH</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> total cost: 0.00522786 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Saving migration to chain.</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Saving artifacts</span></span><br><span class="line"> -------------------------------------</span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Total cost: 0.00522786 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2_deploy_contract.js</span><br><span class="line">====================</span><br><span class="line"></span><br><span class="line"> Deploying &#x27;JavaToken&#x27;</span><br><span class="line"> ---------------------</span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> transaction <span class="built_in">hash</span>: 0xfc5b214cbd56ecd4d24795aacefe1fdaf27b1b223ebff78299fd47f302cb374c</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Blocks: 0 Seconds: 0</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> contract address: 0x9339a071cB9C1E3BbBA50E5E298f234c5095f012</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> block number: 8</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> block timestamp: 1565778631</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> account: 0xB0C24796Fc9212AB371c8Caf1ea3F33cC1d4c8a0</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> balance: 99.92109908</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> gas used: 1622141</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> gas price: 20 gwei</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> value sent: 0 ETH</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> total cost: 0.03244282 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Saving migration to chain.</span></span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Saving artifacts</span></span><br><span class="line"> -------------------------------------</span><br><span class="line"><span class="meta"> &gt;</span><span class="bash"> Total cost: 0.03244282 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Summary</span><br><span class="line">=======</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Total deployments: 2</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Final cost: 0.03767068 ETH</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Note the contract address after the command completes.</strong></p>
+<p><em>If you wish to learn more about this step, I recommend reading the following articles about Truffle and Ganache for deploying smart contracts: <a target="_blank" rel="noopener" href="https://kauri.io/article/cbc38bf09088426fbefcbe7d42ac679f">Truffle: Smart Contract Compilation &amp; Deployment</a></em> and <a target="_blank" rel="noopener" href="https://kauri.io/article/2b10c835fe4d463f909915bd75597d6b">Truffle 101 - Development Tools for Smart Contracts</a></p>
+<h3 id="Load-the-contract-with-Web3j"><a href="#Load-the-contract-with-Web3j" class="headerlink" title="Load the contract with Web3j"></a>Load the contract with Web3j</h3><p>Now we have deployed an ERC20 smart contract on our Ganache local blockchain, and we can start interacting with it in Java using the Web3j ERC20 utility class.</p>
+<h4 id="1-Create-a-new-project-and-import-the-Web3j-dependency"><a href="#1-Create-a-new-project-and-import-the-Web3j-dependency" class="headerlink" title="1. Create a new project and import the Web3j dependency"></a>1. Create a new project and import the Web3j dependency</h4><p>Create a new Maven project in your favorite IDE and import Web3j dependencies (<code>core</code> and <code>contracts</code> for EIP support):</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.kauri.tutorials.java-ethereum<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-erc20<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">web3j.version</span>&gt;</span>4.2.0<span class="tag">&lt;/<span class="name">web3j.version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.web3j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;web3j.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.web3j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>contracts<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;web3j.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Create-a-new-class-to-load-an-ERC20-Smart-Contract-wrapper"><a href="#2-Create-a-new-class-to-load-an-ERC20-Smart-Contract-wrapper" class="headerlink" title="2. Create a new class to load an ERC20 Smart Contract wrapper"></a>2. Create a new class to load an ERC20 Smart Contract wrapper</h4><p>ERC20 is a standard, so there is no need to manually generate a <a target="_blank" rel="noopener" href="https://kauri.io/article/84475132317d4d6a84a2c42eb9348e4b">Smart Contract wrapper</a>, Web3j includes it by default.</p>
+<p>However, you do need to connect Web3j to an Ethereum blockchain and configure a wallet to sign transactions.</p>
+<p>In this article, we connect to a local Ganache blockchain (exposed by default on <code>http://localhost:8545</code>) and use the first Ganache test account (read the Ganache startup logs to find this information) which received 100 JVM tokens during deployment.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Connect Web3j to the Blockchain</span></span><br><span class="line">String rpcEndpoint = <span class="string">&quot;http://localhost:8545&quot;</span>;</span><br><span class="line">Web3j web3j = Web3j.build(<span class="keyword">new</span> HttpService(rpcEndpoint));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Prepare a wallet</span></span><br><span class="line">String pk = <span class="string">&quot;0x5bbbef76458bf30511c9ee6ed56783644eb339258d02656755c68098c4809130&quot;</span>;</span><br><span class="line"><span class="comment">// Account address: 0x1583c05d6304b6651a7d9d723a5c32830f53a12f</span></span><br><span class="line">Credentials credentials = Credentials.create(pk);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Load the contract</span></span><br><span class="line">String contractAddress = <span class="string">&quot;0xe4F275cE131eF87Cb8bF425E02D9215055e9F875&quot;</span>;</span><br><span class="line">ERC20 javaToken = ERC20.load(contractAddress, web3j, credentials, <span class="keyword">new</span> DefaultGasProvider());</span><br></pre></td></tr></table></figure>
+
+<p>For more complex scenarios, you can load the contract with a specific <code>TransactionManager</code> and Gas parameters using <code>ERC20.load(contractAddress, web3j, transactionManager, gasPrice, gasLimit)</code></p>
+<h4 id="3-Get-token-information"><a href="#3-Get-token-information" class="headerlink" title="3. Get token information"></a>3. Get token information</h4><p>Once we have loaded our ERC20 token contract, we can start requesting information stored on this contract such as the number of decimal or the balance of an account in JVM tokens.</p>
+<p>The following code retrieves the information we configured in our contract earlier.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String symbol = javaToken.symbol().send();</span><br><span class="line">String name = javaToken.name().send();</span><br><span class="line">BigInteger decimal = javaToken.decimals().send();</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;symbol: &quot;</span> + symbol);</span><br><span class="line">System.out.println(<span class="string">&quot;name: &quot;</span> + name);</span><br><span class="line">System.out.println(<span class="string">&quot;decimal: &quot;</span> + decimal.intValueExact());</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/LP872u8.png"></p>
+<p>More importantly, we can retrieve the token balance of an account.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BigInteger balance1 = javaToken.balanceOf(<span class="string">&quot;0x1583c05d6304b6651a7d9d723a5c32830f53a12f&quot;</span>).send();</span><br><span class="line">System.out.println(<span class="string">&quot;balance (0x1583c05d6304b6651a7d9d723a5c32830f53a12f)=&quot;</span>+balance1.toString());</span><br><span class="line"></span><br><span class="line">BigInteger balance2 = javaToken.balanceOf(<span class="string">&quot;0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8&quot;</span>).send();</span><br><span class="line">System.out.println(<span class="string">&quot;balance (0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8)=&quot;</span>+balance2.toString());</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/02ImlCO.png"></p>
+<p>The account <code>0x1583c05d6304b6651a7d9d723a5c32830f53a12f</code> is Ganache’s first account, the one that deployed the contract and received 100 tokens during deployment. While <code>0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8</code> represents Ganache’s second account that didn’t receive any token.</p>
+<h3 id="Transfer-tokens"><a href="#Transfer-tokens" class="headerlink" title="Transfer tokens"></a>Transfer tokens</h3><p>To interact with the token, the <code>ERC20</code> class offers all the functionalities needed like <code>transfer</code>, <code>transferFrom</code> and <code>approve</code>.</p>
+<p>For example, we can transfer 25 JVM tokens to <code>0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8</code> by signing and sending a transaction from our account configured as Credentials (<code>0x1583c05d6304b6651a7d9d723a5c32830f53a12f</code>).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">TransactionReceipt receipt = javaToken.transfer(<span class="string">&quot;0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8&quot;</span>, <span class="keyword">new</span> BigInteger(<span class="string">&quot;25&quot;</span>)).send();</span><br><span class="line">System.out.println(<span class="string">&quot;Transaction hash: &quot;</span>+receipt.getTransactionHash());</span><br><span class="line"></span><br><span class="line">BigInteger balance1 = javaToken.balanceOf(<span class="string">&quot;0x1583c05d6304b6651a7d9d723a5c32830f53a12f&quot;</span>).send();</span><br><span class="line">System.out.println(<span class="string">&quot;balance (0x1583c05d6304b6651a7d9d723a5c32830f53a12f)=&quot;</span>+balance1.toString());</span><br><span class="line"></span><br><span class="line">BigInteger balance2 = javaToken.balanceOf(<span class="string">&quot;0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8&quot;</span>).send();</span><br><span class="line">System.out.println(<span class="string">&quot;balance (0x0db6b797e64666d4b36b13e5dc6fcd4661893ac8)=&quot;</span>+balance2.toString());</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/hlknQTK.png"></p>
+<h3 id="Get-notified-of-transfer-events"><a href="#Get-notified-of-transfer-events" class="headerlink" title="Get notified of transfer events"></a>Get notified of transfer events</h3><p>Finally, we cover how to subscribe to specific events generated by the ERC20 contract so we can react to any activity from it.</p>
+<p>You can retrieve specific events for a given transaction via the method <code>getTransferEvents</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;ERC20.TransferEventResponse&gt; events = javaToken.getTransferEvents(receipt);</span><br><span class="line">events.forEach(event</span><br><span class="line"> -&gt; System.out.println(<span class="string">&quot;from: &quot;</span> + event._from + <span class="string">&quot;, to: &quot;</span> + event._to + <span class="string">&quot;, value: &quot;</span> + event._value));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/sHkle8C.png"></p>
+<p>We can also add <a target="_blank" rel="noopener" href="https://github.com/ReactiveX/RxJava">RxJava</a> as a dependency to subscribe continuously to any new events via <code>transferEventFlowable</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javaToken.transferEventFlowable(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST)</span><br><span class="line"> .subscribe(event</span><br><span class="line"> -&gt; System.out.println(<span class="string">&quot;from: &quot;</span> + event._from + <span class="string">&quot;, to: &quot;</span> + event._to + <span class="string">&quot;, value: &quot;</span> + event._value));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/9zomWIV.png"></p>
+<p>For more information about subscribing to events with Web3j, I highly recommend reading this article: <a target="_blank" rel="noopener" href="https://kauri.io/article/14dc434d11ef4ee18bf7d57f079e246e">Interacting with an Ethereum Smart Contract in Java</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisites"><span class="toc-number">1.</span> <span class="toc-text">Prerequisites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contract-deployment"><span class="toc-number">2.</span> <span class="toc-text">Contract deployment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Load-the-contract-with-Web3j"><span class="toc-number">3.</span> <span class="toc-text">Load the contract with Web3j</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Create-a-new-project-and-import-the-Web3j-dependency"><span class="toc-number">3.1.</span> <span class="toc-text">1. Create a new project and import the Web3j dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Create-a-new-class-to-load-an-ERC20-Smart-Contract-wrapper"><span class="toc-number">3.2.</span> <span class="toc-text">2. Create a new class to load an ERC20 Smart Contract wrapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Get-token-information"><span class="toc-number">3.3.</span> <span class="toc-text">3. Get token information</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer-tokens"><span class="toc-number">4.</span> <span class="toc-text">Transfer tokens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-notified-of-transfer-events"><span class="toc-number">5.</span> <span class="toc-text">Get notified of transfer events</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&text=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&is_video=false&description=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Manage ERC20 tokens in Java with Web3j&body=Check out this article: https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&title=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&name=Manage ERC20 tokens in Java with Web3j&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/08/19/manage-erc20-tokens-in-java-with-web3j/&t=Manage ERC20 tokens in Java with Web3j"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

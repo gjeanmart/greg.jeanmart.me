@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(K3S - 8&#x2F;8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster">
+<meta property="og:url" content="https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmPkbAuQryPTYbKiZ3X542xCXrkXUwXYWtQfwYLtzh2iER">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmW2155L91oNeMp9H2VR1nSeoB5GchppXQJCjfTt6wtSW4">
+<meta property="og:image" content="https://i.imgur.com/a3a0Ocu.png">
+<meta property="og:image" content="https://i.imgur.com/ASJhgZ3.png">
+<meta property="article:published_time" content="2020-04-12T22:00:08.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmPkbAuQryPTYbKiZ3X542xCXrkXUwXYWtQfwYLtzh2iER">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/12/self-host-your-password-manager-with-bitward/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&text=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&is_video=false&description=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster&body=Check out this article: https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&name=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&t=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration"><span class="toc-number">3.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Installation"><span class="toc-number">4.</span> <span class="toc-text">Installation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dashboard"><span class="toc-number">5.</span> <span class="toc-text">Dashboard</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-12T22:00:08.000Z" itemprop="datePublished">2020-04-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmPkbAuQryPTYbKiZ3X542xCXrkXUwXYWtQfwYLtzh2iER"></p>
+<p>This article is part of the series <em>Build your very own self-hosting platform with Raspberry Pi and Kubernetes</em></p>
+<ol>
+<li><a href="/2020/04/13/build-your-very-own-self-hosting-platform-wi">Introduction</a></li>
+<li><a href="/2020/04/13/install-raspbian-operating-system-and-prepar">Install Raspbian Operating-System and prepare the system for Kubernetes</a></li>
+<li><a href="/2020/04/13/install-and-configure-a-kubernetes-cluster-w">Install and configure a Kubernetes cluster with k3s to self-host applications</a></li>
+<li><a href="/2020/04/13/deploy-nextcloud-on-kuberbetes--the-self-hos">Deploy NextCloud on Kuberbetes: The self-hosted Dropbox</a></li>
+<li><a href="/2020/04/13/self-host-your-media-center-on-kubernetes-wi">Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett</a></li>
+<li><a href="/2020/04/13/self-host-pi-hole-on-kubernetes-and-block-ad">Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level</a></li>
+<li><a href="/2020/04/13/self-host-your-password-manager-with-bitward">Self-host your password manager with Bitwarden</a></li>
+<li><a href="/2020/04/13/deploy-prometheus-and-grafana-to-monitor-a-k">Deploy Prometheus and Grafana to monitor a Kubernetes cluster</a></li>
+</ol>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Monitoring is an important part of the maintenance of a Kubernetes cluster to gain visibility on the infrastructure and the running applications and consequently detect anomalies and undesirables behaviours (service downtime, errors, slow responses).</p>
+<p><a target="_blank" rel="noopener" href="https://prometheus.io/">Prometheus</a> and <a target="_blank" rel="noopener" href="https://grafana.com/">Grafana</a> is a common combination of tools to build up a monitoring system where Prometheus acts as a data collector pulling periodically metrics from different systems and Grafana as a dashboard solution to visualise the data.</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmW2155L91oNeMp9H2VR1nSeoB5GchppXQJCjfTt6wtSW4"></p>
+<p>Specifically for Kubernetes, a great Open-Source project called <a target="_blank" rel="noopener" href="https://github.com/carlosedp/cluster-monitoring"><strong>cluster-monitoring</strong></a> offers a scripts to automate the installation and configuration of Prometheus + Grafana and provides a lot of dashboards for Kubernetes out of the box.</p>
+<h3 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h3><p>In order to run entirely the tutorial, we will need:</p>
+<ul>
+<li>A running Kubernetes cluster (see previous articles if you haven’t set this up yet)</li>
+<li>Install Golang on the machine that runs <code>kubectl</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt  install golang-go</span><br><span class="line">$ export PATH&#x3D;$PATH:$(go env GOPATH)&#x2F;bin</span><br><span class="line">$ export GOPATH&#x3D;$(go env GOPATH)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p><strong>1. Clone the repository</strong></p>
+<p>Clone the repository <code>cluster-monitoring</code> with the following command (change ~/workspace/cluster-monitoring by the target folder of your choice):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;carlosedp&#x2F;cluster-monitoring.git ~&#x2F;workspace&#x2F;cluster-monitoring</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. Configuration</strong></p>
+<p>Then open the file <code>~/workspace/cluster-monitoring/vars.jsonnet</code> and modify the following sections:</p>
+<p>Enable k3s and put the IP of our master node <code>kube-master</code>.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k3s: &#123;</span><br><span class="line">  enabled: true,</span><br><span class="line">  master_ip: [&#x27;192.168.0.22&#x27;],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>The suffix domain is used to deploy an ingress to access Prometheus <code>prometheus.&lt;suffixDomain&gt;</code> and Grafana <code>grafana.&lt;suffixDomain&gt;</code>. You can manually configure a DNS entry to point to <code>192.168.0.240</code> (Load Balancer IP of the Nginx) or used <a target="_blank" rel="noopener" href="https://nip.io/">nip.io</a> to automatically resolve a domain to an IP (basically it resolves <code>&lt;anything&gt;.&lt;ip&gt;.nip.io</code> by <code>&lt;ip&gt;</code> without requiring any other configuration).</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">suffixDomain: &#x27;192.168.0.240.nip.io&#x27;,</span><br></pre></td></tr></table></figure>
+
+<p>Enable the persistence to store the metrics (Prometheus) and dashboard settings (Grafana).</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">enablePersistence: &#123;</span><br><span class="line">  prometheus: true,</span><br><span class="line">  grafana: true,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><p>Once we’ve done the configuration part, we can now proceed to the installation.</p>
+<p>Navigate into the folder <code>cluster-monitoring</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;workspace&#x2F;cluster-monitoring&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>First run <code>make vendor</code> to download all the necessary packages.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ make vendor</span><br><span class="line"></span><br><span class="line">rm -rf vendor</span><br><span class="line">&#x2F;home&#x2F;gr3g&#x2F;go&#x2F;bin&#x2F;jb install</span><br><span class="line">GET https:&#x2F;&#x2F;github.com&#x2F;coreos&#x2F;kube-prometheus&#x2F;archive&#x2F;285624d8fbef01923f7b9772fe2da21c5698a666.tar.gz 200</span><br><span class="line">GET https:&#x2F;&#x2F;github.com&#x2F;brancz&#x2F;kubernetes-grafana&#x2F;archive&#x2F;57b4365eacda291b82e0d55ba7eec573a8198dda.tar.gz 200</span><br><span class="line">(...)</span><br><span class="line">GET https:&#x2F;&#x2F;github.com&#x2F;metalmatze&#x2F;slo-libsonnet&#x2F;archive&#x2F;5ddd7ffc39e7a54c9aca997c2c389a8046fab0ff.tar.gz 200</span><br></pre></td></tr></table></figure>
+
+<p>Finally deploy the monitoring stack with the command <code>make deploy</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ make deploy</span><br><span class="line"></span><br><span class="line">rm -rf manifests</span><br><span class="line">.&#x2F;scripts&#x2F;build.sh main.jsonnet &#x2F;home&#x2F;gr3g&#x2F;go&#x2F;bin&#x2F;jsonnet</span><br><span class="line">using jsonnet from arg</span><br><span class="line">+ set -o pipefail</span><br><span class="line">+ rm -rf manifests</span><br><span class="line">+ mkdir manifests</span><br><span class="line">+ &#x2F;home&#x2F;gr3g&#x2F;go&#x2F;bin&#x2F;jsonnet -J vendor -m manifests main.jsonnet</span><br><span class="line">+ xargs &#39;-I&#123;&#125;&#39; sh -c &#39;cat &#123;&#125; | gojsontoyaml &gt; &#123;&#125;.yaml; rm -f &#123;&#125;&#39; -- &#39;&#123;&#125;&#39;</span><br><span class="line">kubectl apply -f .&#x2F;manifests&#x2F;</span><br><span class="line">namespace&#x2F;monitoring created</span><br><span class="line">(...)</span><br><span class="line">servicemonitor.monitoring.coreos.com&#x2F;kubelet created</span><br></pre></td></tr></table></figure>
+
+<p><strong>Repeat this command again if you see some errors as a result.</strong></p>
+<p>Once deployed, check that the namespace <code>monitoring</code> has all the components up and running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n monitoring -o wide</span><br><span class="line"></span><br><span class="line">NAME                                   READY   STATUS    RESTARTS   AGE     IP             NODE          NOMINATED NODE   READINESS GATES</span><br><span class="line">prometheus-operator-56d66c5dc6-8ljsb   1&#x2F;1     Running   0          7m54s   10.42.0.154    kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">alertmanager-main-0                    2&#x2F;2     Running   0          7m43s   10.42.0.155    kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-state-metrics-5c6fb7544b-6p956    3&#x2F;3     Running   0          7m36s   10.42.0.157    kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">node-exporter-h48d6                    2&#x2F;2     Running   0          7m34s   192.168.0.22   kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">prometheus-adapter-679db899b7-x89l6    1&#x2F;1     Running   0          7m22s   10.42.0.158    kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">grafana-6fb45f9c8-j8qbv                1&#x2F;1     Running   0          7m41s   10.42.0.159    kube-master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">prometheus-k8s-0                       3&#x2F;3     Running   1          7m15s   10.42.0.161    kube-master   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Dashboard"><a href="#Dashboard" class="headerlink" title="Dashboard"></a>Dashboard</h3><p>After configuring and deploying our Kubernetes Monitoring stack, you can now access the different components:</p>
+<ul>
+<li>Prometheus: <a target="_blank" rel="noopener" href="https://prometheus.192.168.0.240.nip.io/">https://prometheus.192.168.0.240.nip.io</a></li>
+<li>Grafana: <a target="_blank" rel="noopener" href="https://grafana.192.168.0.240.nip.io/">https://grafana.192.168.0.240.nip.io</a></li>
+</ul>
+<p>Click on the Grafana link and login with the default login/password <code>admin/admin</code> (you will be asked to choose a new password)</p>
+<p><img src="https://i.imgur.com/a3a0Ocu.png"></p>
+<p>You can now finally enjoy a lot of pre-configured dashboards for your Kubernetes cluster.</p>
+<p><img src="https://i.imgur.com/ASJhgZ3.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration"><span class="toc-number">3.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Installation"><span class="toc-number">4.</span> <span class="toc-text">Installation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dashboard"><span class="toc-number">5.</span> <span class="toc-text">Dashboard</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&text=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&is_video=false&description=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster&body=Check out this article: https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&title=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&name=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/&t=(K3S - 8/8) Deploy Prometheus and Grafana to monitor a Kubernetes cluster"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

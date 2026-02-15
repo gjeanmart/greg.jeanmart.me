@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In my company, we recently decided, perhaps as a new year resolution, to experiment with what’s generally called the 4-day Workweek. This consists of workers working 4 days (or 28 hours) a week and s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The 4-Day Workweek">
+<meta property="og:url" content="https://gr3g.tech/2021/01/20/the-4-day-workweek/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="In my company, we recently decided, perhaps as a new year resolution, to experiment with what’s generally called the 4-day Workweek. This consists of workers working 4 days (or 28 hours) a week and s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw=&ixlib=rb-1.2.1&auto=format&fit=crop&w=1334&q=80">
+<meta property="article:published_time" content="2021-01-20T13:36:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.577Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw=&ixlib=rb-1.2.1&auto=format&fit=crop&w=1334&q=80">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>The 4-Day Workweek</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/03/20/toward-blockchain-powered-fintech/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2021/01/20/the-4-day-workweek/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&text=The 4-Day Workweek"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&is_video=false&description=The 4-Day Workweek"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=The 4-Day Workweek&body=Check out this article: https://gr3g.tech/2021/01/20/the-4-day-workweek/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&name=The 4-Day Workweek&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2021/01/20/the-4-day-workweek/&t=The 4-Day Workweek"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Work-less-to-be-more-productive"><span class="toc-number">1.</span> <span class="toc-text">Work less to be more productive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-worker-perspective"><span class="toc-number">2.</span> <span class="toc-text">The worker perspective</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-business-perspective"><span class="toc-number">3.</span> <span class="toc-text">The business perspective</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Other-consequences-and-risks"><span class="toc-number">4.</span> <span class="toc-text">Other consequences and risks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-number">5.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">6.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        The 4-Day Workweek
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-20T13:36:00.000Z" itemprop="datePublished">2021-01-20</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw=&ixlib=rb-1.2.1&auto=format&fit=crop&w=1334&q=80"></p>
+<p>In my company, we recently decided, perhaps as a new year resolution, to experiment with what’s generally called <strong>the 4-day Workweek</strong>. This consists of workers working 4 days (or 28 hours) a week and still get paid for 5 days (or 35 hours). Some might say “WTF, where do I sign” or “What’s the point” and others can also be very skeptical, it’s normal, let’s break this down:</p>
+<h3 id="Work-less-to-be-more-productive"><a href="#Work-less-to-be-more-productive" class="headerlink" title="Work less to be more productive"></a>Work less to be more productive</h3><p>A lot of studies show how workers are little productive due to stress, fatigue, and distractions (social media for instance) which turn into a vicious circle over time and makes them less productive, less motivated, and less happy at work.</p>
+<p>So the idea is to <strong>reduce stress and fatigue with more time for personal life</strong> (friends, family, hobbies) while maintaining performances due to better motivation, satisfaction, and focus. Worker’s goals remain the same: delivering productivity and meet objectives.</p>
+<p>Of course, this kind of time arrangement doesn’t work everywhere or could result in huge organizational challenges but I believe (thanks covid-19) that work is in most cases becoming more digitalized and remote. Therefore flexible arrangements are easier to achieve in 2021. I also believe it should be part of an opt-in policy to let people choose what works best for them. Besides the 4-day workweek, trust, transparency, freedom, and flexibility is a first good step to improve work environments.</p>
+<h3 id="The-worker-perspective"><a href="#The-worker-perspective" class="headerlink" title="The worker perspective"></a>The worker perspective</h3><p>Alright, so better morale comes with a better <strong>work-life balance</strong> and having a day off a week will automatically increase your lifestyle in different domains:</p>
+<ul>
+<li>Physical: You can use this time off to rest, take a nap or do physical exercises</li>
+<li>Social: This is the occasion to spend more time with friends and family, get more involve in your kid’s education or give time to a charity helping others in need.</li>
+<li>Entertainment: Practice a hobby, read books, or watch movies you like</li>
+</ul>
+<p>Another important point is about <strong>reducing stress</strong>. When working during traditional hours (Monday-Friday 9:00 am to 5:00 pm) in a city, every little task becomes challenging and stressful because of congestion (everywhere!). This day off is the occasion during the week to do stuff without stress outside rush hours such as shopping, appointments, or take a cheap flight on a Friday morning.</p>
+<p>Finally, for passionate workers like me, this can be the occasion to <strong>improve your professional life</strong> spending more time learning, reading, and writing. You can also experiment with things that are more or less related to your work or industry by building proofs of concepts, inventing theories, or preparing a presentation to share your thoughts with your coworkers on the 4-day workweek ;)</p>
+<h3 id="The-business-perspective"><a href="#The-business-perspective" class="headerlink" title="The business perspective"></a>The business perspective</h3><p>We just saw this is valuable for workers but what about businesses. The ultimate ambition behind a system like this is to <strong>improve productivity</strong>. First, you need of course to be able to measure the productivity of your business (objectives, sales, etc.). It also helps workers to reconsider priorities on important matters and <strong>reward quality over quantity</strong>.</p>
+<p>Reorganizing a business and the people to offer one day off a week has also for the consequence to force <strong>workers to be non-essential</strong> as an individual. What is essential is the job and the responsibilities so it is never healthy to give too many responsibilities to a single employee and risk him burnout and risk the business at the same time. In comparison, good organizations have backup plans where responsibilities are shared within teams and force people to think for the company rather than themselves (success is often due to the synergy of a group of people, not a single man).</p>
+<p>Finally, improving work-life quality has some indirect consequences <strong>reducing the number of sick days</strong> (job stress, lack of motivation, burnout) and is also mathematically <strong>cost-effective</strong> (cut down on office space requirements and potential overhead costs).</p>
+<h3 id="Other-consequences-and-risks"><a href="#Other-consequences-and-risks" class="headerlink" title="Other consequences and risks"></a>Other consequences and risks</h3><p>We can also note some other interesting consequences to this system:</p>
+<ul>
+<li><strong>A Smaller Carbon Footprint:</strong> For on-site workers, the 4-day workweek decreases the number of trips home&lt;-&gt;work per week.</li>
+<li><strong>Reduce unemployment:</strong>  Reducing work time could be a solution to reduce unemployment if employers decide to fill open hours with new employees (Of course, this doesn’t account for salaries).</li>
+<li><strong>Economic Boost (covid-19):</strong> The 4-day week could also be a solution to boost the post-pandemic economy enabling people to spend more while working the same.</li>
+</ul>
+<p>But, let’s also mention some possible risks of implementing a system like this:</p>
+<ul>
+<li><strong>Compressed hours instead of reducing:</strong> Some employees could decide to work more hours per day to compensate but in most cases, this would decrease the level of productivity. To achieve the desired effect, a 7 hours day is the golden standard.</li>
+<li><strong>Disorganization:</strong> Your business needs to carry on and if badly implemented, your business could suffer from it (lack of workers during some period of the week, decreased customer satisfaction).</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In conclusion, this 4-day workweek is nothing new. While already established in some well-known countries for their great work-life balance (New Zealand, Sweden), it’s still far being adopted in other countries.</p>
+<p>Despite the many advantages mentioned in this article, the success of it seems to be determined by the acceptance of some sort of new paradigm in the mindset of the workers: Team spirit, focus on quality over quantity, and work always in the interests of the company.</p>
+<p>I will be happy to share more insights about this experiment in the next few weeks and see if effectively we achieve better productivity within my team.</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://4dayweek.com/">4 Day Week whitepaper</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.forbes.com/sites/nextavenue/2020/02/06/the-4-day-workweek-has-its-time-come/?sh=575d3caa51d0">The 4-Day Workweek: Has Its Time Come? (Feb. 2020)</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/swlh/boost-the-economy-with-a-4-day-workweek-691cb0e239ed">Boost the Economy With a 4-Day Workweek (Jun. 2020)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zapier.com/blog/four-day-work-week/">The Four-Day Work Week: Why It Works (Nov. 2018)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.changerecruitmentgroup.com/knowledge-centre/the-pros-and-cons-of-a-4-day-working-week">The Pros and Cons of a 4 Day Working Week</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.welcometothejungle.com/fr/articles/travailler-4-jours-par-semaine">Travailler moins pour travailler mieux : la semaine de 4 jours (Dec. 2018) - French</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Work-less-to-be-more-productive"><span class="toc-number">1.</span> <span class="toc-text">Work less to be more productive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-worker-perspective"><span class="toc-number">2.</span> <span class="toc-text">The worker perspective</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-business-perspective"><span class="toc-number">3.</span> <span class="toc-text">The business perspective</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Other-consequences-and-risks"><span class="toc-number">4.</span> <span class="toc-text">Other consequences and risks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-number">5.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">6.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2021/01/20/the-4-day-workweek/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&text=The 4-Day Workweek"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&is_video=false&description=The 4-Day Workweek"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=The 4-Day Workweek&body=Check out this article: https://gr3g.tech/2021/01/20/the-4-day-workweek/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&title=The 4-Day Workweek"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2021/01/20/the-4-day-workweek/&name=The 4-Day Workweek&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2021/01/20/the-4-day-workweek/&t=The 4-Day Workweek"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

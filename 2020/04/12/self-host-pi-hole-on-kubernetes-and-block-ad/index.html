@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(K3S - 6&#x2F;8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level">
+<meta property="og:url" content="https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmWNdkLpvCo2aHjAL3k45vndybyv6u1aM5wTZw9UgeXZsB">
+<meta property="og:image" content="https://i.imgur.com/FlgpGwV.png">
+<meta property="og:image" content="https://i.imgur.com/O4BKu8a.png">
+<meta property="article:published_time" content="2020-04-12T22:00:06.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/12/self-host-your-password-manager-with-bitward/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/12/self-host-your-media-center-on-kubernetes-wi/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&text=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&is_video=false&description=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level&body=Check out this article: https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&name=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&t=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Namespace"><span class="toc-number">3.</span> <span class="toc-text">Namespace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistence"><span class="toc-number">4.</span> <span class="toc-text">Persistence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deployment"><span class="toc-number">5.</span> <span class="toc-text">Deployment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingress"><span class="toc-number">6.</span> <span class="toc-text">Ingress</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">7.</span> <span class="toc-text">Result</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-12T22:00:06.000Z" itemprop="datePublished">2020-04-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmbJb9BztkrFe8ejvxSjkYxwLH79oA7388GEHLQPbqkwnC"></p>
+<p>This article is part of the series <em>Build your very own self-hosting platform with Raspberry Pi and Kubernetes</em></p>
+<ol>
+<li><a href="/2020/04/13/build-your-very-own-self-hosting-platform-wi">Introduction</a></li>
+<li><a href="/2020/04/13/install-raspbian-operating-system-and-prepar">Install Raspbian Operating-System and prepare the system for Kubernetes</a></li>
+<li><a href="/2020/04/13/install-and-configure-a-kubernetes-cluster-w">Install and configure a Kubernetes cluster with k3s to self-host applications</a></li>
+<li><a href="/2020/04/13/deploy-nextcloud-on-kuberbetes--the-self-hos">Deploy NextCloud on Kuberbetes: The self-hosted Dropbox</a></li>
+<li><a href="/2020/04/13/self-host-your-media-center-on-kubernetes-wi">Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett</a></li>
+<li><a href="/2020/04/13/self-host-pi-hole-on-kubernetes-and-block-ad">Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level</a></li>
+<li><a href="/2020/04/13/self-host-your-password-manager-with-bitward">Self-host your password manager with Bitwarden</a></li>
+<li><a href="/2020/04/13/deploy-prometheus-and-grafana-to-monitor-a-k">Deploy Prometheus and Grafana to monitor a Kubernetes cluster</a></li>
+</ol>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Pi Hole is a network-wide ad blocker. In a typical home environment, this can cut out almost all ads to all devices in your home, without having to install an ad blocker on every single device. Technically Pi-Hole acts as a DNS sinkhole which filters out unwanted results using a blacklist domains list. Pi-Hole also offers a great admin interface to configure and analyse your network traffic (DNS, DHCP, Black/White list, regex, etc.).</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmWNdkLpvCo2aHjAL3k45vndybyv6u1aM5wTZw9UgeXZsB"></p>
+<p>In this new article, we will learn how to deploy Pi-Hole on a Kubernetes self-hosting platform.</p>
+<h3 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h3><p>In order to run entirely the tutorial, we will need:</p>
+<ul>
+<li>A running Kubernetes cluster (see previous articles if you haven’t set this up yet)</li>
+<li>Access to your router admin console to configure Pi-Hole as DNS or disable DHCP (replaced by Pi-Hole)</li>
+</ul>
+<h3 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h3><p>We are going to isolate all the Kubernetes objects related to Pi-Hole in the namespace <code>pihole</code>.</p>
+<p>To create a namespace, run the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create namespace pihole</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>The first step consists in setting up a volume to store the Pi-Hole config files and data. If you followed the previous articles to install and configure a self-hosting platform using RaspberryPi and Kubernetes, you remember we have on each worker a NFS client pointing to a SSD on <code>/mnt/ssd</code>.</p>
+<p><strong>1. Deploy the Persistent Volume (PV)</strong></p>
+<p>The Persistent Volume specify the name, the size, the location and the access modes of the volume:</p>
+<ul>
+<li>The name of the PV is  <code>pihole</code></li>
+<li>The size allocated is 500MB</li>
+<li>The location is <code>/mnt/ssd/pihole</code></li>
+<li>The access is ReadWriteOnce</li>
+</ul>
+<p>Create the following file and apply it to the k8 cluster.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.persistentvolume.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolume</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">&quot;pihole&quot;</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">&quot;local&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">storageClassName:</span> <span class="string">&quot;manual&quot;</span></span><br><span class="line">  <span class="attr">capacity:</span></span><br><span class="line">    <span class="attr">storage:</span> <span class="string">&quot;500Mi&quot;</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteOnce</span></span><br><span class="line">  <span class="attr">hostPath:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&quot;/mnt/ssd/pihole&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f pihole.persistentvolume.yml</span><br><span class="line">persistentvolume&#x2F;pihole created</span><br></pre></td></tr></table></figure>
+
+<p>You can verify the PV exists with the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pv</span><br><span class="line"></span><br><span class="line">NAME            CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE</span><br><span class="line">pihole          500Mi      RWO            Retain           Available           manual                  34s</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Create the Persistent Volume Claim (PVC)</strong></p>
+<p>The Persistent Volume Claim is used to map a Persistent Volume to a deployment or stateful set. Unlike the PV, the PVC belongs to a namespace.</p>
+<p>Create the following file and apply it to the k8 cluster.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.persistentvolumeclaim.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolumeClaim</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">&quot;pihole&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">&quot;pihole&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">storageClassName:</span> <span class="string">&quot;manual&quot;</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteOnce</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">    <span class="attr">requests:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">&quot;500Mi&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f pihole.persistentvolumeclaim.yml</span><br><span class="line">persistentvolumeclaim&#x2F;pihole created</span><br></pre></td></tr></table></figure>
+
+<p>You can verify the PVC exists with the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pvc -n pihole</span><br><span class="line"></span><br><span class="line">NAME            STATUS   VOLUME          CAPACITY   ACCESS MODES   STORAGECLASS   AGE</span><br><span class="line">pihole          Bound    pihole          500Mi      RWO            manual         26s</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h3><p>In the next part, we are now going to deploy Pi-Hole using a modified version open-source Helm chart <a target="_blank" rel="noopener" href="https://github.com/MoJo2600/pihole-kubernetes">pihole-kubernetes</a>.</p>
+<p>**1. Install the repo **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ helm repo add mojo2600 https:&#x2F;&#x2F;mojo2600.github.io&#x2F;pihole-kubernetes&#x2F; &amp;&amp; helm repo update</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Create a secret to store Pi-Hole admin password</strong></p>
+<p>Replace <code>&lt;ADMIN_PASSWORD&gt;</code> by the password of your choice. This password will be used to connect to the Pi-Hole administration interface.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create secret generic pihole-secret \</span><br><span class="line">    --from-literal&#x3D;&#39;password&#x3D;&lt;ADMIN_PASSWORD&gt;&#39; \</span><br><span class="line">    --namespace pihole</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>3. Download the Chart values of the chart locally</strong></p>
+<p>Run the following command to download the Chart values into the local file <code>pihole.values.yml</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ helm show values mojo2600&#x2F;pihole &gt;&gt; pihole.values.yml</span><br></pre></td></tr></table></figure>
+
+<p>If you open the file, you will see the default configuration values to setup Pi-Hole. Instead of using the flag <code>--set property=value</code> like before, we will use the file <code>pihole.values.yml</code> to make all the changes.</p>
+<p><strong>4. Update the values</strong></p>
+<p>We now need to update a few properties before installing the Helm chart. Open the file <code>pihole.values.yml</code> and change the following properties (<em>replace the information surrounded by <brackets> with your information</em>).</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.values.yml</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">persistentVolumeClaim:</span></span><br><span class="line">  <span class="comment"># set to true to use pvc</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment"># Change to true</span></span><br><span class="line">  <span class="comment"># set to true to use you own pvc</span></span><br><span class="line">  <span class="attr">existingClaim:</span> <span class="string">&quot;pihole&quot;</span> <span class="comment"># Name of the persistent volume claim</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">extraEnvVars:</span></span><br><span class="line">  <span class="attr">TZ:</span> <span class="string">&quot;Europe/London&quot;</span> <span class="comment"># Timezone</span></span><br><span class="line">  <span class="attr">ServerIP:</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.22</span> <span class="comment"># Add the master node IP only if your configure `hostNetwork: true` (next paragraph, point b only)</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Use an existing secret for the admin password.</span></span><br><span class="line"><span class="attr">admin:</span></span><br><span class="line">  <span class="attr">existingSecret:</span> <span class="string">&quot;pihole-secret&quot;</span> <span class="comment"># Reference to the secret created step 2</span></span><br><span class="line">  <span class="attr">passwordKey:</span> <span class="string">&quot;password&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>The network config might be different if your need to get DHCP working with Pi-hole.</p>
+<p>a. I can override my router default DNS config</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.values.yml</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">serviceTCP:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">LoadBalancer</span> <span class="comment"># Configure MetalLB to used a dedicated &quot;virtual&quot; IP to expose the DNS server</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">metallb.universe.tf/allow-shared-ip:</span> <span class="string">pihole-svc</span></span><br><span class="line"></span><br><span class="line"><span class="attr">serviceUDP:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">LoadBalancer</span> <span class="comment"># Configure MetalLB to used a dedicated &quot;virtual&quot; IP to expose the DNS server</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">metallb.universe.tf/allow-shared-ip:</span> <span class="string">pihole-svc</span></span><br></pre></td></tr></table></figure>
+
+<p>b. I can’t override my router DNS config and I need to enable DHCP on Pi-Hole (disable on my router) to force the devices to use Pi-Hole as DNS.</p>
+<p>In this case, we are going to use the flag <code>hostNetwork=true</code> and <code>privileged=true</code> to let the pod use the node network with root privilege which will enable DHCP through network broadcast on port 67 (<a target="_blank" rel="noopener" href="https://docs.pi-hole.net/docker/DHCP/">more info</a>).</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.values.yml</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">serviceTCP:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line"></span><br><span class="line"><span class="attr">serviceUDP:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line"></span><br><span class="line"><span class="string">(...)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">hostNetwork:</span> <span class="string">&quot;true&quot;</span> <span class="comment"># The pod uses the host network rather than k8s network (to perform a network broadcast on port 67 / DHCP) See  https://docs.pi-hole.net/docker/DHCP/#docker-pi-hole-with-host-networking-mode</span></span><br><span class="line"><span class="attr">privileged:</span> <span class="string">&quot;true&quot;</span> <span class="comment"># Give root permission to the pod on the host</span></span><br><span class="line"><span class="attr">webHttp:</span> <span class="string">&quot;55080&quot;</span> <span class="comment"># Random HTTP port to prevent clash (because the pod will be on the host network)</span></span><br><span class="line"><span class="attr">webHttps:</span> <span class="string">&quot;55443&quot;</span> <span class="comment"># Random HTTPS port to prevent clash (because the pod will be on the host network)</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4. Install the Chart</strong></p>
+<p>In the part, we will install the Helm chart under the namespace <code>pihole</code> with <code>pihole.values.yml</code> as configuration file.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install pihole mojo2600&#x2F;pihole \</span><br><span class="line">  --namespace pihole \</span><br><span class="line">  --values pihole.values.yml</span><br></pre></td></tr></table></figure>
+
+<p>After a couple of minutes, check if the pod and service is up and running:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n pihole -o wide</span><br><span class="line"></span><br><span class="line">NAME                      READY   STATUS    RESTARTS   AGE   IP             NODE          NOMINATED NODE   READINESS GATES</span><br><span class="line">pihole-695f4bd7c8-xwswq   1&#x2F;1     Running   1          45m   192.168.0.22   kube-master   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get services -n pihole -o wide</span><br><span class="line"></span><br><span class="line">NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                 AGE   SELECTOR</span><br><span class="line">pihole-tcp   ClusterIP   10.43.35.133   &lt;none&gt;        80&#x2F;TCP,443&#x2F;TCP,53&#x2F;TCP   45m   app&#x3D;pihole,release&#x3D;pihole</span><br><span class="line">pihole-udp   ClusterIP   10.43.96.245   &lt;none&gt;        53&#x2F;UDP,67&#x2F;UDP           45m   app&#x3D;pihole,release&#x3D;pihole</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h3><p>To access Pi-Hole admin, we are now going to deploy an Ingress, responsible of making accessible a service from outside the cluster by mapping an internal <code>service:port</code> to a host. To choose a host, we need to configure a DNS like we did for NextCloud “nextcloud.&lt;domain.com&gt;” in the previous article. However, unlike NextCloud, Pi-Hole have no reason to be exposed on the Internet, we can pick a host that will be resolved internally to our Nginx proxy (available at <code>192.168.0.240</code> : LoadBalancer IP). The simplest solution is to use <a target="_blank" rel="noopener" href="https://nip.io/">nip.io</a> which allows us to map an IP (in our case <code>192.168.0.240</code>) to a hostname without touching <code>/etc/hosts</code> or configuring a DNS. Basically it resolves <code>&lt;anything&gt;.&lt;ip&gt;.nip.io</code> by <code>&lt;ip&gt;</code> without requiring anything else, Magic !</p>
+<p><strong>1. Create the file <code>pihole.ingress.yml</code></strong></p>
+<p>Create the following Ingress config file <code>pihole.ingress.yml</code> to map the route <code>/</code> to Pi-Hole HTTP service:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## pihole.ingress.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">pihole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pihole-ingress</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">kubernetes.io/ingress.class:</span> <span class="string">&quot;nginx&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">pihole.192.168.0.240.nip.io</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">          <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">pihole-tcp</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">8000</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Deploy the ingress</strong></p>
+<p>Deploy the Ingress by applying the file <code>pihole.ingress.yaml</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f pihole.ingress.yaml</span><br><span class="line">ingress.extensions&#x2F;pihole-ingress created</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>You can now access Pi-Hole via <a target="_blank" rel="noopener" href="http://pihole.192.168.0.240.nip.io/admin">pihole.192.168.0.240.nip.io/admin</a>.</p>
+<p><img src="https://i.imgur.com/FlgpGwV.png"></p>
+<p>Click on <strong>Login</strong> on the left menu and enter the password configured earlier in <code>pihole.values.yml</code>.</p>
+<p>If you configured Pi-Hole to be used as DHCP server, you need to go to <strong>Settings / DHCP</strong>, enable DHCP, configure the IP range and the IP of your network router.</p>
+<p><img src="https://i.imgur.com/O4BKu8a.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Namespace"><span class="toc-number">3.</span> <span class="toc-text">Namespace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistence"><span class="toc-number">4.</span> <span class="toc-text">Persistence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deployment"><span class="toc-number">5.</span> <span class="toc-text">Deployment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingress"><span class="toc-number">6.</span> <span class="toc-text">Ingress</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">7.</span> <span class="toc-text">Result</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&text=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&is_video=false&description=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level&body=Check out this article: https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&title=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&name=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/&t=(K3S - 6/8) Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

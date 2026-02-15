@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Loom Network is a Layer 2 scaling solution for Ethereum focusing on social and gaming dApps that require a very high throughput. Loom SDK enables to generate a sidechain called dAppChain using a dPoS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Loom Network - Develop and deploy a smart contract">
+<meta property="og:url" content="https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="Loom Network is a Layer 2 scaling solution for Ethereum focusing on social and gaming dApps that require a very high throughput. Loom SDK enables to generate a sidechain called dAppChain using a dPoS">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmdhzPG6wt6YXQQWfBLcGiZriBrZmwniwdrKJ7D7QKKgvR">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmVvPTJktFDRBxyzSmFJzPXaVgWtG83JvUTLdsWKU5uadK">
+<meta property="og:image" content="https://i.imgur.com/gMKzcX0.gif">
+<meta property="article:published_time" content="2019-07-04T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmdhzPG6wt6YXQQWfBLcGiZriBrZmwniwdrKJ7D7QKKgvR">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Loom Network - Develop and deploy a smart contract</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/20/blockchain-glossary/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&text=Loom Network - Develop and deploy a smart contract"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&is_video=false&description=Loom Network - Develop and deploy a smart contract"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Loom Network - Develop and deploy a smart contract&body=Check out this article: https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&name=Loom Network - Develop and deploy a smart contract&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&t=Loom Network - Develop and deploy a smart contract"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-Install-Loom-on-your-machine-and-fund-an-account"><span class="toc-number">1.</span> <span class="toc-text">Step 1 - Install Loom on your machine and fund an account</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2-Deploy-a-contract-on-the-Loom-extdev-network"><span class="toc-number">2.</span> <span class="toc-text">Step 2: Deploy a contract on the Loom extdev network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3-Interact-with-the-contract-from-the-web-app"><span class="toc-number">3.</span> <span class="toc-text">Step 3: Interact with the contract from the web app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Notes"><span class="toc-number">4.</span> <span class="toc-text">Notes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Links-and-resources"><span class="toc-number">5.</span> <span class="toc-text">Links and resources</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Loom Network - Develop and deploy a smart contract
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-04T22:00:00.000Z" itemprop="datePublished">2019-07-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmdhzPG6wt6YXQQWfBLcGiZriBrZmwniwdrKJ7D7QKKgvR"></p>
+<p><a target="_blank" rel="noopener" href="https://loomx.io/">Loom Network</a> is a Layer 2 scaling solution for Ethereum focusing on social and gaming dApps that require a very high throughput. Loom SDK enables to generate a sidechain called dAppChain using a dPoS consensus optimised for high-scalability. Loom is contributing on Plasma which is a mechanism to securely transfer a digital asset (ERC20 or ERC721) to a mainchain.</p>
+<p>You can run your own DAppChain using the Loom software or connect to a public one (plasma-chain, social-chain or gaming-chain) running under a dPoS Ethereum blockchain to enable scalable dApps.</p>
+<p>For this tutorial, we will create and fund a Loom account, deploy a contract on the External Dev Plasma network called <strong>extdev</strong> and interact with it from a frontend application.</p>
+<h3 id="Step-1-Install-Loom-on-your-machine-and-fund-an-account"><a href="#Step-1-Install-Loom-on-your-machine-and-fund-an-account" class="headerlink" title="Step 1 - Install Loom on your machine and fund an account"></a>Step 1 - Install Loom on your machine and fund an account</h3><p>In the first, we will install Loom software on your machine to generate a keypair and fund the account with the Loom faucet.</p>
+<ol>
+<li>Download the executable</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;private.delegatecall.com&#x2F;loom&#x2F;osx&#x2F;stable&#x2F;loom</span><br><span class="line">$ chmod +x loom</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Generate a key pair</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;loom genkey -k priv_key -a pub_key</span><br><span class="line">local address: 0xc69c707D6bFDfeC42FE221a334b8DAb2A2DD4Cef</span><br><span class="line">local address base64: xpxwfWv9&#x2F;sQv4iGjNLjasqLdTO8&#x3D;</span><br><span class="line"></span><br><span class="line">$ ls -l | grep key</span><br><span class="line">-rw-rw-r-- 1 gr3g gr3g        88 Oct 24 16:35 priv_key</span><br><span class="line">-rw-rw-r-- 1 gr3g gr3g        44 Oct 24 16:35 pub_key</span><br></pre></td></tr></table></figure>
+
+<p><em>The keypair is created under the same folder.</em></p>
+<ol start="3">
+<li><p>Go to the <a target="_blank" rel="noopener" href="https://faucet.dappchains.com/">Loom Faucet</a></p>
+</li>
+<li><p>Enter your address generated above</p>
+</li>
+<li><p>Click on <em>Request</em> and wait until you see <strong>100 faucet-karma</strong></p>
+</li>
+</ol>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmVvPTJktFDRBxyzSmFJzPXaVgWtG83JvUTLdsWKU5uadK"></p>
+<h3 id="Step-2-Deploy-a-contract-on-the-Loom-extdev-network"><a href="#Step-2-Deploy-a-contract-on-the-Loom-extdev-network" class="headerlink" title="Step 2: Deploy a contract on the Loom extdev network"></a>Step 2: Deploy a contract on the Loom extdev network</h3><p>The second step consists in writing a very simple Smart Contract in Solidity and deploy it on the Loom extdev network using Truffle framework.</p>
+<ol>
+<li>Install <a target="_blank" rel="noopener" href="https://truffleframework.com/">Truffle</a> on your machine</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g truffle</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Initialise your Truffle project</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ truffle init</span><br><span class="line">Downloading...</span><br><span class="line">Unpacking...</span><br><span class="line">Setting up...</span><br><span class="line">Unbox successful. Sweet!</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line"></span><br><span class="line">  Compile:        truffle compile</span><br><span class="line">  Migrate:        truffle migrate</span><br><span class="line">  Test contracts: truffle test</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Let’s now write a simple Smart Contract that increments and store a counter</li>
+</ol>
+<p>Create a file in <code>contracts/Counter.sol</code> and paste the following Solidity code</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.20;</span><br><span class="line"></span><br><span class="line">contract Counter &#123;</span><br><span class="line">  uint counter;</span><br><span class="line"></span><br><span class="line">  constructor() public &#123;</span><br><span class="line">    counter &#x3D; 0; &#x2F;&#x2F; Initialise the counter to 0</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function increment() public &#123;</span><br><span class="line">    counter++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function getCounter() public view returns (uint) &#123;</span><br><span class="line">    return counter;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>You can verify that your code compiles correctly with the following command</em> <code>$ truffle compile</code></p>
+<ol start="4">
+<li>Now, we need to create a deployment script</li>
+</ol>
+<p>Create a file in <code>migrations/2_deploy_contracts.js</code> and paste the following code</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Counter &#x3D; artifacts.require(&quot;.&#x2F;Counter.sol&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function(deployer) &#123;</span><br><span class="line">  deployer.deploy(Counter);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>Finally we need to configure the connection to the Loom extdev network as well as our wallet info</li>
+</ol>
+<p>Install the following JavaScript dependencies:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/trufflesuite/truffle-hdwallet-provider">truffle-hdwallet-provider</a> enables to sign transactions for addresses derived from a 12-word mnemonic</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/loomnetwork/loom-truffle-provider">loom-truffle-provider</a> is an adapter that allows Truffle Suite to communicate with Loom DappChain</li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/dotenv">dotenv</a> is a module to configure environment variables</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install truffle-hdwallet-provider loom-truffle-provider dotenv --save-dev</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><p>Copy your private key from the file previously generated (priv_key)</p>
+</li>
+<li><p>Create a <code>.env</code> in the Truffle project and copy the private key like this</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PRIVATE_KEY&#x3D;&quot;0kwCi...iWNNw&#x3D;&#x3D;&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>Open the file <code>truffle.js</code> and add the following configuration</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">require(&#39;dotenv&#39;).config();</span><br><span class="line">const LoomTruffleProvider &#x3D; require(&#39;loom-truffle-provider&#39;);</span><br><span class="line">const HDWalletProvider &#x3D; require(&#39;truffle-hdwallet-provider&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  networks: &#123;</span><br><span class="line">    extdev: &#123;</span><br><span class="line">      provider: function() &#123;</span><br><span class="line">          const privateKey &#x3D; process.env.PRIVATE_KEY;</span><br><span class="line">          const chainId &#x3D; &#39;extdev-plasma-us1&#39;;</span><br><span class="line">          const writeUrl &#x3D; &#39;http:&#x2F;&#x2F;extdev-plasma-us1.dappchains.com:80&#x2F;rpc&#39;;</span><br><span class="line">          const readUrl &#x3D; &#39;http:&#x2F;&#x2F;extdev-plasma-us1.dappchains.com:80&#x2F;query&#39;;;</span><br><span class="line">          return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey)</span><br><span class="line">      &#125;,</span><br><span class="line">      network_id: &#39;extdev-plasma-us1&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>Run the deployment to the Loom extdev network</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ truffle migrate --network extdev</span><br><span class="line"></span><br><span class="line">Using network &#39;extdev&#39;.</span><br><span class="line"></span><br><span class="line">Running migration: 1_initial_migration.js</span><br><span class="line">  Deploying Migrations...</span><br><span class="line">  ... 0x67143bb5194d210fcdd5a45fd2d0230662b662689417bc6aee069fc6ddab1341</span><br><span class="line">  Migrations: 0x93bf3a8a616d4e097d6dfcb12ec868284b1c7624</span><br><span class="line">Saving successful migration to network...</span><br><span class="line">  ... 0x4d9c5b64a3bbfe2f57bcd8a069243e212fe050d3ba2f1e72898525d6651b8a04</span><br><span class="line">Saving artifacts...</span><br><span class="line">Running migration: 2_deploy_contracts.js</span><br><span class="line">  Deploying Counter...</span><br><span class="line">  ... 0x7e790260e05487577d5922326d2646d2268456eb750a368b9bf651bfc56d6478</span><br><span class="line">  Counter: 0xc6f28cf3303e7246b91d98222e3912b2b87472a0</span><br><span class="line">Saving successful migration to network...</span><br><span class="line">  ... 0x8491e69910d78ea4b24e37aaf444920754828eccbc0aeb67a460cccaef3c1d88</span><br><span class="line">Saving artifacts...</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3-Interact-with-the-contract-from-the-web-app"><a href="#Step-3-Interact-with-the-contract-from-the-web-app" class="headerlink" title="Step 3: Interact with the contract from the web app"></a>Step 3: Interact with the contract from the web app</h3><p>In the next step, we will develop a simplistic dApp using React, Web3 and Loom-js to interact with the Smart Contract previously deployed on the Loom extdev network</p>
+<ol>
+<li>Initialise a React project</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npx create-react-app frontend</span><br><span class="line">$ cd frontend</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Install the necessary dependencies</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ethereum/web3.js/">web3 (1.0.0-beta.34)</a> This is the Ethereum compatible JavaScript API which implements the Generic JSON RPC spec</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/loomnetwork/loom-js">loom-js</a> is a JavaScript library for building browser apps &amp; NodeJS services that interact with Loom</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install web3@1.0.0-beta.34 loom-js --save</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Edit <code>frontend/package.json</code> and add the following line under the scripts section to access the Truffle contract artifacts from the webapp</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;link-contracts&quot;: &quot;run-script-os&quot;,</span><br><span class="line">&quot;link-contracts:linux:darwin&quot;: &quot;cd src &amp;&amp; ln -s ..&#x2F;..&#x2F;build&#x2F;contracts contracts&quot;,</span><br><span class="line">&quot;link-contracts:win32&quot;: &quot;cd src &amp;&amp; mklink \\D contracts ..\\..\\build\\contracts&quot;</span><br></pre></td></tr></table></figure>
+
+<p><em>The full code of this file is available here: <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/package.json">package.json</a></em></p>
+<ol start="4">
+<li>Open an edit <code>frontend/src/App.js</code></li>
+</ol>
+<ul>
+<li>Imports</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import Web3 from &#39;web3&#39;</span><br><span class="line">import &#123; Client, LocalAddress, CryptoUtils, LoomProvider &#125; from &#39;loom-js&#39;</span><br><span class="line">import Counter from &#39;.&#x2F;contracts&#x2F;Counter.json&#39;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Connect to the Loom network with web3 and loom-js</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Read the user private key (from browser storage or input)</span><br><span class="line">let privateKey &#x3D; &#39;0kwCiGaBdTxy...OTCwKcu+5oj1O23uP1uTqqR47liWNNw&#x3D;&#x3D;&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Convert the private key into a public key&#x2F;account address</span><br><span class="line">this.publicKey &#x3D; CryptoUtils.publicKeyFromPrivateKey(CryptoUtils.B64ToUint8Array(privateKey));</span><br><span class="line">this.currentUserAddress &#x3D; LocalAddress.fromPublicKey(this.publicKey).toString();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Connect to a Loom extdev network node</span><br><span class="line">this.client &#x3D; new Client(</span><br><span class="line">  &#39;extdev-plasma-us1&#39;,</span><br><span class="line">  &#39;wss:&#x2F;&#x2F;extdev-plasma-us1.dappchains.com&#x2F;websocket&#39;,</span><br><span class="line">  &#39;wss:&#x2F;&#x2F;extdev-plasma-us1.dappchains.com&#x2F;queryws&#39;</span><br><span class="line">);</span><br><span class="line">this.client.on(&#39;error&#39;, msg &#x3D;&gt; &#123;</span><br><span class="line">  console.error(&#39;Error on connect to client&#39;, msg)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Instantiate a Loom Web3Provider to sign and send transaction</span><br><span class="line">this.web3Provider &#x3D; new LoomProvider(this.client, CryptoUtils.B64ToUint8Array(privateKey));</span><br><span class="line">this.web3 &#x3D; new Web3(this.web3Provider)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Use web3 to load the smart contract Truffle artifacts</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F; Load the contract instance</span><br><span class="line">this.counter &#x3D; new this.web3.eth.Contract(Counter.abi, Counter.networks[&#39;extdev-plasma-us1&#39;].address, &#123;</span><br><span class="line">  from: this.currentUserAddress</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Interaction with the smart contract</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Get the counter value</span><br><span class="line">this.counter.methods.getCounter().call().then((value) &#x3D;&gt; &#123;</span><br><span class="line">  return this.setState(&#123; value, loading: false &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Increment the counter</span><br><span class="line">increment() &#123;</span><br><span class="line">  this.setState(&#123; loading: true &#125;)</span><br><span class="line">    this.counter.methods.increment().send(&#123; from: this.currentUserAddress &#125;).then((r) &#x3D;&gt; &#123;</span><br><span class="line">      this.counter.methods.getCounter().call().then((value) &#x3D;&gt; &#123;</span><br><span class="line">        return this.setState(&#123; value, loading: false &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>The full code of this file is available here: <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/blob/master/loom_tutorial_extdev_part1/frontend/src/App.js">App.js</a></em></p>
+<ol start="5">
+<li>Create a link to the Truffle JSON artefacts</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run link-contracts:linux:darwin</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>Start the webserver</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm start</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>Result</li>
+</ol>
+<p>After copy-pasting our private key in the input field, the application is able to connect to the Loom extdev node to interact with the contract (read and increment the counter).</p>
+<p><img src="https://i.imgur.com/gMKzcX0.gif"></p>
+<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h3><p><strong>Key Management</strong>: There is currently no wallet (such as Metamask) with Loom network, the enduser has to handle the private key manually (browser storage) and the dAppChain provider must most likely provide a way to recover a private key.</p>
+<p>You can generate and manipulate a private key using loom-js like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Generate a private key</span><br><span class="line">const privateKey &#x3D; CryptoUtils.generatePrivateKey();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Retrieve the public key</span><br><span class="line">const publicKey &#x3D; CryptoUtils.publicKeyFromPrivateKey(privateKey);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Convert public key to address</span><br><span class="line">const address &#x3D; LocalAddress.fromPublicKey(publicKey).toString();</span><br></pre></td></tr></table></figure>
+
+<p><strong>karma</strong> : is a ERC20 token, sybil resistant, that can be used to prevent spam attack via a reputation-based transaction limiting system.</p>
+<h3 id="Links-and-resources"><a href="#Links-and-resources" class="headerlink" title="Links and resources"></a>Links and resources</h3><p><strong>extdev</strong></p>
+<ul>
+<li>Network ID: extdev-plasma-us1</li>
+<li>Faucet: <a target="_blank" rel="noopener" href="https://faucet.dappchains.com/">https://faucet.dappchains.com/</a></li>
+<li>Documentation: <a target="_blank" rel="noopener" href="https://loomx.io/developers/docs/en/phaser-sdk-demo-websocket.html">https://loomx.io/developers/docs/en/phaser-sdk-demo-websocket.html</a></li>
+</ul>
+<p><strong>Code</strong>: <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/tree/master/loom_tutorial_extdev_part1">https://github.com/gjeanmart/kauri-content/tree/master/loom_tutorial_extdev_part1</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-Install-Loom-on-your-machine-and-fund-an-account"><span class="toc-number">1.</span> <span class="toc-text">Step 1 - Install Loom on your machine and fund an account</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2-Deploy-a-contract-on-the-Loom-extdev-network"><span class="toc-number">2.</span> <span class="toc-text">Step 2: Deploy a contract on the Loom extdev network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3-Interact-with-the-contract-from-the-web-app"><span class="toc-number">3.</span> <span class="toc-text">Step 3: Interact with the contract from the web app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Notes"><span class="toc-number">4.</span> <span class="toc-text">Notes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Links-and-resources"><span class="toc-number">5.</span> <span class="toc-text">Links and resources</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&text=Loom Network - Develop and deploy a smart contract"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&is_video=false&description=Loom Network - Develop and deploy a smart contract"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Loom Network - Develop and deploy a smart contract&body=Check out this article: https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&title=Loom Network - Develop and deploy a smart contract"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&name=Loom Network - Develop and deploy a smart contract&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/&t=Loom Network - Develop and deploy a smart contract"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

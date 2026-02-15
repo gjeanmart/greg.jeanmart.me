@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="This article is part of a POA tutorial series:  (POA Guide - Part 1) - Develop and deploy a smart contract (POA Guide - Part 2)- Bridge assets between a sidechain and a mainchain POA - Part 3 - Meta-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain">
+<meta property="og:url" content="https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="This article is part of a POA tutorial series:  (POA Guide - Part 1) - Develop and deploy a smart contract (POA Guide - Part 2)- Bridge assets between a sidechain and a mainchain POA - Part 3 - Meta-">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmWH44b3xpJk1yEiLok7xPZw991J3SgxGaoQ6nj6a8GUhn">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmaVm2rdtf78fHsG7pRh2GYGXeRdos6tNkWrWtU2AZAT8w">
+<meta property="og:image" content="https://imgur.com/Hgow8Fl.gif">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmPNXRHicnw5ZVFiyiZVN7rDEwR8rtVtWsMYq1bLEMovor">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmPbXEgc9q2xZ31hJjLJS4mvbFUy5fLj8SoFP89v25AMeq">
+<meta property="og:image" content="https://imgur.com/lPYryIU.gif">
+<meta property="article:published_time" content="2020-01-20T23:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/20/develop-and-deploy-a-smart-contract/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/09/getting-started-with-mahuta-a-search-engine-for-t/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&text=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&is_video=false&description=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain&body=Check out this article: https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&name=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&t=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">2.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References:</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (POA Guide - Part 2) Bridge assets between a sidechain and a mainchain
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-20T23:00:00.000Z" itemprop="datePublished">2020-01-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmbbW1gkfPqjgggfF96byCijSjT2QAeNwGkpj6yaHMNoT2"></p>
+<p>This article is part of a <strong>POA tutorial series</strong>:</p>
+<ul>
+<li><a href="/2020/01/21/develop-and-deploy-a-smart-contract">(POA Guide - Part 1) - Develop and deploy a smart contract</a></li>
+<li><a href="/2020/01/21/bridge-assets-between-a-sidechain-and-a-mainchain">(POA Guide - Part 2)- Bridge assets between a sidechain and a mainchain</a></li>
+<li>POA - Part 3 - Meta-transaction [Coming soon]</li>
+</ul>
+<hr>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p><a target="_blank" rel="noopener" href="https://bridge.poa.net/">The POA Bridge</a> is a solution to transfer asset tokens (Native and ERC20/ERC677 tokens) between two Ethereum chains.</p>
+<p>An asset token usually has two purposes:</p>
+<ul>
+<li>A monetary use where a token can be traded, exchanged or just kept as a long term investment</li>
+<li>An application use where a token can be employed on a Dapp (voting, stacking, playing, etc…)</li>
+</ul>
+<p>Both usages require different network properties to enable the best experience, the monetary use may need a strong network security and liveness and an access to a large network of assets to facilitate trade while the application use needs faster and cheaper transactions for a better user experience.</p>
+<p>As part of the layer 2 scalability solutions, sidechain and bridges implement this paradigm of two chains for two usages and try to solve the scalability and UX issues due to the Ethereum mainnet being usually considered too slow (15 tx/sec) and too expensive on gas fees to enable a good user experience for most of the use cases (games or social apps). In this context, the general flow is the following:</p>
+<ol>
+<li>User buys token on the mainchain</li>
+<li>User transfers his tokens to the sidechain via the bridge (double representation: locked on the mainchain and minted on the sidechain)</li>
+<li>User uses the tokens in a fast and efficient way. Perhaps earn or lose some tokens from other users</li>
+<li>User decides to exit his tokens from the sidechain and transfer them back to the mainchain via the bridge (tokens unlocked on the mainchain and burned on the sidechain)</li>
+<li>User sells his tokens on the mainchain</li>
+</ol>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmWH44b3xpJk1yEiLok7xPZw991J3SgxGaoQ6nj6a8GUhn"></p>
+<p>In this tutorial, we will learn how to deploy a token on the two networks (RinkeBy network as mainchain and POA Sokol as sidechain) and then deploy and use the bridge (ERC20 to ERC20) to let a user transfers his assets from one network to another.</p>
+<hr>
+<h3 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h3><p>In order to start, you will need the following programs installed on your machine:</p>
+<ul>
+<li>Git</li>
+<li>NodeJS/NPM</li>
+<li>Yarn</li>
+<li>Docker and Docker-Compose</li>
+<li><a target="_blank" rel="noopener" href="https://metamask.io/">Metamask</a> (Browser extension)</li>
+<li><a target="_blank" rel="noopener" href="https://truffleframework.com/">Truffle</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install -g truffle</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> truffle version</span></span><br><span class="line">Truffle v5.0.20 (core: 5.0.20)</span><br><span class="line">Solidity v0.5.0 (solc-js)</span><br><span class="line">Node v8.15.1</span><br><span class="line">Web3.js v1.0.0-beta.37</span><br></pre></td></tr></table></figure>
+
+<br />
+### Step 1: Deploy an ERC20 token called BRidge Token `BRT` on the mainchain (Rinkeby network)
+
+<ol>
+<li>Let’s first create a project folder for our ERC20 <code>BRT</code> and initialize a Truffle project.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir token</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> token</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> truffle init</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<ol start="2">
+<li>Then we will install the <a target="_blank" rel="noopener" href="https://github.com/OpenZeppelin/openzeppelin-solidity">Open-Zeppelin Solidity library</a> which contains a lot of high-quality, fully tested and audited reusable smart contracts</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm init -y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install openzeppelin-solidity --save-exact</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<ol start="3">
+<li>Create a contract file <code>./contacts/BridgeToken.sol</code> containing</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; BridgeToken.sol</span><br><span class="line">pragma solidity ^0.5.8;</span><br><span class="line"></span><br><span class="line">import &quot;openzeppelin-solidity&#x2F;contracts&#x2F;token&#x2F;ERC20&#x2F;ERC20Mintable.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract BridgeToken is ERC20Mintable &#123;</span><br><span class="line">    string public constant name &#x3D; &quot;Bridge Token&quot;;</span><br><span class="line">    string public constant symbol &#x3D; &quot;BRT&quot;;</span><br><span class="line">    uint8 public constant decimals &#x3D; 18;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>That’s it and a big Thanks to the Zeppelin team for all the work they done for Ethereum. Basically our smart contract inherits from <a target="_blank" rel="noopener" href="https://openzeppelin.org/api/docs/token_ERC20_MintableToken.html">MintableToken</a> which offers all the ERC-20 standard functionalities as well as functions to mint tokens. We only need to specify our token name “Bridge Token”, its symbol “BRT” and the number of decimals (divisibility).</p>
+<p>To make sure your smart contract compiles, you can execute the command <code>truffle compile</code>.</p>
+<br />
+
+<ol start="4">
+<li>Deploy the smart contract on the RinkeBy network</li>
+</ol>
+<p><em>Note:</em> Make sure the account used to deploy the contract is funded with RinkeBy ethers (see <a target="_blank" rel="noopener" href="https://faucet.rinkeby.io/">faucet</a>).</p>
+<p>Once our smart contracts compile, we need to deploy it. To do so, we need first to complete the migration script, create a file <code>./migrations/2_deploy_contract.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2_deploy_contract.js</span></span><br><span class="line"><span class="keyword">const</span> BridgeToken = artifacts.require(<span class="string">&quot;./BridgeToken.sol&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">deployer, network, accounts</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Deploy the smart contract</span></span><br><span class="line">  deployer.deploy(BridgeToken, &#123; <span class="attr">from</span>: accounts[<span class="number">0</span>] &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">instance</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Mint 100 tokens</span></span><br><span class="line">    <span class="keyword">return</span> instance.mint(</span><br><span class="line">      accounts[<span class="number">0</span>],</span><br><span class="line">      web3.utils.toBN(<span class="string">&quot;100000000000000000000&quot;</span>),</span><br><span class="line">      &#123; <span class="attr">from</span>: accounts[<span class="number">0</span>] &#125;,</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>The migration script deploys the contract and additionally mint and distribute 100 BRT tokens to the deployer account.</p>
+<p>Next step consists in configuring a connection to the RinkeBy network in order to deploy a smart contract.</p>
+<p>Install the following dependencies (<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/dotenv">dotenv</a> to manage environment variables and <a target="_blank" rel="noopener" href="https://github.com/trufflesuite/truffle-hdwallet-provider">truffle-hdwallet-provider</a> to sign transactions from an account derived from a mnemonic)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install --save dotenv truffle-hdwallet-provider</span></span><br></pre></td></tr></table></figure>
+
+<p>Create a file <code>./.env</code> to store some private information, we do not want to share anywhere (<strong>gitignore this file</strong>)</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://infura.io/">Infura</a> is a public gateway to Ethereum. If you don’t already have an account, I recommend you to create one and past your API key (PROJECT ID) in this file.</li>
+<li>A mnemonic a 12 words phrase that symbolize a private key. You can find it in Metamask (<em>Settings / Reveal seed words</em>)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; .env</span><br><span class="line">INFURA_API_KEY&#x3D;044443611111111e19e03433333309923</span><br><span class="line">MNEMONIC&#x3D;twelve words you can find in metamask&#x2F;settings&#x2F;reveal seed words</span><br></pre></td></tr></table></figure>
+
+<p>Finally let’s configure the connection to the RinkeBy network. Edit the file <code>./truffle.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// truffle.js</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;dotenv&quot;</span>).config();</span><br><span class="line"><span class="keyword">const</span> HDWalletProvider = <span class="built_in">require</span>(<span class="string">&quot;truffle-hdwallet-provider&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  networks: &#123;</span><br><span class="line">    development: &#123;</span><br><span class="line">      host: <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">      port: <span class="number">8545</span>,</span><br><span class="line">      network_id: <span class="string">&quot;*&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    rinkeby: &#123;</span><br><span class="line">      provider: <span class="keyword">new</span> HDWalletProvider(</span><br><span class="line">        process.env.MNEMONIC,</span><br><span class="line">        <span class="string">&quot;https://rinkeby.infura.io/v3/&quot;</span> + process.env.INFURA_API_KEY,</span><br><span class="line">      ),</span><br><span class="line">      network_id: <span class="number">4</span>,</span><br><span class="line">      gas: <span class="number">4500000</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>To deploy the smart contracts on the RinkeBy network, run the command (this might take a little while) :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> truffle migrate --network rinkeby</span></span><br><span class="line"></span><br><span class="line">Compiling your contracts...</span><br><span class="line">===========================</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling ./contracts/BridgeToken.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling ./contracts/Migrations.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/access/Roles.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Artifacts written to /home/gr3g/workspace/tutorials/bridge_token/build/contracts</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Compiled successfully using:</span></span><br><span class="line">   - solc: 0.5.8+commit.23d335f2.Emscripten.clang</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Migrations dry-run (simulation)</span><br><span class="line">===============================</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network name:    <span class="string">&#x27;rinkeby-fork&#x27;</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network id:      4</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Block gas <span class="built_in">limit</span>: 0x7244c0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1_initial_migration.js</span><br><span class="line">======================</span><br><span class="line"></span><br><span class="line">   Deploying &#x27;Migrations&#x27;</span><br><span class="line">   ----------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block number:        4502550</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block timestamp:     1559667907</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> account:             0xF0f15Cedc719B5A55470877B0710d5c7816916b1</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> balance:             33.578282390129999997</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas used:            246393</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas price:           2 gwei</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> value sent:          0 ETH</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> total cost:          0.000492786 ETH</span></span><br><span class="line"></span><br><span class="line">   -------------------------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Total cost:         0.000492786 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2_deploy_contract.js</span><br><span class="line">====================</span><br><span class="line"></span><br><span class="line">   Deploying &#x27;BridgeToken&#x27;</span><br><span class="line">   -----------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block number:        4502552</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block timestamp:     1559667919</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> account:             0xe9B0E206C8cA079bca49F0120abfD02760093612</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> balance:             99.996785462</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas used:            1607269</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas price:           2 gwei</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> value sent:          0 ETH</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> total cost:          0.003214538 ETH</span></span><br><span class="line"></span><br><span class="line">   -------------------------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Total cost:         0.003214538 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Summary</span><br><span class="line">=======</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Total deployments:   2</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Final cost:          0.003707324 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Starting migrations...</span><br><span class="line">======================</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network name:    <span class="string">&#x27;rinkeby&#x27;</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Network id:      4</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Block gas <span class="built_in">limit</span>: 0x724802</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1_initial_migration.js</span><br><span class="line">======================</span><br><span class="line"></span><br><span class="line">   Deploying &#x27;Migrations&#x27;</span><br><span class="line">   ----------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> transaction <span class="built_in">hash</span>:    0x44dbbf18d316adb29143d1b3341c1e28b297d144411ee98cb23017270f77b9ed</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Blocks: 1            Seconds: 9</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> contract address:    0xAC96dc3AC9baB86c7d89a5868096394CB708a6a0</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block number:        4502551</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block timestamp:     1559667943</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> account:             0xF0f15Cedc719B5A55470877B0710d5c7816916b1</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> balance:             33.573547316129999997</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas used:            261393</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas price:           20 gwei</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> value sent:          0 ETH</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> total cost:          0.00522786 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Saving migration to chain.</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Saving artifacts</span></span><br><span class="line">   -------------------------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Total cost:          0.00522786 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2_deploy_contract.js</span><br><span class="line">====================</span><br><span class="line"></span><br><span class="line">   Deploying &#x27;BridgeToken&#x27;</span><br><span class="line">   -----------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> transaction <span class="built_in">hash</span>:    0x80dc122178131cbd040e90b667cc1d11a47d21abf8ebf17c80232b1c4c5f33df</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Blocks: 2            Seconds: 21</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> contract address:    0x40A6a864133985E1146DDfEb48c7391CD07596F5</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block number:        4502554</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> block timestamp:     1559667988</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> account:             0xF0f15Cedc719B5A55470877B0710d5c7816916b1</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> balance:             33.540261476129999997</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas used:            1622269</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> gas price:           20 gwei</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> value sent:          0 ETH</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> total cost:          0.03244538 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Saving migration to chain.</span></span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Saving artifacts</span></span><br><span class="line">   -------------------------------------</span><br><span class="line"><span class="meta">   &gt;</span><span class="bash"> Total cost:          0.03244538 ETH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Summary</span><br><span class="line">=======</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Total deployments:   2</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Final cost:          0.03767324 ETH</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>As a result, we can identify our Smart Contract <code>BridgeToken</code> as been deployed at the address <code>0x40A6a864133985E1146DDfEb48c7391CD07596F5</code> (see <a target="_blank" rel="noopener" href="https://rinkeby.etherscan.io/address/0x40A6a864133985E1146DDfEb48c7391CD07596F5">block explorer</a>)</p>
+<br />
+### Step 2: Initialise the monorepo `tokenbridge`
+
+<p>In this second step, we will initialise the GitHub mono-repository in order to install each component in the following steps.</p>
+<ol>
+<li>Clone the repo</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ../</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> --recursive https://github.com/poanetwork/tokenbridge</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ./tokenbridge/</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Install the depandancies</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yarn install &amp;&amp; yarn install:deploy</span></span><br></pre></td></tr></table></figure>
+
+<br />
+### Step 3: Configure and Deploy the bridge contracts
+
+<p>In this third step, we will deploy the necessary contracts to enable a ERC20 to ERC20 bridge.</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmaVm2rdtf78fHsG7pRh2GYGXeRdos6tNkWrWtU2AZAT8w"></p>
+<ol>
+<li>Go to the <code>contracts</code> folder</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ./contracts/</span></span><br></pre></td></tr></table></figure>
+
+<br />
+2. Compile the smart contracts
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm run compile</span></span><br></pre></td></tr></table></figure>
+
+<br />
+3. Create a configuration file in `./deploy/.env`
+
+<p><em>Note 1</em> : the following properties to change</p>
+<ul>
+<li><code>PRIVATE_KEY</code> Account responsible for deploying, administrating the contracts and validating transfers</li>
+<li><code>ACCOUNT_ADMIN</code> Account responsible for deploying, administrating the contracts and validating transfers.</li>
+<li><code>ERC20_TOKEN_ADDRESS</code> Address of the ERC20 token deployed above.</li>
+</ul>
+<p><em>Note 2</em> : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)</p>
+<p><em>Note 3</em> : Make sure the account <code>ACCOUNT_ADMIN</code> is funded with <strong>RinkeBy ethers</strong> and <strong>POA Sokol ethers</strong>.</p>
+<p><em>Note 4</em> : No block reward (rewardable token) has been configured.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">BRIDGE_MODE&#x3D;ERC_TO_ERC</span><br><span class="line">##BRIDGE_MODE&#x3D;NATIVE_TO_ERC</span><br><span class="line"></span><br><span class="line">## If Home network does not support byzantium fork, should use contracts compiled for spuriousDragon</span><br><span class="line">##HOME_EVM_VERSION&#x3D;spuriousDragon</span><br><span class="line"></span><br><span class="line">## If Foreign network does not support byzantium fork, should use contracts compiled for spuriousDragon</span><br><span class="line">##FOREIGN_EVM_VERSION&#x3D;spuriousDragon</span><br><span class="line"></span><br><span class="line">DEPLOYMENT_ACCOUNT_PRIVATE_KEY&#x3D;PRIVATE_KEY</span><br><span class="line"></span><br><span class="line">DEPLOYMENT_GAS_LIMIT_EXTRA&#x3D;0.2</span><br><span class="line">HOME_DEPLOYMENT_GAS_PRICE&#x3D;10000000000</span><br><span class="line">FOREIGN_DEPLOYMENT_GAS_PRICE&#x3D;10000000000</span><br><span class="line">GET_RECEIPT_INTERVAL_IN_MILLISECONDS&#x3D;3000</span><br><span class="line"></span><br><span class="line">BRIDGEABLE_TOKEN_NAME&#x3D;&quot;Bridge Token&quot;</span><br><span class="line">BRIDGEABLE_TOKEN_SYMBOL&#x3D;BRT</span><br><span class="line">BRIDGEABLE_TOKEN_DECIMALS&#x3D;18</span><br><span class="line"></span><br><span class="line">HOME_RPC_URL&#x3D;https:&#x2F;&#x2F;sokol.poa.network</span><br><span class="line">HOME_BRIDGE_OWNER&#x3D;ACCOUNT_ADMIN</span><br><span class="line">HOME_VALIDATORS_OWNER&#x3D;ACCOUNT_ADMIN</span><br><span class="line">HOME_UPGRADEABLE_ADMIN&#x3D;ACCOUNT_ADMIN</span><br><span class="line">HOME_DAILY_LIMIT&#x3D;30000000000000000000000000</span><br><span class="line">HOME_MAX_AMOUNT_PER_TX&#x3D;1500000000000000000000000</span><br><span class="line">HOME_MIN_AMOUNT_PER_TX&#x3D;500000000000000000</span><br><span class="line">HOME_REQUIRED_BLOCK_CONFIRMATIONS&#x3D;1</span><br><span class="line">HOME_GAS_PRICE&#x3D;1000000000</span><br><span class="line"></span><br><span class="line">BLOCK_REWARD_ADDRESS&#x3D;0x0000000000000000000000000000000000000000</span><br><span class="line"></span><br><span class="line">FOREIGN_RPC_URL&#x3D;https:&#x2F;&#x2F;rinkeby.infura.io</span><br><span class="line">FOREIGN_BRIDGE_OWNER&#x3D;ACCOUNT_ADMIN</span><br><span class="line">FOREIGN_VALIDATORS_OWNER&#x3D;ACCOUNT_ADMIN</span><br><span class="line">FOREIGN_UPGRADEABLE_ADMIN&#x3D;ACCOUNT_ADMIN</span><br><span class="line">FOREIGN_DAILY_LIMIT&#x3D;15000000000000000000000000</span><br><span class="line">FOREIGN_MAX_AMOUNT_PER_TX&#x3D;750000000000000000000000</span><br><span class="line">FOREIGN_MIN_AMOUNT_PER_TX&#x3D;500000000000000000</span><br><span class="line">FOREIGN_REQUIRED_BLOCK_CONFIRMATIONS&#x3D;8</span><br><span class="line">FOREIGN_GAS_PRICE&#x3D;10000000000</span><br><span class="line">##for bridge erc_to_erc and erc_to_native mode</span><br><span class="line">ERC20_TOKEN_ADDRESS&#x3D;ERC20_TOKEN_ADDRESS</span><br><span class="line">## Only for for erc_to_erc mode</span><br><span class="line">ERC20_EXTENDED_BY_ERC677&#x3D;false</span><br><span class="line"></span><br><span class="line">REQUIRED_NUMBER_OF_VALIDATORS&#x3D;1</span><br><span class="line">##If several validators are used, list them separated by space without quotes</span><br><span class="line">##E.g. VALIDATORS&#x3D;0x 0x 0x</span><br><span class="line">VALIDATORS&#x3D;ACCOUNT_ADMIN</span><br><span class="line">##Set to ONE_DIRECTION or BOTH_DIRECTIONS if fee will be charged on home side, set to false otherwise</span><br><span class="line">HOME_REWARDABLE&#x3D;false</span><br><span class="line">## Valid only for rewards on erc_to_native mode. Supported values are BRIDGE_VALIDATORS_REWARD and POSDAO_REWARD</span><br><span class="line">HOME_FEE_MANAGER_TYPE&#x3D;</span><br><span class="line">##Set to ONE_DIRECTION or BOTH_DIRECTIONS if fee will be charged on foreign side, set to false otherwise</span><br><span class="line">FOREIGN_REWARDABLE&#x3D;false</span><br><span class="line">##If HOME_REWARDABLE or FOREIGN_REWARDABLE set to true, list validators accounts were rewards should be transferred separated by space without quotes</span><br><span class="line">##E.g. VALIDATORS_REWARD_ACCOUNTS&#x3D;0x 0x 0x</span><br><span class="line">VALIDATORS_REWARD_ACCOUNTS&#x3D;0x</span><br><span class="line"></span><br><span class="line">## Fee to be taken for every transaction directed from the Home network to the Foreign network</span><br><span class="line">## E.g. 0.1% fee</span><br><span class="line">HOME_TRANSACTIONS_FEE&#x3D;0.001</span><br><span class="line">## Fee to be taken for every transaction directed from the Foreign network to the Home network</span><br><span class="line">FOREIGN_TRANSACTIONS_FEE&#x3D;0.001</span><br><span class="line">##for bridge native_to_erc, erc_to_erc mode</span><br><span class="line">DEPLOY_REWARDABLE_TOKEN&#x3D;false</span><br><span class="line">DPOS_STAKING_ADDRESS&#x3D;0x0000000000000000000000000000000000000000</span><br></pre></td></tr></table></figure>
+
+<br />
+4. Deploy the Bridge configuration
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./deploy.sh</span></span><br><span class="line">(...)</span><br><span class="line">Deployment has been completed.</span><br><span class="line"></span><br><span class="line">[   Home  ] HomeBridge: 0xc4e7cA947521f331969e41CC7c99ADa22F2C7F9C at block 9044640</span><br><span class="line">[   Home  ] ERC677 Bridgeable Token: 0xEa3acD04DdaF1F1A5Ae1B9f5f690123aA4E19B36</span><br><span class="line">[ Foreign ] ForeignBridge: 0xeb2dbC5AB9380A3517AcA9d8CA0c39873e569a93 at block 4503560</span><br><span class="line">[ Foreign ] ERC20 Token: 0x40A6a864133985E1146DDfEb48c7391CD07596F5</span><br><span class="line">Contracts Deployment have been saved to `bridgeDeploymentResults.json`</span><br><span class="line">&#123;</span><br><span class="line">    &quot;homeBridge&quot;: &#123;</span><br><span class="line">        &quot;address&quot;: &quot;0xc4e7cA947521f331969e41CC7c99ADa22F2C7F9C&quot;,</span><br><span class="line">        &quot;deployedBlockNumber&quot;: 9044640,</span><br><span class="line">        &quot;erc677&quot;: &#123;</span><br><span class="line">            &quot;address&quot;: &quot;0xEa3acD04DdaF1F1A5Ae1B9f5f690123aA4E19B36&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;foreignBridge&quot;: &#123;</span><br><span class="line">        &quot;address&quot;: &quot;0xeb2dbC5AB9380A3517AcA9d8CA0c39873e569a93&quot;,</span><br><span class="line">        &quot;deployedBlockNumber&quot;: 4503560</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Save the JSON information above.</strong></p>
+<br />
+### Step 4: Configure and deploy the Bridge Oracle
+
+<ol>
+<li>Go to the `oracle folder</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ../oracle</span></span><br></pre></td></tr></table></figure>
+
+<br />
+2. Create a configuration file in `./.env`
+
+<p><em>Note 1</em> : Open the saved JSON file <code>bridgeDeploymentResults.json</code> to get the home and foreign bridge contract address and deployment block numbers.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;homeBridge&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xc4e7cA947521f331969e41CC7c99ADa22F2C7F9C&quot;</span>,</span><br><span class="line">        <span class="string">&quot;deployedBlockNumber&quot;</span>: <span class="number">9044640</span>,</span><br><span class="line">        <span class="string">&quot;erc677&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xEa3acD04DdaF1F1A5Ae1B9f5f690123aA4E19B36&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;foreignBridge&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xeb2dbC5AB9380A3517AcA9d8CA0c39873e569a93&quot;</span>,</span><br><span class="line">        <span class="string">&quot;deployedBlockNumber&quot;</span>: <span class="number">4503560</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><em>Note 2</em> : the following properties to change</p>
+<ul>
+<li><code>PRIVATE_KEY</code> Account responsible for deploying, administrating the contracts and validating transfers</li>
+<li><code>ACCOUNT_ADMIN</code> Account responsible for deploying, administrating the contracts and validating transfers</li>
+<li><code>ERC20_TOKEN_ADDRESS</code> Address of the ERC20 token deployed above.</li>
+</ul>
+<p><em>Note 3</em> : For the reason of the tutorial, we decided to simplify the configuration as much as possible (one account administrating and validating)</p>
+<p><em>Note 4</em> : Make sure the account <code>ACCOUNT_ADMIN</code> is funded with RinkeBy ethers and POA sokol ethers.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">BRIDGE_MODE&#x3D;ERC_TO_ERC</span><br><span class="line">HOME_POLLING_INTERVAL&#x3D;5000</span><br><span class="line">FOREIGN_POLLING_INTERVAL&#x3D;1000</span><br><span class="line">ALLOW_HTTP&#x3D;yes</span><br><span class="line">HOME_RPC_URL&#x3D;https:&#x2F;&#x2F;sokol.poa.network</span><br><span class="line">FOREIGN_RPC_URL&#x3D;https:&#x2F;&#x2F;rinkeby.infura.io</span><br><span class="line">HOME_BRIDGE_ADDRESS&#x3D;bridgeDeploymentResults.json &#x2F; homeBridge &#x2F; address</span><br><span class="line">FOREIGN_BRIDGE_ADDRESS&#x3D;bridgeDeploymentResults.json &#x2F; foreignBridge &#x2F; address</span><br><span class="line">ERC20_TOKEN_ADDRESS&#x3D;ERC20_TOKEN_ADDRESS</span><br><span class="line"></span><br><span class="line">VALIDATOR_ADDRESS&#x3D;ACCOUNT_ADMIN</span><br><span class="line">VALIDATOR_ADDRESS_PRIVATE_KEY&#x3D;PRIVATE_KEY</span><br><span class="line"></span><br><span class="line">HOME_GAS_PRICE_ORACLE_URL&#x3D;https:&#x2F;&#x2F;gasprice.poa.network&#x2F;</span><br><span class="line">HOME_GAS_PRICE_SPEED_TYPE&#x3D;standard</span><br><span class="line">HOME_GAS_PRICE_FALLBACK&#x3D;1000000000</span><br><span class="line">HOME_GAS_PRICE_UPDATE_INTERVAL&#x3D;600000</span><br><span class="line"></span><br><span class="line">FOREIGN_GAS_PRICE_ORACLE_URL&#x3D;https:&#x2F;&#x2F;gasprice.poa.network&#x2F;</span><br><span class="line">FOREIGN_GAS_PRICE_SPEED_TYPE&#x3D;standard</span><br><span class="line">FOREIGN_GAS_PRICE_FALLBACK&#x3D;1000000000</span><br><span class="line">FOREIGN_GAS_PRICE_UPDATE_INTERVAL&#x3D;600000</span><br><span class="line"></span><br><span class="line">QUEUE_URL&#x3D;amqp:&#x2F;&#x2F;rabbit</span><br><span class="line">REDIS_URL&#x3D;redis:&#x2F;&#x2F;redis:6379</span><br><span class="line">REDIS_LOCK_TTL&#x3D;1000</span><br><span class="line"></span><br><span class="line">HOME_START_BLOCK&#x3D;bridgeDeploymentResults.json &#x2F; homeBridge &#x2F; deployedBlockNumber</span><br><span class="line">FOREIGN_START_BLOCK&#x3D;bridgeDeploymentResults.json &#x2F; foreignBridge &#x2F; deployedBlockNumber</span><br><span class="line"></span><br><span class="line">LOG_LEVEL&#x3D;info</span><br><span class="line">MAX_PROCESSING_TIME&#x3D;20000</span><br></pre></td></tr></table></figure>
+
+<br />
+3. Build and run the Bridge Oracle (using [Docker](https://www.docker.com/) and Docker-compose)
+
+<p>This docker package is composed of a Reddit database, Rabbit MQ broker and NodeJS workers.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker-compose up --build</span></span><br></pre></td></tr></table></figure>
+
+<p><em>Use the flag <code>-d</code> to run the Bridge Oracle in the background (daemon)</em></p>
+<p><img src="https://imgur.com/Hgow8Fl.gif"></p>
+<br />
+### Step 5: Configure and Deploy the bridge UI
+
+<p>Last step consist in deploying a User Interface to transfer tokens between the sidechain and the mainchain.</p>
+<ol>
+<li>Navigate to the folder <code>ui</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ../ui</span></span><br></pre></td></tr></table></figure>
+
+<br />
+2. Create a configuration file in `./.env`
+
+<p><em>Note 1</em>: Open the saved JSON file <code>bridgeDeploymentResults.json</code> to get the home and foreign bridge contract address and deployment block numbers.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;homeBridge&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xc4e7cA947521f331969e41CC7c99ADa22F2C7F9C&quot;</span>,</span><br><span class="line">        <span class="string">&quot;deployedBlockNumber&quot;</span>: <span class="number">9044640</span>,</span><br><span class="line">        <span class="string">&quot;erc677&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xEa3acD04DdaF1F1A5Ae1B9f5f690123aA4E19B36&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;foreignBridge&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;address&quot;</span>: <span class="string">&quot;0xeb2dbC5AB9380A3517AcA9d8CA0c39873e569a93&quot;</span>,</span><br><span class="line">        <span class="string">&quot;deployedBlockNumber&quot;</span>: <span class="number">4503560</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">REACT_APP_HOME_BRIDGE_ADDRESS&#x3D;bridgeDeploymentResults.json &#x2F; homeBridge &#x2F; address</span><br><span class="line">REACT_APP_FOREIGN_BRIDGE_ADDRESS&#x3D;bridgeDeploymentResults.json &#x2F; foreignBridge &#x2F; address</span><br><span class="line"></span><br><span class="line">REACT_APP_HOME_HTTP_PARITY_URL&#x3D;https:&#x2F;&#x2F;sokol.poa.network</span><br><span class="line">REACT_APP_FOREIGN_HTTP_PARITY_URL&#x3D;https:&#x2F;&#x2F;rinkeby.infura.io&#x2F;mew</span><br></pre></td></tr></table></figure>
+
+<br />
+3. Run Bridge UI
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm start</span></span><br></pre></td></tr></table></figure>
+
+<br />
+4. Open your Internet Browser, unlock Metamask on the Rinkeby network with the account used to deploy BRT token and go to [http://localhost:3000/](http://localhost:3000/)
+
+<p><img src="https://gateway.pinata.cloud/ipfs/QmPNXRHicnw5ZVFiyiZVN7rDEwR8rtVtWsMYq1bLEMovor"></p>
+<p>If you are on the RinkeBy network, you should see that you own 100 BRT token on the mainchain (RinkeBy) and 0 on the sidechain (POA Sokol)</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmPbXEgc9q2xZ31hJjLJS4mvbFUy5fLj8SoFP89v25AMeq"></p>
+<p>You can now transfer BRT token between the mainchain and the sidechain:</p>
+<p><img src="https://imgur.com/lPYryIU.gif"></p>
+<br />
+<br />
+-----------------------------------------------------
+
+<h3 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/poanetwork/poa-bridge-contracts">poa-bridge-contracts GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/poanetwork/tokenbridge">token-bridge (monorepo) GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/poa-network/introducing-the-erc20-to-erc20-tokenbridge-ce266cc1a2d0">Introducing the ERC20 to ERC20 TokenBridge</a> (November 2018)</li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/poa-network/introducing-poa-bridge-and-poa20-55d8b78058ac">Introducing POA Bridge and POA20</a> (April 2018)</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">2.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References:</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&text=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&is_video=false&description=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain&body=Check out this article: https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&title=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&name=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/01/20/bridge-assets-between-a-sidechain-and-a-mainchain/&t=(POA Guide - Part 2) Bridge assets between a sidechain and a mainchain"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

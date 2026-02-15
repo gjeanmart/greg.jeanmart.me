@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In this article, we learn how to interact with IPFS (InterPlanetary File System) in Java using the official java-ipfs-http-client library. This library connects to an IPFS node and wraps most of the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Managing storage in a Java application with IPFS">
+<meta property="og:url" content="https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="In this article, we learn how to interact with IPFS (InterPlanetary File System) in Java using the official java-ipfs-http-client library. This library connects to an IPFS node and wraps most of the">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f">
+<meta property="og:image" content="https://imgur.com/RRB6chj.png">
+<meta property="og:image" content="https://imgur.com/F5U0gHN.png">
+<meta property="og:image" content="https://i.imgur.com/OWF5ppv.png">
+<meta property="og:image" content="https://i.imgur.com/NQNmMcU.png">
+<meta property="og:image" content="https://i.imgur.com/Vik04Ap.png">
+<meta property="og:image" content="https://imgur.com/ormQrVT.png">
+<meta property="og:image" content="https://i.imgur.com/QD6fx2R.png">
+<meta property="og:image" content="https://i.imgur.com/LpwsU4P.png">
+<meta property="og:image" content="https://imgur.com/nkf28QP.png">
+<meta property="og:image" content="https://i.imgur.com/bNBgYtk.png">
+<meta property="og:image" content="https://i.imgur.com/KQUKhk2.png">
+<meta property="og:image" content="https://i.imgur.com/3TefgpL.png">
+<meta property="og:image" content="https://i.imgur.com/vRIeeWF.png">
+<meta property="og:image" content="https://i.imgur.com/AtD5wxv.png">
+<meta property="og:image" content="https://i.imgur.com/OCwJtk2.png">
+<meta property="og:image" content="https://i.imgur.com/vuRKfVF.png">
+<meta property="article:published_time" content="2019-08-13T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Managing storage in a Java application with IPFS</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/18/generate-a-java-wrapper-from-your-smart-contract/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&text=Managing storage in a Java application with IPFS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&is_video=false&description=Managing storage in a Java application with IPFS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Managing storage in a Java application with IPFS&body=Check out this article: https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&name=Managing storage in a Java application with IPFS&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&t=Managing storage in a Java application with IPFS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisites"><span class="toc-number">1.</span> <span class="toc-text">Prerequisites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dependencies"><span class="toc-number">2.</span> <span class="toc-text">Dependencies</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Maven"><span class="toc-number">2.1.</span> <span class="toc-text">Maven</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gradle"><span class="toc-number">2.2.</span> <span class="toc-text">Gradle</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-to-IPFS"><span class="toc-number">3.</span> <span class="toc-text">Connect to IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-by-host-and-port"><span class="toc-number">3.1.</span> <span class="toc-text">Connect by host and port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-by-multiaddr"><span class="toc-number">3.2.</span> <span class="toc-text">Connect by multiaddr</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Add-content-to-IPFS"><span class="toc-number">4.</span> <span class="toc-text">Add content to IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#File-FileWrapper"><span class="toc-number">4.1.</span> <span class="toc-text">File (FileWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InputStream-InputStreamWrapper"><span class="toc-number">4.2.</span> <span class="toc-text">InputStream (InputStreamWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Byte-Array-ByteArrayWrapper"><span class="toc-number">4.3.</span> <span class="toc-text">Byte Array (ByteArrayWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Directory-DirWrapper"><span class="toc-number">4.4.</span> <span class="toc-text">Directory (DirWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MerkleNode"><span class="toc-number">4.5.</span> <span class="toc-text">MerkleNode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MultiHash"><span class="toc-number">4.6.</span> <span class="toc-text">MultiHash</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Read-a-Base58-hash-to-Multihash"><span class="toc-number">4.6.1.</span> <span class="toc-text">Read a Base58 hash to Multihash</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Read-a-Base16-hexadecinal-hash-to-Multihash"><span class="toc-number">4.6.2.</span> <span class="toc-text">Read a Base16 (hexadecinal) hash to Multihash</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-Base58"><span class="toc-number">4.6.3.</span> <span class="toc-text">Convert a Multihash to Base58</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-Base16"><span class="toc-number">4.6.4.</span> <span class="toc-text">Convert a Multihash to Base16</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-a-byte-array"><span class="toc-number">4.6.5.</span> <span class="toc-text">Convert a Multihash to a byte array</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-content-from-IPFS"><span class="toc-number">5.</span> <span class="toc-text">Read content from IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-content-into-a-Byte-array"><span class="toc-number">5.1.</span> <span class="toc-text">Read content into a Byte array</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-content-into-a-stream"><span class="toc-number">5.2.</span> <span class="toc-text">Read content into a stream</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pin-Unpin-content"><span class="toc-number">6.</span> <span class="toc-text">Pin&#x2F;Unpin content</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pin"><span class="toc-number">6.1.</span> <span class="toc-text">Pin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Unpin"><span class="toc-number">6.2.</span> <span class="toc-text">Unpin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List"><span class="toc-number">6.3.</span> <span class="toc-text">List</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPNS"><span class="toc-number">7.</span> <span class="toc-text">IPNS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Keys"><span class="toc-number">7.1.</span> <span class="toc-text">Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Generate-a-key"><span class="toc-number">7.1.1.</span> <span class="toc-text">Generate a key</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Delete-a-key"><span class="toc-number">7.1.2.</span> <span class="toc-text">Delete a key</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#List-all-keys"><span class="toc-number">7.1.3.</span> <span class="toc-text">List all keys</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Publish"><span class="toc-number">7.2.</span> <span class="toc-text">Publish</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resolve"><span class="toc-number">7.3.</span> <span class="toc-text">Resolve</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Other-operations"><span class="toc-number">8.</span> <span class="toc-text">Other operations</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-version"><span class="toc-number">8.1.</span> <span class="toc-text">Node version</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-peers"><span class="toc-number">8.2.</span> <span class="toc-text">Node peers</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">9.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Managing storage in a Java application with IPFS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-08-13T22:00:00.000Z" itemprop="datePublished">2019-08-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmVGsfP47b62S9Xs4R4xiiTwFAwFD3sySBhbL5BLChqr5f"></p>
+<p>In this article, we learn how to interact with <strong><a target="_blank" rel="noopener" href="https://ipfs.io/">IPFS</a> (InterPlanetary File System)</strong> in Java using the official <a target="_blank" rel="noopener" href="https://github.com/ipfs/java-ipfs-http-client"><strong>java-ipfs-http-client library</strong></a>. This library connects to an IPFS node and wraps most of the operations offered by the <a target="_blank" rel="noopener" href="https://docs.ipfs.io/reference/api/http/">HTTP API</a>.</p>
+<p>The following diagram describes a Java program connected to an IPFS node via the <strong>java-ipfs-http-client</strong> library to the API Server.</p>
+<p><img src="https://imgur.com/RRB6chj.png"></p>
+<ul>
+<li>API server (default port: 5001): Full API</li>
+<li>Gateway server (default port: 8080): Read Only API (access to data only)</li>
+<li>P2P (default port: 4001): Peer-to-peer interface</li>
+</ul>
+<br />
+
+<h3 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h3><p>To run this tutorial, we must have the following installed:</p>
+<ul>
+<li>Java programming language (&gt; 8)</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> java -version</span></span><br><span class="line">java version &quot;1.8.0_201&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>A package and dependency manager, for example <a target="_blank" rel="noopener" href="https://maven.apache.org/">Maven</a> or <a target="_blank" rel="noopener" href="https://gradle.org/">Gradle</a></li>
+<li>An IDE (Integrated development environment), for this tutorial, we use Eclipse</li>
+<li>A running IPFS node (&gt; 0.4.x)<br><em>Follow <a target="_blank" rel="noopener" href="https://kauri.io/article/b01b9b7bebcd4ebf80edf021bdd0e232/v2/installing-ipfs">the following article</a> to learn how to install an IPFS node (go-ipfs)</em></li>
+</ul>
+<h3 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h3><p>To get started, import the <code>java-ipfs-http-client</code> dependency</p>
+<h4 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h4><p>Using Maven, we first need to configure the repository that hosts the dependency and then import the dependency. Add the code below before the closing <code>&lt;/project&gt;</code> tag:</p>
+<p><em><a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/blob/master/java-ipfs/pom.xml">pom.xml</a></em></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">java-ipfs-http-client.version</span>&gt;</span>v1.2.3<span class="tag">&lt;/<span class="name">java-ipfs-http-client.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>jitpack.io<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://jitpack.io<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.ipfs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-ipfs-http-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;java-ipfs-http-client.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h4><p>The equivalent using Gradle:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">  compile <span class="string">&quot;com.github.ipfs:java-ipfs-http-client:v1.2.3&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h3 id="Connect-to-IPFS"><a href="#Connect-to-IPFS" class="headerlink" title="Connect to IPFS"></a>Connect to IPFS</h3><p>Once we’ve imported <code>java-ipfs-http-client</code>, the first step of our application is connecting to an IPFS node.</p>
+<h4 id="Connect-by-host-and-port"><a href="#Connect-by-host-and-port" class="headerlink" title="Connect by host and port"></a>Connect by host and port</h4><p>We can connect by a host and port like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IPFS ipfs = <span class="keyword">new</span> IPFS(<span class="string">&quot;localhost&quot;</span>, <span class="number">5001</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Connect-by-multiaddr"><a href="#Connect-by-multiaddr" class="headerlink" title="Connect by multiaddr"></a>Connect by multiaddr</h4><p>It is also possible to connect by <a target="_blank" rel="noopener" href="https://multiformats.io/multiaddr">multiaddr</a>. A multiaddr represents a self-describing network address.</p>
+<blockquote>
+<p>Multiaddr is a format for encoding addresses from various well-established network protocols. It is useful to write applications that future-proof their use of addresses and allow multiple transport protocols and addresses to coexist.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IPFS ipfs = <span class="keyword">new</span> IPFS(<span class="string">&quot;/ip4/127.0.0.1/tcp/5001&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>If the IPFS node sits behind a proxy with SSL (like <a target="_blank" rel="noopener" href="https://infura.io/">Infura</a>), we can configure <code>java-ipfs-http-client</code> to use <code>https</code> rather than <code>http</code> but a multiaddr is required.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IPFS ipfs = <span class="keyword">new</span> IPFS(<span class="string">&quot;/dnsaddr/ipfs.infura.io/tcp/5001/https&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h3 id="Add-content-to-IPFS"><a href="#Add-content-to-IPFS" class="headerlink" title="Add content to IPFS"></a>Add content to IPFS</h3><p>When adding a file on the IPFS network, the file is uploaded to the IPFS node we are connected to and stored in its local datastore. This operation returns a unique identifier of the file called “multihash” (for example: <code>Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a</code>).</p>
+<p><img src="https://imgur.com/F5U0gHN.png"></p>
+<p>We use the <code>ipfs.add(NamedStreamable file): List&lt;MerkleNode&gt;</code> method to store content on the IPFS node we are connected to. This method takes a <code>NamedStreamable</code> or a <code>List&lt;NamedStreamable&gt;</code> as input. <code>NamedStreamable</code> has four different implementations:</p>
+<ul>
+<li><code>FileWrapper</code> wraps a <code>java.io.File</code></li>
+<li><code>InputStreamWrapper</code> wraps a <code>java.io.InputStream</code></li>
+<li><code>ByteArrayWrapper</code> wraps a <code>byte[]</code></li>
+<li><code>DirWrapper</code> wraps a <code>(String name, List&lt;NamedStreamable&gt; children)</code> to describe a hierarchical files structure</li>
+</ul>
+<p>We can also add optional parameters to the method:</p>
+<ul>
+<li><code>wrap</code> [boolean]&#x3A; Wrap files into a directory.</li>
+<li><code>hashOnly</code> [boolean]&#x3A; Only chunk and hash - do not write to the datastore.</li>
+</ul>
+<p>Finally, the method returns a list of <code>MerkleNode</code> which represents the content-addressable objects just added on the IPFS network.</p>
+<h4 id="File-FileWrapper"><a href="#File-FileWrapper" class="headerlink" title="File (FileWrapper)"></a>File (FileWrapper)</h4><p>We can use <code>NamedStreamable.FileWrapper</code> to pass a <code>java.io.File</code> to IPFS.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  NamedStreamable.FileWrapper file = <span class="keyword">new</span> NamedStreamable.FileWrapper(<span class="keyword">new</span> File(<span class="string">&quot;/home/gr3g/Documents/hello.txt&quot;</span>));</span><br><span class="line">  MerkleNode response = ipfs.add(file).get(<span class="number">0</span>);</span><br><span class="line">  System.out.println(<span class="string">&quot;Hash (base 58): &quot;</span> + response.hash.toBase58());</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="InputStream-InputStreamWrapper"><a href="#InputStream-InputStreamWrapper" class="headerlink" title="InputStream (InputStreamWrapper)"></a>InputStream (InputStreamWrapper)</h4><p>If you are dealing with a <code>java.io.InputStream</code>, use <code>NamedStreamable.InputStreamWrapper</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  NamedStreamable.InputStreamWrapper is = <span class="keyword">new</span> NamedStreamable.InputStreamWrapper(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;/home/gr3g/Documents/hello.txt&quot;</span>));</span><br><span class="line">  MerkleNode response = ipfs.add(is).get(<span class="number">0</span>);</span><br><span class="line">  System.out.println(<span class="string">&quot;Hash (base 58): &quot;</span> + response.name.get() + <span class="string">&quot; - &quot;</span> + addResponse.hash.toBase58());</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Byte-Array-ByteArrayWrapper"><a href="#Byte-Array-ByteArrayWrapper" class="headerlink" title="Byte Array (ByteArrayWrapper)"></a>Byte Array (ByteArrayWrapper)</h4><p>To store a <code>byte[]</code>, use <code>NamedStreamable.ByteArrayWrapper</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  NamedStreamable.ByteArrayWrapper bytearray = <span class="keyword">new</span> NamedStreamable.ByteArrayWrapper(<span class="string">&quot;hello&quot;</span>.getBytes());</span><br><span class="line">  MerkleNode response = ipfs.add(bytearray).get(<span class="number">0</span>);</span><br><span class="line">  System.out.println(<span class="string">&quot;Hash (base 58): &quot;</span> + response.hash.toBase58());</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Directory-DirWrapper"><a href="#Directory-DirWrapper" class="headerlink" title="Directory (DirWrapper)"></a>Directory (DirWrapper)</h4><p>Finally, to store files inside folders, use <code>NamedStreamable.DirWrapper</code>. For example, with the folder structure below:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">folder</span><br><span class="line">|-- hello.txt</span><br><span class="line">|-- hello2.txt</span><br></pre></td></tr></table></figure>
+
+<p>Use:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  NamedStreamable.FileWrapper file1 = <span class="keyword">new</span> NamedStreamable.FileWrapper(<span class="keyword">new</span> File(<span class="string">&quot;/home/gr3g/Documents/hello.txt&quot;</span>));</span><br><span class="line">  NamedStreamable.FileWrapper file2 = <span class="keyword">new</span> NamedStreamable.FileWrapper(<span class="keyword">new</span> File(<span class="string">&quot;/home/gr3g/Documents/hello2.txt&quot;</span>));</span><br><span class="line"></span><br><span class="line">  NamedStreamable.DirWrapper directory = <span class="keyword">new</span> NamedStreamable.DirWrapper(<span class="string">&quot;folder&quot;</span>, Arrays.asList(file1, file2));</span><br><span class="line">  List&lt;MerkleNode&gt; response = ipfs.add(directory);</span><br><span class="line">  response.forEach(merkleNode -&gt;</span><br><span class="line">  System.out.println(<span class="string">&quot;Hash (base 58): &quot;</span> + merkleNode.name.get() + <span class="string">&quot; - &quot;</span> + merkleNode.hash.toBase58()));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/OWF5ppv.png"></p>
+<h4 id="MerkleNode"><a href="#MerkleNode" class="headerlink" title="MerkleNode"></a>MerkleNode</h4><p>IPFS is a peer-to-peer network essentially used to share linked Objects from a giant Merkle tree. When adding one file or a directory to IPFS, this operation returns the new dedicated branch of the Merkle tree composed of one or more linked Objects. We represent these branches in Java as a <code>List&lt;MerkleNode&gt;</code>.</p>
+<p>A <code>MerkleNode</code> is composed of the following information:</p>
+<ul>
+<li><strong>hash</strong> (multihash): a unique identifier of the Object within IPFS</li>
+<li><strong>name</strong> (optional): Name of the object (usually the folder or filename)</li>
+<li><strong>size</strong> (optional): Size of the object</li>
+<li><strong>links</strong> (zero or more): A list of child Objects</li>
+</ul>
+<h4 id="MultiHash"><a href="#MultiHash" class="headerlink" title="MultiHash"></a>MultiHash</h4><p><a target="_blank" rel="noopener" href="https://multiformats.io/multihash/">Multihash</a> (<a target="_blank" rel="noopener" href="https://github.com/multiformats/multihash">github</a>) is a self-describing hash to uniquely identify and locate an object into the IPFS Merkle tree. It is usually represented in Base58, but we can also represent it in hexadecimal.</p>
+<p>A multihash consists of different parts:</p>
+<p><img src="https://i.imgur.com/NQNmMcU.png"></p>
+<p>For example (in hexadecimal)</p>
+<p><img src="https://i.imgur.com/Vik04Ap.png"></p>
+<h5 id="Read-a-Base58-hash-to-Multihash"><a href="#Read-a-Base58-hash-to-Multihash" class="headerlink" title="Read a Base58 hash to Multihash"></a>Read a Base58 hash to Multihash</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Multihash multihash = Multihash.fromBase58(<span class="string">&quot;QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Read-a-Base16-hexadecinal-hash-to-Multihash"><a href="#Read-a-Base16-hexadecinal-hash-to-Multihash" class="headerlink" title="Read a Base16 (hexadecinal) hash to Multihash"></a>Read a Base16 (hexadecinal) hash to Multihash</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Multihash multihash = Multihash.fromHex(<span class="string">&quot;122046d44814b9c5af141c3aaab7c05dc5e844ead5f91f12858b21eba45768b4ce&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Convert-a-Multihash-to-Base58"><a href="#Convert-a-Multihash-to-Base58" class="headerlink" title="Convert a Multihash to Base58"></a>Convert a Multihash to Base58</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String hash = multihash.toBase58();</span><br></pre></td></tr></table></figure>
+
+<h5 id="Convert-a-Multihash-to-Base16"><a href="#Convert-a-Multihash-to-Base16" class="headerlink" title="Convert a Multihash to Base16"></a>Convert a Multihash to Base16</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String hash = multihash.toHex();</span><br></pre></td></tr></table></figure>
+
+<h5 id="Convert-a-Multihash-to-a-byte-array"><a href="#Convert-a-Multihash-to-a-byte-array" class="headerlink" title="Convert a Multihash to a byte array"></a>Convert a Multihash to a byte array</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] hash = multihash.toBytes();</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h3 id="Read-content-from-IPFS"><a href="#Read-content-from-IPFS" class="headerlink" title="Read content from IPFS"></a>Read content from IPFS</h3><p>In order to read a file on the IPFS network, we need to pass the hash (multihash) of the Object we want to retrieve. Then IPFS finds and retrieves the file from the closest peer hosting the file via the peer-to-peer network and a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Distributed_hash_table">Distributed Hash Table</a>.</p>
+<p><img src="https://imgur.com/ormQrVT.png"></p>
+<p>Using <code>java-ipfs-http-client</code>, there are two ways to read content from the IPFS network.</p>
+<h4 id="Read-content-into-a-Byte-array"><a href="#Read-content-into-a-Byte-array" class="headerlink" title="Read content into a Byte array"></a>Read content into a Byte array</h4><p>The most common way to find and read content from IPFS for a given hash is to use the method <code>ipfs.cat(&lt;hash&gt;): byte[]</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o&quot;</span>; <span class="comment">// Hash of a file</span></span><br><span class="line">  Multihash multihash = Multihash.fromBase58(hash);</span><br><span class="line">  <span class="keyword">byte</span>[] content = ipfs.cat(multihash);</span><br><span class="line">  System.out.println(<span class="string">&quot;Content of &quot;</span> + hash + <span class="string">&quot;: &quot;</span> + <span class="keyword">new</span> String(content));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/QD6fx2R.png"></p>
+<p>It’s also possible to retrieve a file from a directory structure by passing the path of the file like this <code>ipfs.cat(&lt;hash&gt;, &lt;path&gt;): byte[]</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmNoQbeckeCN7FWt6mVcxTf7CAyyHUMsqtCWtMLFdsUayN&quot;</span>; <span class="comment">// Hash of a directory</span></span><br><span class="line">  Multihash multihash = Multihash.fromBase58(hash);</span><br><span class="line">  <span class="keyword">byte</span>[] content = ipfs.cat(multihash, <span class="string">&quot;/hello2.txt&quot;</span>);</span><br><span class="line">  System.out.println(<span class="string">&quot;Content of &quot;</span> + hash + <span class="string">&quot;/hello2.txt : &quot;</span> + <span class="keyword">new</span> String(content));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/LpwsU4P.png"></p>
+<h4 id="Read-content-into-a-stream"><a href="#Read-content-into-a-stream" class="headerlink" title="Read content into a stream"></a>Read content into a stream</h4><p>The second way consists in using the method <code>ipfs.catStream(&lt;hash&gt;): InputStream</code> to write the response in a Stream.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o&quot;</span>; <span class="comment">// Hash of a file</span></span><br><span class="line">  Multihash multihash = Multihash.fromBase58(hash);</span><br><span class="line">  InputStream inputStream = infuraIPFS.catStream(filePoinhashter2);</span><br><span class="line">  Files.copy(inputStream, Paths.get(<span class="string">&quot;/home/gr3g/Documents/helloResult.txt&quot;</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h3 id="Pin-Unpin-content"><a href="#Pin-Unpin-content" class="headerlink" title="Pin/Unpin content"></a>Pin/Unpin content</h3><p>Adding a file on IPFS only creates a copy of the file in one location (your node), so the file is readable from any node unless your node goes offline. Pinning is the action to replicate a file (already available somewhere on the network) to our local node.</p>
+<p>This method is useful to bring speed and high availability to a file.</p>
+<p><img src="https://imgur.com/nkf28QP.png"></p>
+<h4 id="Pin"><a href="#Pin" class="headerlink" title="Pin"></a>Pin</h4><p>The method <code>ipfs.pin.add(&lt;hash&gt;): void</code> offers to pin a file by hash on our node.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o&quot;</span>; <span class="comment">// Hash of a file</span></span><br><span class="line">  Multihash multihash = Multihash.fromBase58(hash);</span><br><span class="line">  ipfs.pin.add(multihash);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>Pinning an Object linked to other Objects (children) such as a directory automatically pins all the subsequent children.</em></p>
+<h4 id="Unpin"><a href="#Unpin" class="headerlink" title="Unpin"></a>Unpin</h4><p>The reverse operation is also possible with the method <code>ipfs.pin.rm(&lt;hash&gt;, &lt;recursive&gt;): void</code> which removes a file from our node.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o&quot;</span>; <span class="comment">// Hash of a file</span></span><br><span class="line">  Multihash multihash = Multihash.fromBase58(hash);</span><br><span class="line">  ipfs.pin.rm(multihash)</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We can use the flag <code>recursive [boolean]</code> to remove (unpin) all the subsequent linked objects to the object identified by the hash (default true).</p>
+<h4 id="List"><a href="#List" class="headerlink" title="List"></a>List</h4><p>Finally, we can list all the content hosted on our local node with the method <code>ipfs.pin.ls(&lt;pinType&gt;): Map&lt;Multihash, Object&gt;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  Map&lt;Multihash, Object&gt; list = ipfs.pin.ls(PinType.all);</span><br><span class="line">  list.forEach((hash, type)</span><br><span class="line">    -&gt; System.out.println(<span class="string">&quot;Multihash: &quot;</span> + hash + <span class="string">&quot; - type: &quot;</span> + type));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/bNBgYtk.png"></p>
+<p>We can request different types of pinned keys to list:</p>
+<ul>
+<li><code>all</code>: All Objects</li>
+<li><code>direct</code>: Objects pinned directly</li>
+<li><code>indirect</code>: Objects referenced by recursive pins</li>
+<li><code>recursive</code>: Roots of recursive pins (like direct, but also pin the children of the object)</li>
+</ul>
+<br />
+
+<h3 id="IPNS"><a href="#IPNS" class="headerlink" title="IPNS"></a>IPNS</h3><p>IPNS stands for “InterPlanetary Naming System” and represents a global mutable namespace accessible from anywhere on the IPFS network to assign a name against a hash (similar to a DNS server assigning a name against a server IP). This can be useful when we want to share a link of a mutable object.</p>
+<p>Let’s say for example we want to host an article on IPFS, the article (version 1) has a unique hash, but if we decide to update the article and host it on IPFS, the hash is different, and we have to reshare the new hash. We can use IPNS to prevent this issue, it is possible to link a name to a hash and update the hash a much as we want so we only have to reassign the hash of the article to a name and share the name, if we update the article, we only have to update the name resolution to point to the latest version.</p>
+<p><em>Note: IPNS is still work in progress and is slow to use, it takes approximately 1-2 min to publish a name.</em></p>
+<h4 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h4><p>IPNS is based on a distributed Public Key Infrastructure (PKI). To get started, we need a keypair available on our IPFS node.</p>
+<p>We can use the keypair to store one key/value pair where the key represents the “name” and “value” the hash to resolve.</p>
+<h5 id="Generate-a-key"><a href="#Generate-a-key" class="headerlink" title="Generate a key"></a>Generate a key</h5><p>First, we need to generate a keypair using the method <code>ipfs.key.gen(name, type, size): KeyInfo</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String keyName =<span class="string">&quot;myarticle&quot;</span>;</span><br><span class="line">  Optional&lt;String&gt; keyType = Optional.of(<span class="string">&quot;rsa&quot;</span>);</span><br><span class="line">  Optional&lt;String&gt; keySize = Optional.of(<span class="string">&quot;2048&quot;</span>);</span><br><span class="line"></span><br><span class="line">  KeyInfo key = ipfs.key.gen(keyName, keyType, keySize);</span><br><span class="line">  System.out.println(<span class="string">&quot;key name: &quot;</span> + key.name);</span><br><span class="line">  System.out.println(<span class="string">&quot;key.hash: &quot;</span> + key.id);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/KQUKhk2.png"></p>
+<p>The following function returns a <code>KeyInfo</code> object composed of the name and the id (multihash) of the key representing the name which we can use to resolve a hash.</p>
+<h5 id="Delete-a-key"><a href="#Delete-a-key" class="headerlink" title="Delete a key"></a>Delete a key</h5><p>It is also possible to remove a key using <code>ipfs.key.rm(keyName): void</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ipfs.key.rm(keyName);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="List-all-keys"><a href="#List-all-keys" class="headerlink" title="List all keys"></a>List all keys</h5><p>The method <code>ipfs.key.list()</code> allows us to list all keys available on our node.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  List&lt;KeyInfo&gt; keys = ipfs.key.list();</span><br><span class="line">  keys.forEach(key -&gt;</span><br><span class="line">    System.out.println(<span class="string">&quot;keyInfo: name=&quot;</span> + key.name + <span class="string">&quot;, hash=&quot;</span> + key.id));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/3TefgpL.png"></p>
+<p>The <code>self</code> key represents the default key generated when we launch IPFS for the first time.</p>
+<h4 id="Publish"><a href="#Publish" class="headerlink" title="Publish"></a>Publish</h4><p>Once we have a exclusive keypair available, we can use it to publish a hash against it using the method <code>ipfs.name.publish(hash, keyName)</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String hash = <span class="string">&quot;QmWfVY9y3xjsixTgbd9AorQxH7VtMpzfx2HaWtsoUYecaX&quot;</span> <span class="comment">// Hash of &quot;hello</span></span><br><span class="line">  Map response = ipfs.name.publish(hash, Optional.of(keyName));</span><br><span class="line">  System.out.println(<span class="string">&quot;publish(hash=&quot;</span>+hash+<span class="string">&quot;, key=&quot;</span>+keyName+<span class="string">&quot;): &quot;</span> + response);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/vRIeeWF.png"></p>
+<p><em>Note that this operation is particularly slow and can take up to two minutes to execute</em></p>
+<h4 id="Resolve"><a href="#Resolve" class="headerlink" title="Resolve"></a>Resolve</h4><p>Just like a DNS, reading an object from an IPNS name is a two steps process:</p>
+<ol>
+<li> Resolve the hash against the name</li>
+<li> Read the content from the hash</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  KeyInfo key = ipfs.key.list().stream()</span><br><span class="line">    .filter(k -&gt; k.name.equals(keyName))</span><br><span class="line">    .findAny()</span><br><span class="line">    .orElseThrow(() -&gt; <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Key &quot;</span> + keyName + <span class="string">&quot; not found&quot;</span>));</span><br><span class="line"></span><br><span class="line">  String resolveResponse = ipfs.name.resolve(key.id);</span><br><span class="line">  System.out.println(<span class="string">&quot;resolve(key=&quot;</span>+key.id+<span class="string">&quot;): &quot;</span> + resolveResponse);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">byte</span>[] content = ipfs.cat(Multihash.fromBase58(resolveResponse.substring(<span class="number">6</span>)));</span><br><span class="line">  System.out.println(<span class="string">&quot;Content: &quot;</span> + <span class="keyword">new</span> String(content));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/AtD5wxv.png"></p>
+<br />
+
+<h3 id="Other-operations"><a href="#Other-operations" class="headerlink" title="Other operations"></a>Other operations</h3><p>The <code>java-ipfs-http-client</code> library wraps many other API operations available on the node.</p>
+<h4 id="Node-version"><a href="#Node-version" class="headerlink" title="Node version"></a>Node version</h4><p>To get the Node version we are connected to, the library provides the method <code>ipfs.version(): String</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  String version = ipfs.version();</span><br><span class="line">  System.out.println(<span class="string">&quot;Node version: &quot;</span> + version);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst communicating with the IPFS node&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/OCwJtk2.png"></p>
+<h4 id="Node-peers"><a href="#Node-peers" class="headerlink" title="Node peers"></a>Node peers</h4><p>To retrieve the list of Peers connected to our local node:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Multihash&gt; peers = ipfs.refs.local()</span><br><span class="line">peers.forEach(multihash -&gt;</span><br><span class="line">  System.out.println(<span class="string">&quot;Peer ID: &quot;</span> + multihash));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/vuRKfVF.png"></p>
+<br />
+
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/tree/master/java-ipfs">GitHub Repository</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.ipfs.io/reference/api/http/">API Server documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0">Introduction to IPFS (by Consensys)</a></li>
+<li><a target="_blank" rel="noopener" href="http://whatdoesthequantsay.com/2015/09/13/ipfs-introduction-by-example">IPFS Introduction by Example (by Christian Lundkvist)</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/textileio/the-definitive-guide-to-publishing-content-on-ipfs-ipns-dfe751f1e8d0">The definitive guide to publishing content on the decentralized web (by Textile)</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisites"><span class="toc-number">1.</span> <span class="toc-text">Prerequisites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dependencies"><span class="toc-number">2.</span> <span class="toc-text">Dependencies</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Maven"><span class="toc-number">2.1.</span> <span class="toc-text">Maven</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gradle"><span class="toc-number">2.2.</span> <span class="toc-text">Gradle</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-to-IPFS"><span class="toc-number">3.</span> <span class="toc-text">Connect to IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-by-host-and-port"><span class="toc-number">3.1.</span> <span class="toc-text">Connect by host and port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-by-multiaddr"><span class="toc-number">3.2.</span> <span class="toc-text">Connect by multiaddr</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Add-content-to-IPFS"><span class="toc-number">4.</span> <span class="toc-text">Add content to IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#File-FileWrapper"><span class="toc-number">4.1.</span> <span class="toc-text">File (FileWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InputStream-InputStreamWrapper"><span class="toc-number">4.2.</span> <span class="toc-text">InputStream (InputStreamWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Byte-Array-ByteArrayWrapper"><span class="toc-number">4.3.</span> <span class="toc-text">Byte Array (ByteArrayWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Directory-DirWrapper"><span class="toc-number">4.4.</span> <span class="toc-text">Directory (DirWrapper)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MerkleNode"><span class="toc-number">4.5.</span> <span class="toc-text">MerkleNode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MultiHash"><span class="toc-number">4.6.</span> <span class="toc-text">MultiHash</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Read-a-Base58-hash-to-Multihash"><span class="toc-number">4.6.1.</span> <span class="toc-text">Read a Base58 hash to Multihash</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Read-a-Base16-hexadecinal-hash-to-Multihash"><span class="toc-number">4.6.2.</span> <span class="toc-text">Read a Base16 (hexadecinal) hash to Multihash</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-Base58"><span class="toc-number">4.6.3.</span> <span class="toc-text">Convert a Multihash to Base58</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-Base16"><span class="toc-number">4.6.4.</span> <span class="toc-text">Convert a Multihash to Base16</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Convert-a-Multihash-to-a-byte-array"><span class="toc-number">4.6.5.</span> <span class="toc-text">Convert a Multihash to a byte array</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-content-from-IPFS"><span class="toc-number">5.</span> <span class="toc-text">Read content from IPFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-content-into-a-Byte-array"><span class="toc-number">5.1.</span> <span class="toc-text">Read content into a Byte array</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-content-into-a-stream"><span class="toc-number">5.2.</span> <span class="toc-text">Read content into a stream</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pin-Unpin-content"><span class="toc-number">6.</span> <span class="toc-text">Pin&#x2F;Unpin content</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pin"><span class="toc-number">6.1.</span> <span class="toc-text">Pin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Unpin"><span class="toc-number">6.2.</span> <span class="toc-text">Unpin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List"><span class="toc-number">6.3.</span> <span class="toc-text">List</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPNS"><span class="toc-number">7.</span> <span class="toc-text">IPNS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Keys"><span class="toc-number">7.1.</span> <span class="toc-text">Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Generate-a-key"><span class="toc-number">7.1.1.</span> <span class="toc-text">Generate a key</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Delete-a-key"><span class="toc-number">7.1.2.</span> <span class="toc-text">Delete a key</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#List-all-keys"><span class="toc-number">7.1.3.</span> <span class="toc-text">List all keys</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Publish"><span class="toc-number">7.2.</span> <span class="toc-text">Publish</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resolve"><span class="toc-number">7.3.</span> <span class="toc-text">Resolve</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Other-operations"><span class="toc-number">8.</span> <span class="toc-text">Other operations</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-version"><span class="toc-number">8.1.</span> <span class="toc-text">Node version</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-peers"><span class="toc-number">8.2.</span> <span class="toc-text">Node peers</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">9.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&text=Managing storage in a Java application with IPFS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&is_video=false&description=Managing storage in a Java application with IPFS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Managing storage in a Java application with IPFS&body=Check out this article: https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&title=Managing storage in a Java application with IPFS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&name=Managing storage in a Java application with IPFS&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/08/13/managing-storage-in-a-java-application-with-ipfs/&t=Managing storage in a Java application with IPFS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

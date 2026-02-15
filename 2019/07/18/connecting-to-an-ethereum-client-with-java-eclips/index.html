@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Ethereum is a Blockchain, which means it operates on a peer-to-peer network composed of thousand of nodes where each node agrees on the next state. In order to interact with the Ethereum global state">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Connecting to an Ethereum client with Java, Eclipse and Web3j">
+<meta property="og:url" content="https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="Ethereum is a Blockchain, which means it operates on a peer-to-peer network composed of thousand of nodes where each node agrees on the next state. In order to interact with the Ethereum global state">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmZjb5Kp3LFcXTVxneoJN3aco6NF91M7TbVfxUq4B4ySsX">
+<meta property="og:image" content="https://web3j.readthedocs.io/en/latest/_images/web3j_network.png">
+<meta property="og:image" content="https://imgur.com/IpEZ6gX.png">
+<meta property="og:image" content="https://imgur.com/7uiey3U.png">
+<meta property="og:image" content="https://imgur.com/7Pvq9hJ.png">
+<meta property="og:image" content="https://imgur.com/iipSbO0.png">
+<meta property="og:image" content="https://imgur.com/MWJqowg.gif">
+<meta property="article:published_time" content="2019-07-18T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmZjb5Kp3LFcXTVxneoJN3aco6NF91M7TbVfxUq4B4ySsX">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Connecting to an Ethereum client with Java, Eclipse and Web3j</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/18/generate-a-java-wrapper-from-your-smart-contract/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/04/loom-part-1-develop-and-deploy-a-smart-contract/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&text=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&is_video=false&description=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Connecting to an Ethereum client with Java, Eclipse and Web3j&body=Check out this article: https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&name=Connecting to an Ethereum client with Java, Eclipse and Web3j&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&t=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">1.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-a-new-project"><span class="toc-number">2.</span> <span class="toc-text">Start a new project</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Create-a-new-Maven-project"><span class="toc-number">2.1.</span> <span class="toc-text">1. Create a new Maven project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Configure-our-project-to-use-Java-8"><span class="toc-number">2.2.</span> <span class="toc-text">2. Configure our project to use Java 8</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Add-Web3j-library-to-our-project"><span class="toc-number">3.</span> <span class="toc-text">Add Web3j library to our project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-Main-class"><span class="toc-number">4.</span> <span class="toc-text">Create a Main class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-to-an-Ethereum-node-with-Web3j"><span class="toc-number">5.</span> <span class="toc-text">Connect to an Ethereum node with Web3j.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-imports"><span class="toc-number">5.1.</span> <span class="toc-text">1. Add imports</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Connect-to-the-node"><span class="toc-number">5.2.</span> <span class="toc-text">2. Connect to the node</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Local-Ethereum-node-or-ganache-cli"><span class="toc-number">5.2.1.</span> <span class="toc-text">Local Ethereum node or ganache-cli</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Ganache-application-Local-development-blockchain"><span class="toc-number">5.2.2.</span> <span class="toc-text">Ganache application: Local development blockchain</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Infura-Hosted-nodes-for-public-mainet-and-testnets"><span class="toc-number">5.2.3.</span> <span class="toc-text">Infura: Hosted nodes for public mainet and testnets</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Execute-API-operations"><span class="toc-number">5.3.</span> <span class="toc-text">3. Execute API operations</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">6.</span> <span class="toc-text">Result</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">7.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Connecting to an Ethereum client with Java, Eclipse and Web3j
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-18T22:00:00.000Z" itemprop="datePublished">2019-07-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmZjb5Kp3LFcXTVxneoJN3aco6NF91M7TbVfxUq4B4ySsX"></p>
+<p><a target="_blank" rel="noopener" href="https://www.ethereum.org/"><strong>Ethereum</strong></a> is a Blockchain, which means it operates on a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Peer-to-peer">peer-to-peer network</a> composed of thousand of nodes where each node agrees on the next state.</p>
+<p>In order to interact with the Ethereum global state (distributed database), a program needs to connect to a node that exposes the standard <a target="_blank" rel="noopener" href="https://github.com/ethereum/wiki/wiki/JSON-RPC#json-rpc-api">JSON-RPC API</a> which can be used to execute operations on the Ethereum blockchain.</p>
+<p>In this article, we will learn how to start an Ethereum Java project and connect to a node using the Java library <strong><a target="_blank" rel="noopener" href="https://web3j.io/">Web3j</a></strong>, a lightweight and modular library implementing all the functionallities required to work with Ethereum (JSON-RPC API client, wallet account management, Java Smart Contract wrapper, support for ENS, ERC20 and ERC721 and much more).</p>
+<p><img src="https://web3j.readthedocs.io/en/latest/_images/web3j_network.png"></p>
+<h3 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h3><p>To run this tutorial, we must have the following installed:</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://java.com/en/download/">Java programming language</a> (&gt; 8)</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> java -version</span></span><br><span class="line">java version &quot;1.8.0_201&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  A package and dependancy manager, for example <a target="_blank" rel="noopener" href="https://maven.apache.org/">Maven</a> or <a target="_blank" rel="noopener" href="https://gradle.org/install/">Gradle</a></li>
+<li>  An IDE (Integrated development environment), for this tutorial, we use <a target="_blank" rel="noopener" href="https://www.eclipse.org/downloads/">Eclipse</a></li>
+</ul>
+<h3 id="Start-a-new-project"><a href="#Start-a-new-project" class="headerlink" title="Start a new project"></a>Start a new project</h3><p>First create a new Maven project called <code>java_ethereum</code> in Eclipse.</p>
+<h4 id="1-Create-a-new-Maven-project"><a href="#1-Create-a-new-Maven-project" class="headerlink" title="1. Create a new Maven project"></a>1. Create a new Maven project</h4><p>Once Eclipse is launched, we need to create a new Maven project. Go to <em>File &gt; New &gt; Project &gt; Maven &gt; Maven Project</em></p>
+<p>Check the box <em>Create a simple project (skip archetype selection)</em> and click on <em>Next &gt;</em>.</p>
+<p>Next screen, enter the <em>Group ID</em> and <em>Artifact ID</em> of our project then click <em>Finish</em>.</p>
+<p>Group Id: <code>io.kauri.tutorials.java-ethereum</code></p>
+<p>Artifact Id: <code>java-ethereum</code></p>
+<p><img src="https://imgur.com/IpEZ6gX.png"></p>
+<p>It should result of a new project in the <em>Project Explorer</em></p>
+<p><img src="https://imgur.com/7uiey3U.png"></p>
+<h4 id="2-Configure-our-project-to-use-Java-8"><a href="#2-Configure-our-project-to-use-Java-8" class="headerlink" title="2. Configure our project to use Java 8"></a>2. Configure our project to use Java 8</h4><p>Finally, we need to tell Eclipse and Maven to use Java version 8.</p>
+<p>Edit the file <code>pom.xml</code> and add the following lines before <code>&lt;/project&gt;</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Now, right click on the project name in the <em>Project Explorer</em> and click on <em>Maven &gt; Update Project</em>. Click <em>OK</em> in the dialog box that pops up.</p>
+<p>In the <em>Project Explorer</em>, You should see the <em>JRE System library</em> changing from <strong>JavaSE-1.5</strong> to <strong>JavaSE-1.8</strong>.</p>
+<p><img src="https://imgur.com/7Pvq9hJ.png"></p>
+<h3 id="Add-Web3j-library-to-our-project"><a href="#Add-Web3j-library-to-our-project" class="headerlink" title="Add Web3j library to our project"></a>Add Web3j library to our project</h3><p>In this step, we import the latest version of Web3j to our project via maven.</p>
+<p>In Eclipse, edit the file <code>pom.xml</code> and add the following lines before <code>&lt;/project&gt;</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.web3j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><em>Full pom.xml file available <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/blob/master/java-ethereum/pom.xml">here</a></em></p>
+<p>Save file and dependencies will import. In your package explorer you will see a Maven dependencies folder with all the JAR (Java ARchive) packages for web3j and its dependencies.</p>
+<h3 id="Create-a-Main-class"><a href="#Create-a-Main-class" class="headerlink" title="Create a Main class"></a>Create a Main class</h3><p>Now, we have all the required dependencies to use Web3j, we can start coding our Ethereum Java program.</p>
+<p>Create a Java class <code>Main.java</code> in your project by right-clicking on the project and selecting <em>New &gt; Class</em>.<br>Enter the package name <code>io.kauri.tutorials.java_ethereum</code>, the class name <code>Main</code> and check <em>public static void main(String[] args)</em>.</p>
+<p><img src="https://imgur.com/iipSbO0.png"></p>
+<p>Click on <em>Finish</em> to generate the skeleton file.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Main.java</span></span><br><span class="line"><span class="keyword">package</span> io.kauri.tutorials.java_ethereum;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Connect-to-an-Ethereum-node-with-Web3j"><a href="#Connect-to-an-Ethereum-node-with-Web3j" class="headerlink" title="Connect to an Ethereum node with Web3j."></a>Connect to an Ethereum node with Web3j.</h3><p>Now we have created our project, imported the Web3j library and prepared a program to run our code. We can now connect to an Ethereum node and start executing operations over the JSON-RPC API abstracted by Web3j.</p>
+<h4 id="1-Add-imports"><a href="#1-Add-imports" class="headerlink" title="1. Add imports"></a>1. Add imports</h4><p>First import the packages needed for our code, or allow your IDE to automatically import them for you:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.Web3j;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.http.HttpService;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthBlockNumber;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthGasPrice;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.Web3ClientVersion;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Connect-to-the-node"><a href="#2-Connect-to-the-node" class="headerlink" title="2. Connect to the node"></a>2. Connect to the node</h4><p>To connect to the node, Web3j requires the JSON-RPC API endpoint:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;&lt;NODE ENDPOINT&gt;&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h5 id="Local-Ethereum-node-or-ganache-cli"><a href="#Local-Ethereum-node-or-ganache-cli" class="headerlink" title="Local Ethereum node or ganache-cli"></a>Local Ethereum node or ganache-cli</h5><p>If you are running locally a <a target="_blank" rel="noopener" href="https://geth.ethereum.org/">Geth</a>, <a target="_blank" rel="noopener" href="https://www.parity.io/">Parity</a>, <a target="_blank" rel="noopener" href="https://github.com/PegaSysEng/pantheon">Pantheon</a> client or <a target="_blank" rel="noopener" href="https://github.com/trufflesuite/ganache-cli">ganache-cli</a>. Your node JSON-RPC API endpoint is <code>http://localhost:8545</code> by default</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;http://localhost:8545&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h5 id="Ganache-application-Local-development-blockchain"><a href="#Ganache-application-Local-development-blockchain" class="headerlink" title="Ganache application: Local development blockchain"></a>Ganache application: Local development blockchain</h5><p>If you are running the <a target="_blank" rel="noopener" href="https://www.trufflesuite.com/ganache">Ganache</a> application on your machine. Your node JSON-RPC API endpoint is <code>http://localhost:7545</code> by default. <em>ganche-cli uses port 8545</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;http://localhost:7545&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><em>Note: As a test network, Ganache doesn’t support all the JSON-RPC API operations specified, for example <code>net_peercount</code>.</em></p>
+<h5 id="Infura-Hosted-nodes-for-public-mainet-and-testnets"><a href="#Infura-Hosted-nodes-for-public-mainet-and-testnets" class="headerlink" title="Infura: Hosted nodes for public mainet and testnets"></a>Infura: Hosted nodes for public mainet and testnets</h5><p>If you use <a target="_blank" rel="noopener" href="https://infura.io/">Infura</a>. The node JSON-RPC API endpoint is <code>https://&lt;network&gt;.infura.io/v3/&lt;project key&gt;</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;https://mainnet.infura.io/v3/&lt;project key&gt;&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Execute-API-operations"><a href="#3-Execute-API-operations" class="headerlink" title="3. Execute API operations"></a>3. Execute API operations</h4><p>Web3j implements a JSON-RPC API client for Ethereum which can be used in the following way <code>&lt;response&gt; = web3.&lt;operation&gt;.send()</code>. For example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">// web3_clientVersion returns the current client version.</span></span><br><span class="line">  Web3ClientVersion clientVersion = web3.web3ClientVersion().send();</span><br><span class="line"></span><br><span class="line">  <span class="comment">//eth_blockNumber returns the number of most recent block.</span></span><br><span class="line">  EthBlockNumber blockNumber = web3.ethBlockNumber().send();</span><br><span class="line"></span><br><span class="line">  <span class="comment">//eth_gasPrice, returns the current price per gas in wei.</span></span><br><span class="line">  EthGasPrice gasPrice =  web3.ethGasPrice().send();</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span>(IOException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst sending json-rpc requests&quot;</span>, ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong> Serilization of the JSON-RPC request can raise an <code>IOException</code> exception, so you need to handle it.</p>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>The following code shows the entire Java program which connects to an Ethereum node and runs some JSON-RPC calls.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Main.java</span></span><br><span class="line"><span class="keyword">package</span> io.kauri.tutorials.java_ethereum;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.Web3j;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthBlockNumber;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthGasPrice;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.Web3ClientVersion;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.http.HttpService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Connecting to Ethereum ...&quot;</span>);</span><br><span class="line">    Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;http://localhost:8545&quot;</span>));</span><br><span class="line">    System.out.println(<span class="string">&quot;Successfuly connected to Ethereum&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// web3_clientVersion returns the current client version.</span></span><br><span class="line">      Web3ClientVersion clientVersion = web3.web3ClientVersion().send();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// eth_blockNumber returns the number of most recent block.</span></span><br><span class="line">      EthBlockNumber blockNumber = web3.ethBlockNumber().send();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// eth_gasPrice, returns the current price per gas in wei.</span></span><br><span class="line">      EthGasPrice gasPrice = web3.ethGasPrice().send();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Print result</span></span><br><span class="line">      System.out.println(<span class="string">&quot;Client version: &quot;</span> + clientVersion.getWeb3ClientVersion());</span><br><span class="line">      System.out.println(<span class="string">&quot;Block number: &quot;</span> + blockNumber.getBlockNumber());</span><br><span class="line">      System.out.println(<span class="string">&quot;Gas price: &quot;</span> + gasPrice.getGasPrice());</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Error whilst sending json-rpc requests&quot;</span>, ex);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>Full file available <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/blob/master/java-ethereum/src/main/java/io/kauri/tutorials/java_ethereum/Main.java">here</a></em></p>
+<p>To run the program, right-click on the file <code>Main.java</code> and click on <em>Run As &gt; Java Application</em>. You should see in the console the following result.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Connecting to Ethereum ...</span><br><span class="line">Successfuly connected to Ethereum</span><br><span class="line">Client version: Geth/v1.8.22-omnibus-260f7fbd/linux-amd64/go1.11.1</span><br><span class="line">Block number: 7983049</span><br><span class="line">Gas price: 3000000000</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/MWJqowg.gif"></p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/gjeanmart/kauri-content/tree/master/java-ethereum">GitHub Project code</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://web3j.io/">Web3j website</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://web3j.readthedocs.io/en/latest/">Web3j documentation</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/web3j/web3j">Web3j Github repo</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/ethereum/wiki/wiki/JSON-RPC">Ethereum JSON-RPC API</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">1.</span> <span class="toc-text">Prerequisite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-a-new-project"><span class="toc-number">2.</span> <span class="toc-text">Start a new project</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Create-a-new-Maven-project"><span class="toc-number">2.1.</span> <span class="toc-text">1. Create a new Maven project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Configure-our-project-to-use-Java-8"><span class="toc-number">2.2.</span> <span class="toc-text">2. Configure our project to use Java 8</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Add-Web3j-library-to-our-project"><span class="toc-number">3.</span> <span class="toc-text">Add Web3j library to our project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-Main-class"><span class="toc-number">4.</span> <span class="toc-text">Create a Main class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-to-an-Ethereum-node-with-Web3j"><span class="toc-number">5.</span> <span class="toc-text">Connect to an Ethereum node with Web3j.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-imports"><span class="toc-number">5.1.</span> <span class="toc-text">1. Add imports</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Connect-to-the-node"><span class="toc-number">5.2.</span> <span class="toc-text">2. Connect to the node</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Local-Ethereum-node-or-ganache-cli"><span class="toc-number">5.2.1.</span> <span class="toc-text">Local Ethereum node or ganache-cli</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Ganache-application-Local-development-blockchain"><span class="toc-number">5.2.2.</span> <span class="toc-text">Ganache application: Local development blockchain</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Infura-Hosted-nodes-for-public-mainet-and-testnets"><span class="toc-number">5.2.3.</span> <span class="toc-text">Infura: Hosted nodes for public mainet and testnets</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Execute-API-operations"><span class="toc-number">5.3.</span> <span class="toc-text">3. Execute API operations</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">6.</span> <span class="toc-text">Result</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">7.</span> <span class="toc-text">References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&text=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&is_video=false&description=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Connecting to an Ethereum client with Java, Eclipse and Web3j&body=Check out this article: https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&title=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&name=Connecting to an Ethereum client with Java, Eclipse and Web3j&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/07/18/connecting-to-an-ethereum-client-with-java-eclips/&t=Connecting to an Ethereum client with Java, Eclipse and Web3j"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

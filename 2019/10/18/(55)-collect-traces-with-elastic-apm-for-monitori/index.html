@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Elastic APM is an application performance monitoring system built on the Elastic Stack. It allows you to monitor software services and applications in real time — collect detailed performance informa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Elastic monitoring - 5&#x2F;5)  Collect traces with Elastic APM for monitoring Kubernetes">
+<meta property="og:url" content="https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="Elastic APM is an application performance monitoring system built on the Elastic Stack. It allows you to monitor software services and applications in real time — collect detailed performance informa">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmPohRWQiprtKujAU8F5sb1fFcSncXy7Js96mrtvnVAKAd">
+<meta property="og:image" content="https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blta65f095d22517ce4/5c98d59849a201165fca1042/blog-opentracing-elastic-apm-3.png">
+<meta property="og:image" content="https://www.elastic.co/guide/en/apm/get-started/current/images/apm-architecture-cloud.png">
+<meta property="og:image" content="https://imgur.com/jwXGG9j.gif">
+<meta property="og:image" content="https://i.imgur.com/VnolYBD.png">
+<meta property="og:image" content="https://imgur.com/QbaU8pr.gif">
+<meta property="article:published_time" content="2019-10-18T22:00:05.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmPohRWQiprtKujAU8F5sb1fFcSncXy7Js96mrtvnVAKAd">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/09/getting-started-with-mahuta-a-search-engine-for-t/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/10/18/(45)-collect-logs-with-elastic-filebeat-for-monit/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&text=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&is_video=false&description=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes&body=Check out this article: https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&name=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&t=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-APM-Server"><span class="toc-number">1.</span> <span class="toc-text">Install APM-Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configure-a-Java-agent-on-the-application"><span class="toc-number">2.</span> <span class="toc-text">Configure a Java agent on the application</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">3.</span> <span class="toc-text">Summary</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-18T22:00:05.000Z" itemprop="datePublished">2019-10-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmPohRWQiprtKujAU8F5sb1fFcSncXy7Js96mrtvnVAKAd"></p>
+<p><strong>Elastic APM</strong> is an application performance monitoring system built on the Elastic Stack. It allows you to monitor software services and applications in real time — collect detailed performance information on response time for incoming requests, database queries, calls to caches, external HTTP requests, and more. This makes it easy to pinpoint and fix performance problems quickly.</p>
+<p>Elastic APM is <a target="_blank" rel="noopener" href="https://opentracing.io/">OpenTracing</a> compliant which means you can take advantages of the large range of libraries already available to trace components within your application (e.g MongoDB instrumentation).</p>
+<p>For example, you will be able to follow a request in a highly distributed environment (micro-service architecture) and find potential bottleneck easily and quickly.</p>
+<p><img src="https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blta65f095d22517ce4/5c98d59849a201165fca1042/blog-opentracing-elastic-apm-3.png"><br><a target="_blank" rel="noopener" href="https://www.elastic.co/blog/distributed-tracing-opentracing-and-elastic-apm"><em>source</em></a></p>
+<p>Elastic APM is composed of a component called APM-Server used to collect and ship traces to ElasticSearch and individual agents running with the application or service.</p>
+<p><img src="https://www.elastic.co/guide/en/apm/get-started/current/images/apm-architecture-cloud.png"><br><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/apm/get-started/current/components.html"><em>source</em>l</a></p>
+<br />
+
+<h3 id="Install-APM-Server"><a href="#Install-APM-Server" class="headerlink" title="Install APM-Server"></a>Install APM-Server</h3><p>We first need to install APM-Server on k8s to collect the traces for the agents and forward them to ElasticSeach.<br>It’s composed of a <code>ConfigMap</code> to configure the settings:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## apm.configmap.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">monitoring</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">apm-server-config</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">apm-server</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">apm-server.yml:</span> <span class="string">|-</span></span><br><span class="line">    <span class="attr">apm-server:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">&quot;0.0.0.0:8200&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">output.elasticsearch:</span></span><br><span class="line">      <span class="attr">hosts:</span> [<span class="string">&#x27;$&#123;ELASTICSEARCH_HOST:elasticsearch&#125;:$&#123;ELASTICSEARCH_PORT:9200&#125;&#x27;</span>]</span><br><span class="line">      <span class="attr">username:</span> <span class="string">$&#123;ELASTICSEARCH_USERNAME&#125;</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">$&#123;ELASTICSEARCH_PASSWORD&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">setup.kibana:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">&#x27;$&#123;KIBANA_HOST:kibana&#125;:$&#123;KIBANA_PORT:5601&#125;&#x27;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>APM-Server needs to expose the port <code>8200</code> to allow the agent to forward their traces. The following <code>Service</code> exposes this port to the environment:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## apm.service.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">monitoring</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">apm-server</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">apm-server</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8200</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">apm-server</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">apm-server</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>The last bit is the <code>Deployment</code> describing the container to be deployed:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## apm.deployment.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">monitoring</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">apm-server</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">apm-server</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">apm-server</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">apm-server</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.elastic.co/apm/apm-server:7.3.0</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTICSEARCH_HOST</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">elasticsearch-client.monitoring.svc.cluster.local</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTICSEARCH_PORT</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;9200&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTICSEARCH_USERNAME</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">elastic</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTICSEARCH_PASSWORD</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">secretKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">elasticsearch-pw-elastic</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">password</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">KIBANA_HOST</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">kibana.monitoring.svc.cluster.local</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">KIBANA_PORT</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;5601&quot;</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8200</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">apm-server</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/usr/share/apm-server/apm-server.yml</span></span><br><span class="line">          <span class="attr">readOnly:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">subPath:</span> <span class="string">apm-server.yml</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config</span></span><br><span class="line">        <span class="attr">configMap:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">apm-server-config</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p><em>See the <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/apm-server.yml">full file</a></em></p>
+<p>We can now deploy this new component of our stack:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply  -f apm.deployment.yml \</span></span><br><span class="line"><span class="bash">                 -f apm.service.yml \</span></span><br><span class="line"><span class="bash">                 -f apm.deployment.yml</span></span><br><span class="line"></span><br><span class="line">configmap/apm-server-config created</span><br><span class="line">service/apm-server created</span><br><span class="line">deployment.extensions/apm-server created</span><br></pre></td></tr></table></figure>
+
+<p>Check that everything is up and running:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl get all -n monitoring -l app=apm-server</span></span><br><span class="line"></span><br><span class="line">NAME                              READY   STATUS    RESTARTS   AGE</span><br><span class="line">pod/apm-server-759bb8f584-rkzvn   1/1     Running   0          55s</span><br><span class="line"></span><br><span class="line">NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE</span><br><span class="line">service/apm-server   ClusterIP   10.101.235.230   &lt;none&gt;        8200/TCP   55s</span><br><span class="line"></span><br><span class="line">NAME                         READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/apm-server   1/1     1            1           55s</span><br><span class="line"></span><br><span class="line">NAME                                    DESIRED   CURRENT   READY   AGE</span><br><span class="line">replicaset.apps/apm-server-759bb8f584   1         1         1       55s</span><br></pre></td></tr></table></figure>
+
+<p>We now can install an agent on our Spring-Boot app.</p>
+<br />
+<br />
+
+<h3 id="Configure-a-Java-agent-on-the-application"><a href="#Configure-a-Java-agent-on-the-application" class="headerlink" title="Configure a Java agent on the application"></a>Configure a Java agent on the application</h3><p>In the last part of this article, we will configure a <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/apm/agent/java/current/intro.html">Elastic APM Java agent</a> on the sample application <code>spring-boot-simple</code>.</p>
+<p>First we need to put the jar <a target="_blank" rel="noopener" href="https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/1.8.0/elastic-apm-agent-1.8.0.jar">elastic-apm-agent-1.8jar</a> in the container. Add the following line to download the agent JAR when docker builds the image.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN wget -O &#x2F;apm-agent.jar https:&#x2F;&#x2F;search.maven.org&#x2F;remotecontent?filepath&#x3D;co&#x2F;elastic&#x2F;apm&#x2F;elastic-apm-agent&#x2F;1.8.0&#x2F;elastic-apm-agent-1.8.0.jar</span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/Dockerfile"><em>Dockerfile</em></a></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-alpine</span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> target/spring-boot-simple.jar /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> wget -O /apm-agent.jar https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/1.8.0/elastic-apm-agent-1.8.0.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> java -jar /app.jar</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<p>Secondly add the following dependencies to your application, so your will be able to integrate open-tracing libraries (<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/apm/agent/java/master/opentracing-bridge.html">read more</a>) and/or manually instrument some components with the Elastic APM API (<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/apm/agent/java/master/public-api.html">read more</a>).</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>co.elastic.apm<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>apm-agent-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;elastic-apm.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>co.elastic.apm<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>apm-opentracing<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;elastic-apm.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.opentracing.contrib<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>opentracing-spring-cloud-mongo-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;opentracing-spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<p>Then we will change the <code>Deployment</code> to start the Spring-Boot application with the Java agent enabled and connected to the APM-server.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## spring-boot-simple.deployment.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">gjeanmart/spring-boot-simple:0.0.1-SNAPSHOT</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">        <span class="attr">command:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;java&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;-javaagent:/apm-agent.jar&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;-Delastic.apm.active=$(ELASTIC_APM_ACTIVE)&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;-Delastic.apm.server_urls=$(ELASTIC_APM_SERVER)&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;-Delastic.apm.service_name=spring-boot-simple&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;-jar&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;app.jar&quot;</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SPRING_DATA_MONGODB_HOST</span></span><br><span class="line">            <span class="attr">value:</span> <span class="string">mongo</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTIC_APM_ACTIVE</span></span><br><span class="line">            <span class="attr">value:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ELASTIC_APM_SERVER</span></span><br><span class="line">            <span class="attr">value:</span> <span class="string">http://apm-server.monitoring.svc.cluster.local:8200</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>Now reapply the <code>Deployment</code> and spring-boot-simple should restart:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f spring-boot-simple.yml</span></span><br></pre></td></tr></table></figure>
+
+<p>Execute a few calls such as:</p>
+<p><strong>get messages</strong></p>
+<p>Command to retrieve all the messages posted.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X GET http://10.154.0.2:30049/message</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>get messages (slow request)</strong></p>
+<p>Use the attribute <code>sleep=&lt;ms&gt;</code> to slow down the request.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X GET http://10.154.0.2:30049/message?sleep=3000</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>get messages (error)</strong></p>
+<p>Use the attribute <code>error=true</code> to raised an exception during the execution.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X GET http://10.154.0.2:30049/message?error=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
+
+<br />
+<br />
+
+<p>Now go to Kibana in the section “APM” and you should see the application <code>spring-boot-simple</code>, click on it.</p>
+<p><img src="https://imgur.com/jwXGG9j.gif"></p>
+<p>Detect recurrent errors:</p>
+<p><img src="https://i.imgur.com/VnolYBD.png"></p>
+<p>Visualize applications metrics (e.g. HeapSize, GC)</p>
+<p><img src="https://imgur.com/QbaU8pr.gif"></p>
+<br />
+<br />
+
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>Hopefully, this series of articles helped you understand how to deploy a monitoring on your Kubernetes environment with a minimal impact and a lots of perspectives to observe, track, prevent, alert and speed up the resolution of production issues.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-APM-Server"><span class="toc-number">1.</span> <span class="toc-text">Install APM-Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configure-a-Java-agent-on-the-application"><span class="toc-number">2.</span> <span class="toc-text">Configure a Java agent on the application</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">3.</span> <span class="toc-text">Summary</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&text=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&is_video=false&description=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes&body=Check out this article: https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&title=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&name=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/10/18/(55)-collect-traces-with-elastic-apm-for-monitori/&t=(Elastic monitoring - 5/5)  Collect traces with Elastic APM for monitoring Kubernetes"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="The Ethereum blockchain is often compared to a World Computer with a global state. The global state grows after each new block and cosists of many accounts organised in a Merkle tree.  Each account h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Manage an Ethereum account with Java and Web3j">
+<meta property="og:url" content="https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="The Ethereum blockchain is often compared to a World Computer with a global state. The global state grows after each new block and cosists of many accounts organised in a Merkle tree.  Each account h">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmTyEg3Lq2Bf2anauJnHcGtHiAJZ71kAbY2quL7jXZeWkh">
+<meta property="og:image" content="https://imgur.com/iQLdaOW.png">
+<meta property="og:image" content="https://imgur.com/3dlka35.png">
+<meta property="og:image" content="https://imgur.com/S7w0eEH.png">
+<meta property="og:image" content="https://imgur.com/PuUtKHV.png">
+<meta property="og:image" content="https://imgur.com/uJ2bcNk.png">
+<meta property="og:image" content="https://imgur.com/N74l0TI.png">
+<meta property="og:image" content="https://imgur.com/m4JjJsM.png">
+<meta property="og:image" content="https://imgur.com/X8mANUY.png">
+<meta property="og:image" content="https://imgur.com/p92p616.png">
+<meta property="og:image" content="https://imgur.com/xN2Ruaj.png">
+<meta property="og:image" content="https://imgur.com/eEgEdOY.png">
+<meta property="og:image" content="https://imgur.com/svlvLnF.png">
+<meta property="og:image" content="https://imgur.com/kbcemsH.png">
+<meta property="og:image" content="https://web3j.readthedocs.io/en/latest/_images/web3j_transaction.png">
+<meta property="og:image" content="https://imgur.com/8XU21KA.gif">
+<meta property="article:published_time" content="2020-04-30T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmTyEg3Lq2Bf2anauJnHcGtHiAJZ71kAbY2quL7jXZeWkh">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Manage an Ethereum account with Java and Web3j</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/02/monitor-your-geth-node-with-google-sheet/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/12/deploy-prometheus-and-grafana-to-monitor-a-k/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&text=Manage an Ethereum account with Java and Web3j"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&is_video=false&description=Manage an Ethereum account with Java and Web3j"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Manage an Ethereum account with Java and Web3j&body=Check out this article: https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&name=Manage an Ethereum account with Java and Web3j&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&t=Manage an Ethereum account with Java and Web3j"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Retrieve-public-information-about-an-account"><span class="toc-number">1.</span> <span class="toc-text">1. Retrieve public information about an account</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Get-account%E2%80%99s-balance"><span class="toc-number">1.1.</span> <span class="toc-text">Get account’s balance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Get-account%E2%80%99s-nonce"><span class="toc-number">1.2.</span> <span class="toc-text">Get account’s nonce</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Open-or-create-an-account"><span class="toc-number">2.</span> <span class="toc-text">2. Open or create an account</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Load-a-wallet"><span class="toc-number">2.1.</span> <span class="toc-text">Load a wallet</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-JSON-encryted-keystore"><span class="toc-number">2.1.1.</span> <span class="toc-text">From a JSON encryted keystore</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-Mnemonic-phrase"><span class="toc-number">2.1.2.</span> <span class="toc-text">From a Mnemonic phrase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-Private-key"><span class="toc-number">2.1.3.</span> <span class="toc-text">From a Private key</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-a-wallet"><span class="toc-number">2.2.</span> <span class="toc-text">Create a wallet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Send-a-transaction"><span class="toc-number">3.</span> <span class="toc-text">3. Send a transaction</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-funds-from-one-account-to-another"><span class="toc-number">3.1.</span> <span class="toc-text">Send funds from one account to another</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Load-an-account-and-get-the-nonce"><span class="toc-number">3.1.1.</span> <span class="toc-text">1. Load an account and get the nonce</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Configure-recipient-account-and-amount-to-send"><span class="toc-number">3.1.2.</span> <span class="toc-text">2. Configure recipient account and amount to send</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Configure-Gas-parameters"><span class="toc-number">3.1.3.</span> <span class="toc-text">3. Configure Gas parameters</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Prepare-the-raw-transaction"><span class="toc-number">3.1.4.</span> <span class="toc-text">4. Prepare the raw transaction</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Signature"><span class="toc-number">3.1.5.</span> <span class="toc-text">5. Signature</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Send-to-the-node-via-JSON-RPC"><span class="toc-number">3.1.6.</span> <span class="toc-text">6. Send to the node via JSON-RPC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Wait-for-the-transaction-to-be-mined"><span class="toc-number">3.1.7.</span> <span class="toc-text">7. Wait for the transaction to be mined.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Result"><span class="toc-number">3.1.8.</span> <span class="toc-text">Result</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">4.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resources"><span class="toc-number">5.</span> <span class="toc-text">Resources</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Manage an Ethereum account with Java and Web3j
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-30T22:00:00.000Z" itemprop="datePublished">2020-05-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmTyEg3Lq2Bf2anauJnHcGtHiAJZ71kAbY2quL7jXZeWkh"></p>
+<p>The Ethereum blockchain is often compared to a World Computer with a global state. The global state grows after each new block and cosists of many accounts organised in a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
+<p><img src="https://imgur.com/iQLdaOW.png"></p>
+<p>Each account has a state composed of information such as balance, nonce, storageRoot and codeHash, and is identified by a 20 bytes address (for example: <code>0x66aac71c0c81ec00aebead84914a10e307a4cbf9</code>).</p>
+<p>There are two types of accounts:</p>
+<ul>
+<li>  <strong>Externally owned accounts</strong>, which are controlled by private keys and have no code associated with them.</li>
+<li>  <strong>Contract accounts</strong>, which are controlled by their contract code and have code associated with them.</li>
+</ul>
+<p><img src="https://imgur.com/3dlka35.png"></p>
+<p>In this tutorial, we focus on externally owned accounts and how to retrieve information such as a balance, create or open an account and send transactions to another account using the Java library <a target="_blank" rel="noopener" href="https://web3j.io/">Web3j</a>.</p>
+<p><br /><br /></p>
+<h3 id="1-Retrieve-public-information-about-an-account"><a href="#1-Retrieve-public-information-about-an-account" class="headerlink" title="1. Retrieve public information about an account"></a>1. Retrieve public information about an account</h3><p>The Ethereum blockchain is a public shared ledger which we can query to retrieve information about the state at a different time, or block number.</p>
+<h4 id="Get-account’s-balance"><a href="#Get-account’s-balance" class="headerlink" title="Get account’s balance"></a>Get account’s balance</h4><p>Every account has a balance of the Ethereum native cryptocurrency called <strong>Ether</strong>. Using our Web3j instance (see <a href="#">article-1</a>), it is possible to retrieve the balance of an account at a given block using the function <code>web3.ethGetBalance(&lt;accountAddress&gt;, &lt;blockNo&gt;).send()</code></p>
+<p>The balance is stored by default in the smallest denomination of ether called <em>wei</em> (1 ether = 10^18 wei) but Web3j provides a convenience utility class <code>Convert</code> to convert values between different units.</p>
+<ul>
+<li>  Retrieve the latest balance (latest block) of an account:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EthGetBalance balanceWei = web3.ethGetBalance(<span class="string">&quot;0xF0f15Cedc719B5A55470877B0710d5c7816916b1&quot;</span>, DefaultBlockParameterName.LATEST).send();</span><br><span class="line">System.out.println(<span class="string">&quot;balance in wei: &quot;</span> + balanceWei);</span><br><span class="line"></span><br><span class="line">BigDecimal balanceInEther = Convert.fromWei(balanceWei.getBalance().toString(), Unit.ETHER);</span><br><span class="line">System.out.println(<span class="string">&quot;balance in ether: &quot;</span> + balanceInEther);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/S7w0eEH.png"></p>
+<p>In the example above, the latest balance of the account <code>0xF0f15Cedc719B5A55470877B0710d5c7816916b1</code> is <em>33.25 ether</em>.</p>
+<ul>
+<li>  Retrieve the balance of an account at a specific block, if the blockchain you connect to has generated any blocks so far. Test chains may not have yet:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EthGetBalance balance = web3.ethGetBalance(<span class="string">&quot;0xF0f15Cedc719B5A55470877B0710d5c7816916b1&quot;</span>, <span class="keyword">new</span> DefaultBlockParameterNumber(<span class="number">3000000</span>)).send();</span><br><span class="line"></span><br><span class="line">BigDecimal balanceInEther = Convert.fromWei(balance.getBalance().toString(), Unit.ETHER);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/PuUtKHV.png"></p>
+<p>The balance at block #3,000,000 of the account <code>0xF0f15Cedc719B5A55470877B0710d5c7816916b1</code> is <em>8.12 ethers</em>.</p>
+<h4 id="Get-account’s-nonce"><a href="#Get-account’s-nonce" class="headerlink" title="Get account’s nonce"></a>Get account’s nonce</h4><p>Also included in the state of an account is the <em>nonce</em>, a sequence number symbolizing the number of transactions performed by an account.</p>
+<p>Web3j provides the method <code>web3.ethGetTransactionCount(&lt;accountAddress&gt;, &lt;blockNo&gt;).send()</code> to retrieve the nonce at a given block number, in this case the most recent block.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(<span class="string">&quot;0xF0f15Cedc719B5A55470877B0710d5c7816916b1&quot;</span>, DefaultBlockParameterName.LATEST).send();</span><br><span class="line"></span><br><span class="line">BigInteger nonce =  ethGetTransactionCount.getTransactionCount();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/uJ2bcNk.png"></p>
+<p><br /><br /></p>
+<h3 id="2-Open-or-create-an-account"><a href="#2-Open-or-create-an-account" class="headerlink" title="2. Open or create an account"></a>2. Open or create an account</h3><p>In order to control an externally owned account and the fund allocated on it, the 32 bytes <strong>Private Key</strong> associated to an account is needed. A private key is a confidential piece of information, so it usually doesn’t come in clear text like <code>3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266</code> but is secured and encrypted in a wallet. There are many forms of wallets (more or less secured and practical):</p>
+<p><img src="https://imgur.com/N74l0TI.png"></p>
+<p><img src="https://imgur.com/m4JjJsM.png"></p>
+<p><img src="https://imgur.com/X8mANUY.png"></p>
+<p>In this section, we learn how to load an existing wallet and create a new one with Web3j to instanciate a <code>Credentials</code> object which we can use to sign and send transactions securely on the Ethereum blockchain.</p>
+<h4 id="Load-a-wallet"><a href="#Load-a-wallet" class="headerlink" title="Load a wallet"></a>Load a wallet</h4><h5 id="From-a-JSON-encryted-keystore"><a href="#From-a-JSON-encryted-keystore" class="headerlink" title="From a JSON encryted keystore"></a>From a JSON encryted keystore</h5><p>The first form of wallet is the JSON encryted keystore, which is a password-encrypted version of the private key. This is the most standard way used by clients such as <a target="_blank" rel="noopener" href="https://pegasys.tech/">Pantheon</a> or <a target="_blank" rel="noopener" href="https://geth.ethereum.org/">Geth</a>, but also by online tools like <a target="_blank" rel="noopener" href="https://www.myetherwallet.com/">MyEtherWallet</a> to secure a private key from potential attackers.</p>
+<p>Web3j provides a utility class called <code>WalletUtils</code> to load a wallet into a <code>Credentials</code> object (wrapper containing the account address and the keypair).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">String walletPassword = <span class="string">&quot;secr3t&quot;</span>;</span><br><span class="line">String walletDirectory = <span class="string">&quot;/path/to/wallets&quot;</span>;</span><br><span class="line">String walletName = <span class="string">&quot;UTC--2019-06-20T08-55-56.200000000Z--fd7d68e16ef61868f3e325fafdf2fc1ec0b77649.json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Load the JSON encryted wallet</span></span><br><span class="line">Credentials credentials = WalletUtils.loadCredentials(walletPassword, walletDirectory + <span class="string">&quot;/&quot;</span> + walletName);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the account address</span></span><br><span class="line">String accountAddress = credentials.getAddress();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the unencrypted private key into hexadecimal</span></span><br><span class="line">String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(<span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/p92p616.png"></p>
+<h5 id="From-a-Mnemonic-phrase"><a href="#From-a-Mnemonic-phrase" class="headerlink" title="From a Mnemonic phrase"></a>From a Mnemonic phrase</h5><p>Another common form of private key is the <strong>Mnemonic sentence</strong> (or seed phrase) which converts the 32 bytes key to a group of 12 easy to remember words. For example: <code>candy maple cake sugar pudding cream honey rich smooth crumble sweet treat</code>. This form was established by Bitcoin under the proposal <a target="_blank" rel="noopener" href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP39</a>.</p>
+<p>A mnemonic controls multiple private keys because of a mechanism to derive deterministically the mnemonic from a path.</p>
+<p>We can optionally encrypt the mnemonic with a password.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String password = <span class="keyword">null</span>; <span class="comment">// no encryption</span></span><br><span class="line">String mnemonic = <span class="string">&quot;candy maple cake sugar pudding cream honey rich smooth crumble sweet treat&quot;</span>;</span><br><span class="line"></span><br><span class="line">Credentials credentials = WalletUtils.loadBip39Credentials(password, mnemonic);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/xN2Ruaj.png"></p>
+<p>By default, Web3j uses a derivation path equal to <code>m/44&#39;/60&#39;/0&#39;/1</code> (read <a target="_blank" rel="noopener" href="https://medium.com/myetherwallet/hd-wallets-and-derivation-paths-explained-865a643c7bf2">this article</a> to understand <em>derivation path</em>). However, it is possible to open another account on a different path:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">String password = <span class="keyword">null</span>; <span class="comment">// no encryption</span></span><br><span class="line">String mnemonic = <span class="string">&quot;candy maple cake sugar pudding cream honey rich smooth crumble sweet treat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Derivation path wanted: // m/44&#x27;/60&#x27;/0&#x27;/0</span></span><br><span class="line"><span class="keyword">int</span>[] derivationPath = &#123;<span class="number">44</span> | Bip32ECKeyPair.HARDENED_BIT, <span class="number">60</span> | Bip32ECKeyPair.HARDENED_BIT, <span class="number">0</span> | Bip32ECKeyPair.HARDENED_BIT, <span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate a BIP32 master keypair from the mnemonic phrase</span></span><br><span class="line">Bip32ECKeyPair masterKeypair = Bip32ECKeyPair.generateKeyPair(MnemonicUtils.generateSeed(mnemonic, password));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Derived the key using the derivation path</span></span><br><span class="line">Bip32ECKeyPair  derivedKeyPair = Bip32ECKeyPair.deriveKeyPair(masterKeypair, derivationPath);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Load the wallet for the derived key</span></span><br><span class="line">Credentials credentials = Credentials.create(derivedKeyPair);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/eEgEdOY.png"></p>
+<h5 id="From-a-Private-key"><a href="#From-a-Private-key" class="headerlink" title="From a Private key"></a>From a Private key</h5><p>As mentioned before, a private key is a 32 bytes long number. To parse a private key with Web3j, we need to pass the private key to the class <code>Credentials</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String pk = <span class="string">&quot;c87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3&quot;</span>;</span><br><span class="line"></span><br><span class="line">Credentials credentials = Credentials.create(pk);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/svlvLnF.png"></p>
+<h4 id="Create-a-wallet"><a href="#Create-a-wallet" class="headerlink" title="Create a wallet"></a>Create a wallet</h4><p>Finally, if we don’t already have an account and want to create a new one from scratch. Web3j’s <code>WalletUtils</code> offers a method to create a JSON encrypted keystore.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String walletPassword = <span class="string">&quot;secr3t&quot;</span>;</span><br><span class="line">String walletDirectory = <span class="string">&quot;/path/to/destination/&quot;</span>;</span><br><span class="line"></span><br><span class="line">String walletName = WalletUtils.generateNewWalletFile(walletPassword, <span class="keyword">new</span> File(walletDirectory));</span><br><span class="line">System.out.println(<span class="string">&quot;wallet location: &quot;</span> + walletDirectory + <span class="string">&quot;/&quot;</span> + walletName);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Credentials credentials = WalletUtils.loadCredentials(walletPassword, walletDirectory + <span class="string">&quot;/&quot;</span> + walletName);</span><br><span class="line"></span><br><span class="line">String accountAddress = credentials.getAddress();</span><br><span class="line">System.out.println(<span class="string">&quot;Account address: &quot;</span> + credentials.getAddress());</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/kbcemsH.png"></p>
+<p><br /><br /></p>
+<h3 id="3-Send-a-transaction"><a href="#3-Send-a-transaction" class="headerlink" title="3. Send a transaction"></a>3. Send a transaction</h3><p>Now we have learned how to retrieve public information (state), like the balance from an account and how to open an account using different methods, we can send a transaction to another account.</p>
+<p>A transaction on the Ethereum blockchain is composed of the following information:</p>
+<ul>
+<li>  <strong>nonce:</strong> a count of the number of transaction sent by the sender.</li>
+<li>  <strong>gasPrice (in wei):</strong> the amount the sender is willing to pay per unit of gas required to execute the transaction.</li>
+<li>  <strong>gasLimit:</strong> the maximum amount of gas the sender is willing to pay to execute this transaction.</li>
+<li>  <strong>to:</strong> The address of the recipient account.</li>
+<li>  <strong>value (in wei):</strong> the amount of Wei to transfer from the sender to the recipient. In a contract-creating transaction, this value serves as the starting balance within the newly created contract account.</li>
+<li>  <strong>signature:</strong> Cryptographic signature that identified the sender of the transaction (from).</li>
+<li>  <strong>data:</strong> Optional field used to communicate with a smart contract (encoded string including the function name and the parameters).</li>
+</ul>
+<p>There are two ways to send a transaction to the blockchain:</p>
+<ul>
+<li><p><strong>Via the Ethereum node:</strong><br>  This involves sending a non-signed transaction to the Ethereum client having the account <em>unlocked</em>.<br>  <strong><em>I personnaly don’t recommend this method which might put your account at risk if the Ethereum node isn’t correctly protected</em></strong></p>
+</li>
+<li><p><strong>Offline transaction:</strong><br>  The concept is to first construct the transaction object <code>rawTransaction</code> and sign it with a private key (Web3j Credential). Secondly send it to the Ethereum node via the JSON-RPC API to propagate across the network.</p>
+</li>
+</ul>
+<p>Once a transaction is broadcast to the network, a transaction hash is returned to the client but the transaction isn’t performed yet. A set of miners/validators present on the network pick up all the pending transactions, group them into the next block and agree on the validity. Once verified, the transaction is mined into the new block. At this point, the client can claim a transaction receipt by transaction hash to aknowledge the good execution of his transaction.</p>
+<p><img src="https://web3j.readthedocs.io/en/latest/_images/web3j_transaction.png"></p>
+<h4 id="Send-funds-from-one-account-to-another"><a href="#Send-funds-from-one-account-to-another" class="headerlink" title="Send funds from one account to another"></a>Send funds from one account to another</h4><h5 id="1-Load-an-account-and-get-the-nonce"><a href="#1-Load-an-account-and-get-the-nonce" class="headerlink" title="1. Load an account and get the nonce"></a>1. Load an account and get the nonce</h5><p>As explained in the previous sections, we need to load an account from one the methods and retrieve the nonce value of this account:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">String walletPassword = <span class="string">&quot;secr3t&quot;</span>;</span><br><span class="line">String walletPath = <span class="string">&quot;/path/to/wallet/UTC--2019-06-20T11-41-39.478000000Z--256c75c85f9c27ac5b2a22f085d9643f7ed91dc1.json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Decrypt and open the wallet into a Credential object</span></span><br><span class="line">Credentials credentials = WalletUtils.loadCredentials(walletPassword, walletPath);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get nonce</span></span><br><span class="line">EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send();</span><br><span class="line">BigInteger nonce =  ethGetTransactionCount.getTransactionCount();</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-Configure-recipient-account-and-amount-to-send"><a href="#2-Configure-recipient-account-and-amount-to-send" class="headerlink" title="2. Configure recipient account and amount to send"></a>2. Configure recipient account and amount to send</h5><p>In the next step, we configure the amount (in Wei) to send to a recipient account.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Recipient account</span></span><br><span class="line">String recipientAddress = <span class="string">&quot;0xDD6325C45aE6fAbD028D19fa1539663Df14813a8&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Value to Transfer</span></span><br><span class="line">BigInteger value = Convert.toWei(<span class="string">&quot;1&quot;</span>, Unit.ETHER).toBigInteger();</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-Configure-Gas-parameters"><a href="#3-Configure-Gas-parameters" class="headerlink" title="3. Configure Gas parameters"></a>3. Configure Gas parameters</h5><p>Gas represents the fees of the network which taken by the miner who mines the block which includes your transaction.</p>
+<p>When sending a transaction, two parameters are important:</p>
+<ul>
+<li><p>  <strong>Gas Limit (in unit):</strong> Gas limit refers to the maximum amount of gas you’re willing to spend on a particular transaction. After the transaction is executed, if too much gas (<code>gasLimit</code>) was sent, the remaining gas is refunded to the sender.</p>
+</li>
+<li><p>  <strong>Gas Price (in wei):</strong> Amount of Ether you’re willing to pay for every unit of gas</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A transfer cost 21,000 units of gas</span></span><br><span class="line">BigInteger gasLimit = BigInteger.valueOf(<span class="number">21000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// I am willing to pay 1Gwei (1,000,000,000 wei or 0.000000001 ether) for each unit of gas consumed by the transaction.</span></span><br><span class="line">BigInteger gasPrice = Convert.toWei(<span class="string">&quot;1&quot;</span>, Unit.GWEI).toBigInteger();</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-Prepare-the-raw-transaction"><a href="#4-Prepare-the-raw-transaction" class="headerlink" title="4. Prepare the raw transaction"></a>4. Prepare the raw transaction</h5><p>A raw transaction for a transfer of funds contains all the transaction data fields except:</p>
+<ul>
+<li>  <strong>data</strong>: not a smart contract transaction</li>
+<li>  <strong>signature</strong>: signature not signed yet</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Prepare the rawTransaction</span></span><br><span class="line">RawTransaction rawTransaction  = RawTransaction.createEtherTransaction(</span><br><span class="line">	nonce,</span><br><span class="line">	gasPrice,</span><br><span class="line">	gasLimit,</span><br><span class="line">	recipientAddress,</span><br><span class="line">	value);</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-Signature"><a href="#5-Signature" class="headerlink" title="5. Signature"></a>5. Signature</h5><p>The signing part requires the <code>rawTransaction</code> as well as the <code>credentials</code> (keypair) used to cryptographically sign the transaction.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Sign the transaction</span></span><br><span class="line"><span class="keyword">byte</span>[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Convert it to Hexadecimal String to be sent to the node</span></span><br><span class="line">String hexValue = Numeric.toHexString(signedMessage);</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-Send-to-the-node-via-JSON-RPC"><a href="#6-Send-to-the-node-via-JSON-RPC" class="headerlink" title="6. Send to the node via JSON-RPC"></a>6. Send to the node via JSON-RPC</h5><p>The final step consists of sending the transaction signed to the node so it can be verified and broadcast to the network. In case of success, the method returns a response composed of the transaction hash.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Send transaction</span></span><br><span class="line">EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the transaction hash</span></span><br><span class="line">String transactionHash = ethSendTransaction.getTransactionHash();</span><br></pre></td></tr></table></figure>
+
+<h5 id="7-Wait-for-the-transaction-to-be-mined"><a href="#7-Wait-for-the-transaction-to-be-mined" class="headerlink" title="7. Wait for the transaction to be mined."></a>7. Wait for the transaction to be mined.</h5><p>As explained before, when the signed transaction is propagated to the network, depending on many factors (gas price, network congestion) it can take some time to see the transaction mined and added to the last block.</p>
+<p>That’s why the following code consists of a simple loop to verify every 3 seconds if the transaction is mined by calling the method <code>web3.ethGetTransactionReceipt(&lt;txhash&gt;).send()</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Wait for transaction to be mined</span></span><br><span class="line">Optional&lt;TransactionReceipt&gt; transactionReceipt = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">  EthGetTransactionReceipt ethGetTransactionReceiptResp = web3.ethGetTransactionReceipt(transactionHash).send();</span><br><span class="line">  transactionReceipt = ethGetTransactionReceiptResp.getTransactionReceipt();</span><br><span class="line"></span><br><span class="line">  Thread.sleep(<span class="number">3000</span>); <span class="comment">// Retry after 3 sec</span></span><br><span class="line">&#125; <span class="keyword">while</span>(!transactionReceipt.isPresent());</span><br></pre></td></tr></table></figure>
+
+<h5 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h5><p>Here is the full version of the code including everything explained in this article:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Transaction.java</span></span><br><span class="line"><span class="keyword">package</span> io.kauri.tutorials.java_ethereum;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.Optional;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.web3j.crypto.Credentials;</span><br><span class="line"><span class="keyword">import</span> org.web3j.crypto.RawTransaction;</span><br><span class="line"><span class="keyword">import</span> org.web3j.crypto.TransactionEncoder;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.Web3j;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.DefaultBlockParameterName;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthGetTransactionCount;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.EthSendTransaction;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.core.methods.response.TransactionReceipt;</span><br><span class="line"><span class="keyword">import</span> org.web3j.protocol.http.HttpService;</span><br><span class="line"><span class="keyword">import</span> org.web3j.utils.Convert;</span><br><span class="line"><span class="keyword">import</span> org.web3j.utils.Convert.Unit;</span><br><span class="line"><span class="keyword">import</span> org.web3j.utils.Numeric;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Transaction</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Connecting to Ethereum ...&quot;</span>);</span><br><span class="line">    Web3j web3 = Web3j.build(<span class="keyword">new</span> HttpService(<span class="string">&quot;https://rinkeby.infura.io/v3/083836b2784f48e19e03487eb3209923&quot;</span>));</span><br><span class="line">    System.out.println(<span class="string">&quot;Successfuly connected to Ethereum&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      String pk = <span class="string">&quot;CHANGE_ME&quot;</span>; <span class="comment">// Add a private key here</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// Decrypt and open the wallet into a Credential object</span></span><br><span class="line">      Credentials credentials = Credentials.create(pk);</span><br><span class="line">      System.out.println(<span class="string">&quot;Account address: &quot;</span> + credentials.getAddress());</span><br><span class="line">      System.out.println(<span class="string">&quot;Balance: &quot;</span> + Convert.fromWei(web3.ethGetBalance(credentials.getAddress(), DefaultBlockParameterName.LATEST).send().getBalance().toString(), Unit.ETHER));</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Get the latest nonce</span></span><br><span class="line">      EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send();</span><br><span class="line">      BigInteger nonce =  ethGetTransactionCount.getTransactionCount();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Recipient address</span></span><br><span class="line">      String recipientAddress = <span class="string">&quot;0xAA6325C45aE6fAbD028D19fa1539663Df14813a8&quot;</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Value to transfer (in wei)</span></span><br><span class="line">      BigInteger value = Convert.toWei(<span class="string">&quot;1&quot;</span>, Unit.ETHER).toBigInteger();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Gas Parameters</span></span><br><span class="line">      BigInteger gasLimit = BigInteger.valueOf(<span class="number">21000</span>);</span><br><span class="line">      BigInteger gasPrice = Convert.toWei(<span class="string">&quot;1&quot;</span>, Unit.GWEI).toBigInteger();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Prepare the rawTransaction</span></span><br><span class="line">      RawTransaction rawTransaction  = RawTransaction.createEtherTransaction(</span><br><span class="line">                 nonce,</span><br><span class="line">                 gasPrice,</span><br><span class="line">                 gasLimit,</span><br><span class="line">                 recipientAddress,</span><br><span class="line">                 value);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Sign the transaction</span></span><br><span class="line">      <span class="keyword">byte</span>[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);</span><br><span class="line">      String hexValue = Numeric.toHexString(signedMessage);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Send transaction</span></span><br><span class="line">      EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();</span><br><span class="line">      String transactionHash = ethSendTransaction.getTransactionHash();</span><br><span class="line">      System.out.println(<span class="string">&quot;transactionHash: &quot;</span> + transactionHash);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Wait for transaction to be mined</span></span><br><span class="line">      Optional&lt;TransactionReceipt&gt; transactionReceipt = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">do</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;checking if transaction &quot;</span> + transactionHash + <span class="string">&quot; is mined....&quot;</span>);</span><br><span class="line">            EthGetTransactionReceipt ethGetTransactionReceiptResp = web3.ethGetTransactionReceipt(transactionHash).send();</span><br><span class="line">            transactionReceipt = ethGetTransactionReceiptResp.getTransactionReceipt();</span><br><span class="line">            Thread.sleep(<span class="number">3000</span>); <span class="comment">// Wait 3 sec</span></span><br><span class="line">      &#125; <span class="keyword">while</span>(!transactionReceipt.isPresent());</span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">&quot;Transaction &quot;</span> + transactionHash + <span class="string">&quot; was mined in block # &quot;</span> + transactionReceipt.get().getBlockNumber());</span><br><span class="line">      System.out.println(<span class="string">&quot;Balance: &quot;</span> + Convert.fromWei(web3.ethGetBalance(credentials.getAddress(), DefaultBlockParameterName.LATEST).send().getBalance().toString(), Unit.ETHER));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | InterruptedException ex) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(ex);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/8XU21KA.gif"></p>
+<p>Now we understand the core principles behind sending transactions with Web3j, I can tell you a secret. Web3j provides a Utility class called ‘Transfer’ which takes care of everything (nonce, gas, transaction receipt polling, etc.) in one line of code.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TransactionReceipt receipt = Transfer.sendFunds(web3, credentials, recipientAddress, BigDecimal.valueOf(<span class="number">1</span>), Unit.ETHER).send();</span><br></pre></td></tr></table></figure>
+
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>In this article, we learnt that the Ethereum Global State is composed of a mapping of all accounts states. We can query each account state can be queried to get information like the balance and the nonce.</p>
+<p>An account is controlled by the person owning the private key of this account. The private key can have many forms and is usually secured in a wallet. Web3j allows to open a wallet from a JSON encrypted file, a mnemonic phrase or directly from the private key.</p>
+<p>To send a transaction between two accounts, Web3j can generate a transaction oject, sign it and propagate it to the network to poll the Blockchain to get the transaction receipt when it’s been mined.</p>
+<p><br /><br /></p>
+<h3 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h3><ul>
+<li>  <a target="_blank" rel="noopener" href="https://etherconverter.online/">Ethereum Unit converter (WEI, GWEI, ETHER, ….)</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://web3j.readthedocs.io/en/latest/transactions.html#transaction-signing-via-an-ethereum-client">Web3j Transaction doc</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/web3j/web3j/blob/master/integration-tests/src/test/java/org/web3j/protocol/scenarios/CreateRawTransactionIT.java">Web3j RawTransaction Integration Tests</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://masterthecrypto.com/ethereum-what-is-gas-gas-limit-gas-price/">Ethereum - What is Gas Price and Limit</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://medium.com/cybermiles/diving-into-ethereums-world-state-c893102030ed">Diving into Ethereum World State</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Retrieve-public-information-about-an-account"><span class="toc-number">1.</span> <span class="toc-text">1. Retrieve public information about an account</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Get-account%E2%80%99s-balance"><span class="toc-number">1.1.</span> <span class="toc-text">Get account’s balance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Get-account%E2%80%99s-nonce"><span class="toc-number">1.2.</span> <span class="toc-text">Get account’s nonce</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Open-or-create-an-account"><span class="toc-number">2.</span> <span class="toc-text">2. Open or create an account</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Load-a-wallet"><span class="toc-number">2.1.</span> <span class="toc-text">Load a wallet</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-JSON-encryted-keystore"><span class="toc-number">2.1.1.</span> <span class="toc-text">From a JSON encryted keystore</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-Mnemonic-phrase"><span class="toc-number">2.1.2.</span> <span class="toc-text">From a Mnemonic phrase</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#From-a-Private-key"><span class="toc-number">2.1.3.</span> <span class="toc-text">From a Private key</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-a-wallet"><span class="toc-number">2.2.</span> <span class="toc-text">Create a wallet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Send-a-transaction"><span class="toc-number">3.</span> <span class="toc-text">3. Send a transaction</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-funds-from-one-account-to-another"><span class="toc-number">3.1.</span> <span class="toc-text">Send funds from one account to another</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Load-an-account-and-get-the-nonce"><span class="toc-number">3.1.1.</span> <span class="toc-text">1. Load an account and get the nonce</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Configure-recipient-account-and-amount-to-send"><span class="toc-number">3.1.2.</span> <span class="toc-text">2. Configure recipient account and amount to send</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Configure-Gas-parameters"><span class="toc-number">3.1.3.</span> <span class="toc-text">3. Configure Gas parameters</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Prepare-the-raw-transaction"><span class="toc-number">3.1.4.</span> <span class="toc-text">4. Prepare the raw transaction</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Signature"><span class="toc-number">3.1.5.</span> <span class="toc-text">5. Signature</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Send-to-the-node-via-JSON-RPC"><span class="toc-number">3.1.6.</span> <span class="toc-text">6. Send to the node via JSON-RPC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Wait-for-the-transaction-to-be-mined"><span class="toc-number">3.1.7.</span> <span class="toc-text">7. Wait for the transaction to be mined.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Result"><span class="toc-number">3.1.8.</span> <span class="toc-text">Result</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">4.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resources"><span class="toc-number">5.</span> <span class="toc-text">Resources</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&text=Manage an Ethereum account with Java and Web3j"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&is_video=false&description=Manage an Ethereum account with Java and Web3j"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Manage an Ethereum account with Java and Web3j&body=Check out this article: https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&title=Manage an Ethereum account with Java and Web3j"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&name=Manage an Ethereum account with Java and Web3j&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/30/manage-an-ethereum-account-with-java-and-web3j/&t=Manage an Ethereum account with Java and Web3j"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

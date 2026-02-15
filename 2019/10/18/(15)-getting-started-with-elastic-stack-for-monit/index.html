@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="IntroductionIn this article, we will learn how to set up a monitoring stack for your Kubernetes environment (k8s in short). This kind of solution allows your team to gain visibility on your infrastru">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Elastic monitoring - 1&#x2F;5) Getting started with Elastic Stack for monitoring on Kubernetes">
+<meta property="og:url" content="https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="IntroductionIn this article, we will learn how to set up a monitoring stack for your Kubernetes environment (k8s in short). This kind of solution allows your team to gain visibility on your infrastru">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/Qmb41iri4YonbWVhjyNkuAanQJMGczpqeLKYjERh38HSUb">
+<meta property="og:image" content="https://peter.bourgon.org/img/instrumentation/01.png">
+<meta property="og:image" content="https://imgur.com/JLPgAwx.png">
+<meta property="article:published_time" content="2019-10-18T22:00:01.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.576Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/Qmb41iri4YonbWVhjyNkuAanQJMGczpqeLKYjERh38HSUb">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/18/(25)-install-elasticsearch-and-kibana-to-store-an/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/19/manage-erc20-tokens-in-java-with-web3j/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&text=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&is_video=false&description=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes&body=Check out this article: https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&name=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&t=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Configure-minikube-memory-size"><span class="toc-number">2.1.</span> <span class="toc-text">1. Configure minikube memory size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Start-minikube"><span class="toc-number">2.2.</span> <span class="toc-text">2. Start minikube</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Check-that-everything-is-up-and-running"><span class="toc-number">2.3.</span> <span class="toc-text">3. Check that everything is up and running</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Deploy-a-sample-application"><span class="toc-number">2.4.</span> <span class="toc-text">4. Deploy a sample application</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MongoDB"><span class="toc-number">2.4.1.</span> <span class="toc-text">MongoDB</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spring-boot-simple"><span class="toc-number">2.4.2.</span> <span class="toc-text">spring-boot-simple</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Create-a-monitoring-namespace"><span class="toc-number">2.5.</span> <span class="toc-text">5. Create a monitoring namespace</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Next-steps"><span class="toc-number">3.</span> <span class="toc-text">Next steps</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-18T22:00:01.000Z" itemprop="datePublished">2019-10-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/Qmb41iri4YonbWVhjyNkuAanQJMGczpqeLKYjERh38HSUb"></p>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>In this article, we will learn how to set up a monitoring stack for your Kubernetes environment (<em>k8s</em> in short). This kind of solution allows your team to gain visibility on your infrastructure and each application with a minimal impact on the existing.</p>
+<p>The goal of observability is to provide tools to operators responsible of running the production to detect undesirables behaviours (service downtime, errors, slow responses) and have actionable information to find the root cause of an issue. It is usually represented under three pillars:</p>
+<ul>
+<li><strong>Metrics</strong> provide time-series information about each component of your system such as CPU, memory, disk and network consumption and usually show an overall vision and the first step to detect unusual behaviour at a certain time.</li>
+<li><strong>Logging</strong> offer operators a tools to analyse and understand those unexpected behaviours on the system with machine, service and application logs centralised in the same searchable database.</li>
+<li><strong>Tracing or APM (Application Monitoring Performance)</strong> provides a much deeper vision of an application where every requests and steps in the execution of the service is recorded (http calls, database queries, etc.). Using tracing, we can detect slow performance or debug a specific user at a low level and improve or fix our system accordingly.</li>
+</ul>
+<p><img src="https://peter.bourgon.org/img/instrumentation/01.png"><br><em>Source: <a target="_blank" rel="noopener" href="https://peter.bourgon.org/blog/2017/02/21/metrics-tracing-and-logging.html">Peter Bourgon</a></em></p>
+<p>The concept of 360 observability is fully aligned with devops and agile principles to continuously observe, detect and improve the system over time.</p>
+<p>In this article, we will use the <strong>Elastic stack</strong> (version <strong>7.3.0</strong>) composed of ElasticSearch, Kibana, Filebeat, Metricbeat and APM-Server on a Kubernetes environment to monitor and log a production environment. This article series will walk-through a standard Kubernetes deployment, which, in my opinion, gives a better understanding overall of each step of the installation and configuration. Of course, other methods exist to install and configure some services using tools such as <em>Helm</em> or <a target="_blank" rel="noopener" href="https://www.elastic.co/elasticsearch-kubernetes"><em>Elastic Cloud on Kubernetes</em></a> but the purpose of this article is to give the readers a good understanding of each component in this “fairly” complex architecture to help them tweak it for their own system, something that is sometime limited with automated installer.</p>
+<p><img src="https://imgur.com/JLPgAwx.png"></p>
+<br />
+
+<h3 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h3><p>This tutorial is using <strong>minikube</strong> to create a local k8s environment and deploy a simple application composed of a Spring-Boot service and a MongoDB database that will be used as example to monitor and track system and application behaviours.</p>
+<p>So in order to get started, the following tools are required:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/"><strong>docker</strong></a>: Container engine</li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/learning-environment/minikube/"><strong>minikube</strong></a>: Local kubernetes for development and testing</li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/"><strong>kubectl</strong></a>: Kubernetes command line tool</li>
+</ul>
+<p>ElasticSearch requires to increase nmapfs (virtual memory) on the host (<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html">see details</a>)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo sysctl -w vm.max_map_count=262144</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h4 id="1-Configure-minikube-memory-size"><a href="#1-Configure-minikube-memory-size" class="headerlink" title="1. Configure minikube memory size"></a>1. Configure minikube memory size</h4><p>First on all, we will increase the default memory size (2GB) allocated to a minikube host to 8GB. Run in a terminal the command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> minikube config <span class="built_in">set</span> memory 8192</span></span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h4 id="2-Start-minikube"><a href="#2-Start-minikube" class="headerlink" title="2. Start minikube"></a>2. Start minikube</h4><p>Now let’s start minikube using the following command. It might take a few minutes…</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> minikube start</span></span><br><span class="line">😄  minikube v1.2.0 on linux (amd64)</span><br><span class="line">🔥  Creating none VM (CPUs=2, Memory=8192MB, Disk=20000MB) ...</span><br><span class="line">🐳  Configuring environment for Kubernetes v1.15.0 on Docker 18.06.1-ce</span><br><span class="line">    ▪ kubelet.resolv-conf=/run/systemd/resolve/resolv.conf</span><br><span class="line">🚜  Pulling images ...</span><br><span class="line">🚀  Launching Kubernetes ...</span><br><span class="line">🤹  Configuring local host environment ...</span><br><span class="line"></span><br><span class="line">⚠️  The &#x27;none&#x27; driver provides limited isolation and may reduce system security and reliability.</span><br><span class="line">⚠️  For more information, see:</span><br><span class="line">👉  https://github.com/kubernetes/minikube/blob/master/docs/vmdriver-none.md</span><br><span class="line"></span><br><span class="line">⚠️  kubectl and minikube configuration will be stored in /home/gr3g</span><br><span class="line">⚠️  To use kubectl or minikube commands as your own user, you may</span><br><span class="line">⚠️  need to relocate them. For example, to overwrite your own settings:</span><br><span class="line"></span><br><span class="line">    ▪ sudo mv /home/gr3g/.kube /home/gr3g/.minikube $HOME</span><br><span class="line">    ▪ sudo chown -R $USER $HOME/.kube $HOME/.minikube</span><br><span class="line"></span><br><span class="line">💡  This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true</span><br><span class="line">⌛  Verifying: apiserver proxy etcd scheduler controller dns</span><br><span class="line">🏄  Done! kubectl is now configured to use &quot;minikube&quot;</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h4 id="3-Check-that-everything-is-up-and-running"><a href="#3-Check-that-everything-is-up-and-running" class="headerlink" title="3. Check that everything is up and running"></a>3. Check that everything is up and running</h4><p>Finally, we check that everything works correctly</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> minikube status</span></span><br><span class="line">host: Running</span><br><span class="line">kubelet: Running</span><br><span class="line">apiserver: Running</span><br><span class="line">kubectl: Correctly Configured: pointing to minikube-vm at 10.154.0.2</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl get nodes</span></span><br><span class="line">NAME       STATUS   ROLES    AGE   VERSION</span><br><span class="line">minikube   Ready    master   40m   v1.15.0</span><br></pre></td></tr></table></figure>
+
+<p>Bravo, we have now a running k8s local environment, you can run the command <code>$ kubectl get pods -A</code> to see what pods (containers) are currently running (mostly k8s system components).</p>
+<br />
+
+<h4 id="4-Deploy-a-sample-application"><a href="#4-Deploy-a-sample-application" class="headerlink" title="4. Deploy a sample application"></a>4. Deploy a sample application</h4><p>We now are going to deploy a simple application (Spring-Boot) and its database (MongoDB).</p>
+<h5 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h5><p>We first deploy MongoDB on the k8s environment and expose the port <code>27017</code>.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## mongo.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">mongo</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">27017</span></span><br><span class="line">      <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">mongo</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">StatefulSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">mongo</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">&quot;mongo&quot;</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">mongo</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mongo</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">mongo</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">27017</span></span><br><span class="line">          <span class="attr">volumeMounts:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mongo-persistent-storage</span></span><br><span class="line">              <span class="attr">mountPath:</span> <span class="string">/data/db</span></span><br><span class="line">  <span class="attr">volumeClaimTemplates:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">metadata:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">mongo-persistent-storage</span></span><br><span class="line">        <span class="attr">annotations:</span></span><br><span class="line">          <span class="attr">volume.beta.kubernetes.io/storage-class:</span> <span class="string">&quot;standard&quot;</span></span><br><span class="line">      <span class="attr">spec:</span></span><br><span class="line">        <span class="attr">accessModes:</span> [<span class="string">&quot;ReadWriteOnce&quot;</span>]</span><br><span class="line">        <span class="attr">storageClassName:</span> <span class="string">standard</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">storage:</span> <span class="string">1Gi</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p><em>See <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/mongo.yml">full file</a></em></p>
+<p>Deploy MongoDB using the command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f mongo.yml</span></span><br></pre></td></tr></table></figure>
+
+<p>And wait until it gets running:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl get all -l app=mongo</span></span><br><span class="line">NAME          READY   STATUS    RESTARTS   AGE</span><br><span class="line">pod/mongo-0   1/1     Running   0          3h35m</span><br><span class="line"></span><br><span class="line">NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)     AGE</span><br><span class="line">service/mongo        ClusterIP   10.101.156.248   &lt;none&gt;        27017/TCP   3h35m</span><br><span class="line"></span><br><span class="line">NAME                     READY   AGE</span><br><span class="line">statefulset.apps/mongo   1/1     3h35m</span><br></pre></td></tr></table></figure>
+
+<h5 id="spring-boot-simple"><a href="#spring-boot-simple" class="headerlink" title="spring-boot-simple"></a>spring-boot-simple</h5><p>Let’s now deploy our Spring-Boot API. It deploys the API internally on the port <code>8080</code> but <code>type=NodePort</code> also make accessible on another port from the node static IP.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## spring-boot-simple.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">gjeanmart/spring-boot-simple:0.0.1-SNAPSHOT</span></span><br><span class="line">          <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">spring-boot-simple</span></span><br><span class="line">          <span class="attr">env:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SPRING_DATA_MONGODB_HOST</span></span><br><span class="line">              <span class="attr">value:</span> <span class="string">mongo</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p><em>See <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/gjeanmart/kauri-content/master/spring-boot-simple/k8s/spring-boot-simple.yml">full file</a></em></p>
+<p>Run the command to deploy spring-boot-simple:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f spring-boot-simple.yml</span></span><br></pre></td></tr></table></figure>
+
+<p>And wait until it’s deployed</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl get all -l app=spring-boot-simple</span></span><br><span class="line">NAME                                      READY   STATUS    RESTARTS   AGE</span><br><span class="line">pod/spring-boot-simple-7cb78f8498-xwm9k   1/1     Running   0          3m2s</span><br><span class="line"></span><br><span class="line">NAME                         TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">service/spring-boot-simple   NodePort   10.97.144.198   &lt;none&gt;        8080:30049/TCP   3m2s</span><br><span class="line"></span><br><span class="line">NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/spring-boot-simple   1/1     1            1           3m2s</span><br><span class="line"></span><br><span class="line">NAME                                            DESIRED   CURRENT   READY   AGE</span><br><span class="line">replicaset.apps/spring-boot-simple-7cb78f8498   1         1         1       3m2s</span><br></pre></td></tr></table></figure>
+
+<p>Note the external port of the API on the node: <code>30049</code> and get your node static IP with <code>$ minikube ip</code></p>
+<p>Once you get all the information you need, simply run the following commands to test our sample API (replace <code>&lt;IP&gt;:&lt;PORT&gt;</code> by your values).</p>
+<p><em>Greetings</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X GET  http://10.154.0.2:30049/</span></span><br><span class="line">Greetings from Spring Boot!</span><br></pre></td></tr></table></figure>
+
+<p><em>Post a message</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X POST http://10.154.0.2:30049/message -d <span class="string">&#x27;hello world&#x27;</span></span></span><br><span class="line">&#123;&quot;id&quot;:&quot;5d5abdebdc0e820001bc5c74&quot;,&quot;message&quot;:&quot;hello+world=&quot;,&quot;postedAt&quot;:&quot;2019-08-19T15:19:07.075+0000&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>Get all messages</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -X GET http://10.154.0.2:30049/message</span></span><br><span class="line">[&#123;&quot;id&quot;:&quot;5d5abdebdc0e820001bc5c74&quot;,&quot;message&quot;:&quot;hello+world=&quot;,&quot;postedAt&quot;:&quot;2019-08-19T15:19:07.075+0000&quot;&#125;]</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h4 id="5-Create-a-monitoring-namespace"><a href="#5-Create-a-monitoring-namespace" class="headerlink" title="5. Create a monitoring namespace"></a>5. Create a <code>monitoring</code> namespace</h4><p>Finally, in order to logically separate the monitoring stack from the application (namespace <code>default</code>), we will deploy everything under a namespace called <code>monitoring</code>.</p>
+<p>To create a namespace, simply run the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl create namespace monitoring</span></span><br></pre></td></tr></table></figure>
+
+<p>or apply the file <code>monitoring.namespace.yml</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## monitoring.namespace.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">monitoring</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>like this:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f monitoring.namespace.yml</span></span><br></pre></td></tr></table></figure>
+
+<br />
+<br />
+
+<h3 id="Next-steps"><a href="#Next-steps" class="headerlink" title="Next steps"></a>Next steps</h3><p>In the following article, we will get started with the installation of ElasticSearch and Kibana:<br><a href="/2019/10/19/(25)-install-elasticsearch-and-kibana-to-store-an">Install ElasticSearch and Kibana to store and visualize monitoring data</a></p>
+<br />
+<br />
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisite"><span class="toc-number">2.</span> <span class="toc-text">Prerequisite</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Configure-minikube-memory-size"><span class="toc-number">2.1.</span> <span class="toc-text">1. Configure minikube memory size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Start-minikube"><span class="toc-number">2.2.</span> <span class="toc-text">2. Start minikube</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Check-that-everything-is-up-and-running"><span class="toc-number">2.3.</span> <span class="toc-text">3. Check that everything is up and running</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Deploy-a-sample-application"><span class="toc-number">2.4.</span> <span class="toc-text">4. Deploy a sample application</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MongoDB"><span class="toc-number">2.4.1.</span> <span class="toc-text">MongoDB</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spring-boot-simple"><span class="toc-number">2.4.2.</span> <span class="toc-text">spring-boot-simple</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Create-a-monitoring-namespace"><span class="toc-number">2.5.</span> <span class="toc-text">5. Create a monitoring namespace</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Next-steps"><span class="toc-number">3.</span> <span class="toc-text">Next steps</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&text=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&is_video=false&description=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes&body=Check out this article: https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&title=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&name=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2019/10/18/(15)-getting-started-with-elastic-stack-for-monit/&t=(Elastic monitoring - 1/5) Getting started with Elastic Stack for monitoring on Kubernetes"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

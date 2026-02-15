@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(K3S - 5&#x2F;8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett">
+<meta property="og:url" content="https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/index.html">
+<meta property="og:site_name" content="Gr3g">
+<meta property="og:description" content="This article is part of the series Build your very own self-hosting platform with Raspberry Pi and Kubernetes  Introduction Install Raspbian Operating-System and prepare the system for Kubernetes Ins">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmUMQnRmFtNMXkBfYQdjG9WMCpAof49zavMNJXYHSDSa2k">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/Qmex8bC6gLPAHCmtAc2EHe3jnUYjXoV9GA5SFQFcrboqCu">
+<meta property="og:image" content="https://i.imgur.com/tIC7P0r.png">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmTp1hoJ558ZtTRXDtsmj6smFJLq2y6J8d7a5MD6gmPzfH">
+<meta property="og:image" content="https://i.imgur.com/qBAFOA1.png">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmNsoV9jUjVJVz4dw9RVFUy8N6Q6rsZAHvHXk6aooMnZAZ">
+<meta property="og:image" content="https://i.imgur.com/IglUSIZ.png">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmXrpHKsVCnsFQpzhprH1TYdBbyZaxssjy8hv34XkybULz">
+<meta property="og:image" content="https://i.imgur.com/HMzjbcm.png">
+<meta property="og:image" content="https://i.imgur.com/cWN5WKY.png">
+<meta property="og:image" content="https://i.imgur.com/TFvpjYa.png">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmXoFr3jf7GxTXtg5ezY1RKbUDjNiGXBhF2cbwwFYetNSk">
+<meta property="og:image" content="https://i.imgur.com/gqCB8TX.png">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/QmbASTjZAenaVQ3FGg9oGRSjo1PZVG5JwjjKkdRSFPzaEu">
+<meta property="og:image" content="https://i.imgur.com/VLScSRw.png">
+<meta property="og:image" content="https://i.imgur.com/A0rmhfH.png">
+<meta property="og:image" content="https://i.imgur.com/eMqahAZ.png">
+<meta property="og:image" content="https://i.imgur.com/ActauD5.png">
+<meta property="og:image" content="https://i.imgur.com/lU9g43e.png">
+<meta property="og:image" content="https://i.imgur.com/lvbswJK.png">
+<meta property="og:image" content="https://i.imgur.com/5ABd3Rw.jpg">
+<meta property="og:image" content="https://i.imgur.com/64ntDcS.png">
+<meta property="article:published_time" content="2020-04-12T22:00:05.000Z">
+<meta property="article:modified_time" content="2026-02-15T13:45:25.577Z">
+<meta property="article:author" content="Gr3g">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/QmUMQnRmFtNMXkBfYQdjG9WMCpAof49zavMNJXYHSDSa2k">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/12/self-host-pi-hole-on-kubernetes-and-block-ad/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/12/deploy-nextcloud-on-kuberbetes--the-self-hos/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&text=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&is_video=false&description=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett&body=Check out this article: https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&name=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&t=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Namespace"><span class="toc-number">2.</span> <span class="toc-text">Namespace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistence"><span class="toc-number">3.</span> <span class="toc-text">Persistence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingress"><span class="toc-number">4.</span> <span class="toc-text">Ingress</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heml-Repository-add-Bananaspliff"><span class="toc-number">5.</span> <span class="toc-text">Heml Repository - add Bananaspliff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BitTorrent-client-Transmission-over-VPN"><span class="toc-number">6.</span> <span class="toc-text">BitTorrent client - Transmission over VPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Torrent-Providers-Aggregator-Jackett-over-VPN"><span class="toc-number">7.</span> <span class="toc-text">Torrent Providers Aggregator- Jackett over VPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TV-Show-Library-Management-Sonarr"><span class="toc-number">8.</span> <span class="toc-text">TV Show Library Management - Sonarr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Movie-Library-Management-Radarr"><span class="toc-number">9.</span> <span class="toc-text">Movie Library Management - Radarr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Media-Server-Plex"><span class="toc-number">10.</span> <span class="toc-text">Media Server - Plex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-number">11.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Gr3g</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/blog/">Blog</a></li>
+       
+        <li><a href="/guides/">Guides</a></li>
+       
+        <li><a href="/about/">About me</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        (K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Gr3g</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-12T22:00:05.000Z" itemprop="datePublished">2020-04-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://gateway.pinata.cloud/ipfs/QmUMQnRmFtNMXkBfYQdjG9WMCpAof49zavMNJXYHSDSa2k"></p>
+<p>This article is part of the series <em>Build your very own self-hosting platform with Raspberry Pi and Kubernetes</em></p>
+<ol>
+<li><a href="/2020/04/13/build-your-very-own-self-hosting-platform-wi">Introduction</a></li>
+<li><a href="/2020/04/13/install-raspbian-operating-system-and-prepar">Install Raspbian Operating-System and prepare the system for Kubernetes</a></li>
+<li><a href="/2020/04/13/install-and-configure-a-kubernetes-cluster-w">Install and configure a Kubernetes cluster with k3s to self-host applications</a></li>
+<li><a href="/2020/04/13/deploy-nextcloud-on-kuberbetes--the-self-hos">Deploy NextCloud on Kuberbetes: The self-hosted Dropbox</a></li>
+<li><a href="/2020/04/13/self-host-your-media-center-on-kubernetes-wi">Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett</a></li>
+<li><a href="/2020/04/13/self-host-pi-hole-on-kubernetes-and-block-ad">Self-host Pi-Hole on Kubernetes and block ads and trackers at the network level</a></li>
+<li><a href="/2020/04/13/self-host-your-password-manager-with-bitward">Self-host your password manager with Bitwarden</a></li>
+<li><a href="/2020/04/13/deploy-prometheus-and-grafana-to-monitor-a-k">Deploy Prometheus and Grafana to monitor a Kubernetes cluster</a></li>
+</ol>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>In the next article of this series, we will learn how to install and configure a Media Center onto our Kubernetes platform to automate the media aggregation and management and play our Media files. The Media Center will be composed of the following components:</p>
+<ul>
+<li><strong>Persistence:</strong> A dedicated volume on the SSD to store the data and files</li>
+<li><strong>Torrent Proxy:</strong> Jackett is a Torrent Providers Aggregator tool helping to find efficiently BitTorent files over the web</li>
+<li><strong>Downloaders:</strong> Transmission is a BitTorrent client to download the files</li>
+<li><strong>TV Show/Movie Media Management:</strong> We’ll use Sonarr and Radarr to automate the media aggregation. It searches, launches downloads and renames files when they go out</li>
+<li><strong>Media Center/Player:</strong> Plex (server/player) will allow us to make our Media resources accessible from anywhere.</li>
+</ul>
+<p><img src="https://gateway.pinata.cloud/ipfs/Qmex8bC6gLPAHCmtAc2EHe3jnUYjXoV9GA5SFQFcrboqCu"></p>
+<h3 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h3><p>We are going to isolate all the Kubernetes objects related to the Media Center into the namespace <code>media</code>.</p>
+<p>To create a namespace, run the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create namespace media</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>The first step consists in setting up a volume to store our media files and data required to run each component. If you followed the previous articles to install and configure a self-hosting platform using RaspberryPi and Kubernetes, you remember we have on each worker a NFS client pointing to a SSD on <code>/mnt/ssd</code>.</p>
+<p><strong>1. Deploy the Persistent Volume (PV)</strong></p>
+<p>The Persistent Volume specifies the name, the size, the location and the access modes of the volume:</p>
+<ul>
+<li>The name of the PV is  <code>media-ssd</code></li>
+<li>The size allocated is 200GB</li>
+<li>The location is <code>/mnt/ssd/media</code></li>
+<li>The access is ReadWriteOnce</li>
+</ul>
+<p>Create the following file and apply it to the k8 cluster.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.persistentvolume.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolume</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">&quot;local&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">storageClassName:</span> <span class="string">&quot;manual&quot;</span></span><br><span class="line">  <span class="attr">capacity:</span></span><br><span class="line">    <span class="attr">storage:</span> <span class="string">&quot;200Gi&quot;</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteMany</span></span><br><span class="line">  <span class="attr">hostPath:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&quot;/mnt/ssd/media&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f media.persistentvolume.yml</span><br><span class="line">persistentvolume&#x2F;media-ssd created</span><br></pre></td></tr></table></figure>
+
+<p>You can verify the PV exists with the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pv</span><br><span class="line"></span><br><span class="line">NAME            CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE</span><br><span class="line">media-ssd       200Gi      RWO            Retain           Available           manual                  34s</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Create the Persistent Volume Claim (PVC)</strong></p>
+<p>The Persistent Volume Claim is used to map a Persistent Volume to a deployment or stateful set. Unlike the PV, the PVC belongs to a namespace.</p>
+<p>Create the following file and apply it to the k8 cluster.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.persistentvolumeclaim.yml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolumeClaim</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">&quot;media&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">storageClassName:</span> <span class="string">&quot;manual&quot;</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteMany</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">    <span class="attr">requests:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">&quot;200Gi&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f media.persistentvolumeclaim.yml</span><br><span class="line">persistentvolumeclaim&#x2F;media-ssd created</span><br></pre></td></tr></table></figure>
+
+<p>You can verify the PVC exists with the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pvc -n media</span><br><span class="line"></span><br><span class="line">NAME            STATUS   VOLUME          CAPACITY   ACCESS MODES   STORAGECLASS   AGE</span><br><span class="line">media-ssd       Bound    media-ssd       200Gi      RWO            manual         26s</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h3><p>After the persistent volume, we are now going to deploy the ingress responsible of making accessible a service from outside the cluster by mapping an internal <code>service:port</code> to a host. To choose a host, we need to configure a DNS like we did for NextCloud “nextcloud.&lt;domain.com&gt;” in the previous article. However, unlike NextCloud, the Media Center components have no reason to be exposed on the Internet, we can pick a host that will be resolved internally to our Nginx proxy (available at <code>192.168.0.240</code> : LoadBalancer IP). The simplest solution is to use <a target="_blank" rel="noopener" href="https://nip.io/">nip.io</a> which allows us to map an IP (in our case <code>192.168.0.240</code>) to a hostname without touching <code>/etc/hosts</code> or configuring a DNS. Basically it resolves <code>&lt;anything&gt;.&lt;ip&gt;.nip.io</code> by <code>&lt;ip&gt;</code> without requiring anything else, Magic !</p>
+<p><strong>1. Create the file <code>media.ingress.yaml</code></strong></p>
+<p>Create the following Ingress config file <code>media.ingress.yaml</code> to map the routes to each service we will deploy right after this step:</p>
+<ul>
+<li><code>http://media.192.168.0.240.nip.io/transmission</code> -&gt; <code>transmission-transmission-openvpn:80</code></li>
+<li><code>http://media.192.168.0.240.nip.io/sonarr</code> -&gt; <code>sonarr:80</code></li>
+<li><code>http://media.192.168.0.240.nip.io/jackett</code> -&gt; <code>jackett:80</code></li>
+<li><code>http://media.192.168.0.240.nip.io/radarr</code> -&gt; <code>radarr:80</code></li>
+<li><code>http://media.192.168.0.240.nip.io/</code> -&gt; <code>plex-kube-plex:32400</code></li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.ingress.yaml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">&quot;media&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">&quot;media-ingress&quot;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">&quot;media.192.168.0.240.nip.io&quot;</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">&quot;transmission-transmission-openvpn&quot;</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">&quot;/transmission&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">&quot;sonarr&quot;</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">&quot;/sonarr&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">&quot;jackett&quot;</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">&quot;/jackett&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">&quot;radarr&quot;</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">&quot;/radarr&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">            <span class="attr">serviceName:</span> <span class="string">&quot;plex-kube-plex&quot;</span></span><br><span class="line">            <span class="attr">servicePort:</span> <span class="number">32400</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">&quot;/&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Deploy the ingress</strong></p>
+<p>Deploy the Ingress by applying the file <code>media.ingress.yaml</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f media.ingress.yaml</span><br><span class="line">ingress.extensions&#x2F;media-ingress created</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>3. Confirm the Ingress is correctly deployed</strong></p>
+<p>Try the URL <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/">http://media.192.168.0.240.nip.io</a> from your browser and confirm it returns the error message <code>503 Service Temporarily Unavailable</code> which is normal because we haven’t deployed anything yet.</p>
+<p><img src="https://i.imgur.com/tIC7P0r.png"></p>
+<h3 id="Heml-Repository-add-Bananaspliff"><a href="#Heml-Repository-add-Bananaspliff" class="headerlink" title="Heml Repository - add Bananaspliff"></a>Heml Repository - add Bananaspliff</h3><p>Someone already made a very good job at creating specific <a target="_blank" rel="noopener" href="https://bananaspliff.github.io/geek-charts/">Helm Charts</a> for the all the software we wish to install in this tutorial. Add the following repository to your Helm using the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ helm repo add bananaspliff https:&#x2F;&#x2F;bananaspliff.github.io&#x2F;geek-charts</span><br><span class="line">$ helm repo update</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="https://gateway.pinata.cloud/ipfs/QmTp1hoJ558ZtTRXDtsmj6smFJLq2y6J8d7a5MD6gmPzfH"></p>
+<h3 id="BitTorrent-client-Transmission-over-VPN"><a href="#BitTorrent-client-Transmission-over-VPN" class="headerlink" title="BitTorrent client - Transmission over VPN"></a>BitTorrent client - Transmission over VPN</h3><p>The first bit of software to install is <a target="_blank" rel="noopener" href="https://transmissionbt.com/">Transmission</a>, an open-source BitTorent client offering an API, great for integration and automation. Because many Internet providers and Governments disproves BitTorent download, we are going to deploy Transmission alongside a VPN. The image <a target="_blank" rel="noopener" href="https://haugene.github.io/docker-transmission-openvpn/">haugene/transmission-openvpn</a> includes Transmission and supports a very large range of VPN providers (see <a target="_blank" rel="noopener" href="https://haugene.github.io/docker-transmission-openvpn/supported-providers/">here</a>) to obfuscate the traffic. I will be using NordVPN but change appropriately to your need.</p>
+<p><strong>1. Create a Kubernetes secret to store your VPN password</strong></p>
+<p>We first need to safely store our VPN Provider username and password into a <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes secret</a>. Run the command using your own VPN username and password:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create secret generic openvpn \</span><br><span class="line">    --from-literal&#x3D;&#39;username&#x3D;&lt;VPN_USERNAME&gt;&#39; \</span><br><span class="line">    --from-literal&#x3D;&#39;password&#x3D;&lt;VPN_PASSWORD&gt;&#39; \</span><br><span class="line">    --namespace media</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Write the Helm configuration</strong></p>
+<p>Next, we will configure the chart <a target="_blank" rel="noopener" href="https://github.com/bananaspliff/geek-charts/tree/gh-pages/transmission-openvpn">bananaspliff/transmission-openvpn</a>. The default configuration can be seen by running the following command <code>$ helm show values bananaspliff/transmission-openvpn</code>.</p>
+<p>Create the file <code>media.transmission-openvpn.values.yml</code> containing the following configuration.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.transmission-openvpn.values.yml</span></span><br><span class="line"><span class="attr">replicaCount:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">image:</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">&quot;haugene/transmission-openvpn&quot;</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">&quot;latest-armhf&quot;</span> <span class="comment"># Suffixed by -armhf to pull the ARM image</span></span><br><span class="line">  <span class="attr">pullPolicy:</span> <span class="string">&quot;IfNotPresent&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OPENVPN_PROVIDER</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;NORDVPN&quot;</span> <span class="comment"># VPN provider. List of supported providers: https://haugene.github.io/docker-transmission-openvpn/supported-providers/</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OPENVPN_USERNAME</span></span><br><span class="line">    <span class="attr">valueFrom:</span> <span class="comment"># Reference to the secret | openvpn.username</span></span><br><span class="line">      <span class="attr">secretKeyRef:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;openvpn&quot;</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">&quot;username&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OPENVPN_PASSWORD</span></span><br><span class="line">    <span class="attr">valueFrom:</span> <span class="comment"># Reference to the secret | openvpn.password</span></span><br><span class="line">      <span class="attr">secretKeyRef:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;openvpn&quot;</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">&quot;password&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">NORDVPN_PROTOCOL</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">NORDVPN_COUNTRY</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;CH&quot;</span> <span class="comment"># Country where we want to download over VPN</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">NORDVPN_CATEGORY</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;P2P&quot;</span> <span class="comment"># VPN Type</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">LOCAL_NETWORK</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;192.168.0.0/24&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TRANSMISSION_PEER_PORT</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;47444&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TRANSMISSION_DOWNLOAD_DIR</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;/downloads/transmission&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PUID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PGID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">      <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span> <span class="comment"># PersistentVolumeClaim created earlier</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;dev-tun&quot;</span> <span class="comment"># Needed for VPN</span></span><br><span class="line">    <span class="attr">hostPath:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">&quot;/dev/net/tun&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumeMounts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/data&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;configs/transmission-data&quot;</span> <span class="comment"># Path /mnt/ssd/media/configs/transmission-data where transmission writes the configuration</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/downloads/transmission&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;downloads/transmission&quot;</span> <span class="comment"># Path /mnt/ssd/media/downloads/transmission where transmission downloads Torrents</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;dev-tun&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/dev/net/tun&quot;</span> <span class="comment"># Needed for VPN</span></span><br><span class="line"></span><br><span class="line"><span class="attr">securityContext:</span></span><br><span class="line">  <span class="attr">capabilities:</span> <span class="comment"># Needed for VPN</span></span><br><span class="line">    <span class="attr">add:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Install the chart <code>bananaspliff/transmission-openvpn</code></strong></p>
+<p>Execute the following command to install the chart <code>bananaspliff/transmission-openvpn</code> with the above configuration onto the namespace <code>media</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install transmission bananaspliff&#x2F;transmission-openvpn \</span><br><span class="line">    --values media.transmission-openvpn.values.yml \</span><br><span class="line">    --namespace media</span><br></pre></td></tr></table></figure>
+
+<p>After a couple of minutes, you should observe a pod named <code>transmission-transmission-openvpn-xxx</code> Running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n media -l app&#x3D;transmission-openvpn -o wide</span><br><span class="line"></span><br><span class="line">NAME                                                 READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">transmission-transmission-openvpn-8446dbf97c-rzw5l   1&#x2F;1     Running   0          29m   10.42.1.26   kube-worker1   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>3. Access to Transmission Web console</strong></p>
+<p>Now Transmission and the Nginx Ingress routes are deployed, you should be able to access the Transmission Web console via <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/transmission">http://media.192.168.0.240.nip.io/transmission</a>.</p>
+<p><img src="https://i.imgur.com/qBAFOA1.png"></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmNsoV9jUjVJVz4dw9RVFUy8N6Q6rsZAHvHXk6aooMnZAZ"></p>
+<h3 id="Torrent-Providers-Aggregator-Jackett-over-VPN"><a href="#Torrent-Providers-Aggregator-Jackett-over-VPN" class="headerlink" title="Torrent Providers Aggregator- Jackett over VPN"></a>Torrent Providers Aggregator- Jackett over VPN</h3><p><a target="_blank" rel="noopener" href="https://github.com/Jackett/Jackett">Jackett</a> is a Torrent Providers Aggregator which translates search queries from applications like Sonarr or Radarr into tracker-site-specific http queries, parses the html response, then sends results back to the requesting software. Because some Internet Providers might also block access to Torrent websites, I packaged a version of Jackett using a VPN connection (similar to <em>transmission-over-vpn</em>) accessible on <a target="_blank" rel="noopener" href="https://hub.docker.com/repository/docker/gjeanmart/jackettvpn">Docker hub - gjeanmart/jackettvpn:arm-latest</a>.</p>
+<p><strong>1. Write the Helm configuration</strong></p>
+<p>Let’s now configure the chart <a target="_blank" rel="noopener" href="https://github.com/bananaspliff/geek-charts/tree/gh-pages/jackett">bananaspliff/jackett</a>. The default configuration can be seen by running the following command <code>$ helm show values bananaspliff/jackett</code>.</p>
+<p>Create the file <code>media.jackett.values.yml</code> containing the following configuration.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.jackett.values.yml</span></span><br><span class="line"><span class="attr">replicaCount:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">image:</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">&quot;gjeanmart/jackettvpn&quot;</span> <span class="comment"># Special image to use Jackett over a VPN</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">&quot;arm-latest&quot;</span></span><br><span class="line">  <span class="attr">pullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">VPN_ENABLED</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;yes&quot;</span> <span class="comment"># Enable Jackett over VPN</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">VPN_USERNAME</span></span><br><span class="line">    <span class="attr">valueFrom:</span></span><br><span class="line">      <span class="attr">secretKeyRef:</span> <span class="comment"># Reference to the secret | openvpn.username</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;openvpn&quot;</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">&quot;username&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">VPN_PASSWORD</span></span><br><span class="line">    <span class="attr">valueFrom:</span></span><br><span class="line">      <span class="attr">secretKeyRef:</span> <span class="comment"># Reference to the secret | openvpn.password</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;openvpn&quot;</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">&quot;password&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">LAN_NETWORK</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;192.168.0.0/24&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">CREATE_TUN_DEVICE</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;true&quot;</span> <span class="comment"># Needed for VPN</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PUID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PGID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">      <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span> <span class="comment"># PersistentVolumeClaim created earlier</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;dev-tun&quot;</span>  <span class="comment"># Needed for VPN</span></span><br><span class="line">    <span class="attr">hostPath:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">&quot;/dev/net/tun&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumeMounts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/config&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;configs/jackett&quot;</span> <span class="comment"># Path /mnt/ssd/media/configs/jackett where jackett writes the configuration</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/downloads&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;downloads/jackett&quot;</span> <span class="comment"># Path /mnt/ssd/media/downloads/jackett ???</span></span><br><span class="line"></span><br><span class="line"><span class="attr">securityContext:</span></span><br><span class="line">  <span class="attr">capabilities:</span> <span class="comment"># Needed for VPN</span></span><br><span class="line">    <span class="attr">add:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
+
+
+<p>*<em>2. Configure VPN (only if you configured VPN_ENABLED=yes)</em></p>
+<p>a. Create the following directory structure on your SSD</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p /mnt/ssd/media/configs/jackett/openvpn/</span></span><br></pre></td></tr></table></figure>
+
+<p>b. Copy one OpenVPN file (usually provided by your VPN provider) into the folder <code>/mnt/ssd/media/configs/jackett/openvpn/</code></p>
+<p>c. Create a file <code>credentials.conf</code> into the folder <code>/mnt/ssd/media/configs/jackett/openvpn/</code> composed of two line (first one: username and second one password)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;VPN_USERNAME&gt;</span><br><span class="line">&lt;VPN_PASSWORD&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. Pre-configure Jackett</strong></p>
+<p>a. Create the following directory structure on your SSD</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p /mnt/ssd/media/configs/jackett/Jackett/</span></span><br></pre></td></tr></table></figure>
+
+<p>b. Create the file <code>ServerConfig.json</code> into the folder <code>/mnt/ssd/media/configs/jackett/Jackett/</code> with the following content:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;BasePathOverride&quot;</span>: <span class="string">&quot;/jackett&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4. Install the chart <code>bananaspliff/jackett</code></strong></p>
+<p>Execute the following command to install the chart <code>bananaspliff/jackett</code> with the above configuration onto the namespace <code>media</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install jackett bananaspliff&#x2F;jackett \</span><br><span class="line">    --values media.jackett.values.yml \</span><br><span class="line">    --namespace media</span><br></pre></td></tr></table></figure>
+
+<p>After a couple of minutes, you should observe a pod named <code>jackett-xxx</code> Running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n media -l app&#x3D;jackett -o wide</span><br><span class="line"></span><br><span class="line">NAME                      READY   STATUS    RESTARTS   AGE    IP           NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">jackett-864697466-69xwt   1&#x2F;1     Running   0          101s   10.42.1.29   kube-worker1   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>5. Access Jackett</strong></p>
+<p>Go to Jackett on <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/jackett">http://media.192.168.0.240.nip.io/jackett</a> and try to add one or more indexers.</p>
+<p><img src="https://i.imgur.com/IglUSIZ.png"></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmXrpHKsVCnsFQpzhprH1TYdBbyZaxssjy8hv34XkybULz"></p>
+<h3 id="TV-Show-Library-Management-Sonarr"><a href="#TV-Show-Library-Management-Sonarr" class="headerlink" title="TV Show Library Management - Sonarr"></a>TV Show Library Management - Sonarr</h3><p><a target="_blank" rel="noopener" href="https://sonarr.tv/">Sonarr</a> is a TV Show library management tool that offers multiple features:</p>
+<ul>
+<li>List all your episodes and see what’s missing</li>
+<li>See upcoming episodes</li>
+<li>Automatically search last released episodes (via Jackett) and launch download (via Transmission)</li>
+<li>Move downloaded files into the right directory</li>
+<li>Notify when a new episodes is ready (Kodi, Plex)</li>
+</ul>
+<p><strong>1. Write the Helm configuration</strong></p>
+<p>Let’s now configure the chart <a target="_blank" rel="noopener" href="https://github.com/bananaspliff/geek-charts/tree/gh-pages/sonarr">bananaspliff/sonarr</a>. The default configuration can be seen by running the following command <code>$ helm show values bananaspliff/sonarr</code>.</p>
+<p>Create the file <code>media.sonarr.values.yml</code> containing the following configuration.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### media.sonarr.values.yml</span></span><br><span class="line"><span class="attr">replicaCount:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">image:</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">linuxserver/sonarr</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">arm32v7-latest</span> <span class="comment"># ARM image</span></span><br><span class="line">  <span class="attr">pullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PUID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PGID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">media-ssd</span></span><br><span class="line">    <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">      <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span> <span class="comment"># PersistentVolumeClaim created earlier</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumeMounts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">media-ssd</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/config&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;configs/sonarr&quot;</span> <span class="comment"># Path /mnt/ssd/media/configs/sonarr where sonarr writes the configuration</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">media-ssd</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/downloads/transmission&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;downloads/transmission&quot;</span> <span class="comment"># Path /mnt/ssd/media/downloads/transmission where sonarr picks up downloaded episodes</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">media-ssd</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/tv&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;library/tv&quot;</span> <span class="comment"># Path /mnt/ssd/media/library/tv where sonarr moves and renames the episodes</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Pre-configure Sonarr</strong></p>
+<p>a. Create the following directory structure on your SSD</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p /mnt/ssd/media/configs/sonarr/</span></span><br></pre></td></tr></table></figure>
+
+<p>b. Create the file <code>config.xml</code> into the folder <code>/mnt/ssd/media/configs/sonarr/</code> with the following content:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">UrlBase</span>&gt;</span>/sonarr<span class="tag">&lt;/<span class="name">UrlBase</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>3. Install the chart <code>bananaspliff/sonarr</code></strong></p>
+<p>Execute the following command to install the chart <code>bananaspliff/sonarr</code> with the above configuration onto the namespace <code>media</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install sonarr bananaspliff&#x2F;sonarr \</span><br><span class="line">    --values media.sonarr.values.yml \</span><br><span class="line">    --namespace media</span><br></pre></td></tr></table></figure>
+
+<p>After a couple of minutes, you should observe a pod named <code>sonarr-xxx</code> Running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n media -l app&#x3D;sonarr -o wide</span><br><span class="line"></span><br><span class="line">NAME                      READY   STATUS    RESTARTS   AGE     IP           NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">sonarr-574c5f85d7-n9jc6   1&#x2F;1     Running   0          3m13s   10.42.1.30   kube-worker1   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4. Access Sonarr</strong></p>
+<p>Go to Sonarr on <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/sonarr">http://media.192.168.0.240.nip.io/sonarr</a> and start setting up the library automation. Refer to the <a target="_blank" rel="noopener" href="https://github.com/Sonarr/Sonarr/wiki">wiki</a> for more details.</p>
+<p><img src="https://i.imgur.com/HMzjbcm.png"></p>
+<ul>
+<li>Configure the connection to Transmission into <strong>Settings / Download Client / Add (Transmission)</strong> using the hostname and port <code>transmission-transmission-openvpn.media:80</code></li>
+</ul>
+<p><img src="https://i.imgur.com/cWN5WKY.png"></p>
+<ul>
+<li>Configure the connection to Jackett into <strong>Settings / Indexers / Add (Torznab / Custom)</strong> using the hostname and port <code>jackett.media:80</code></li>
+</ul>
+<p><img src="https://i.imgur.com/TFvpjYa.png"></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmXoFr3jf7GxTXtg5ezY1RKbUDjNiGXBhF2cbwwFYetNSk"></p>
+<h3 id="Movie-Library-Management-Radarr"><a href="#Movie-Library-Management-Radarr" class="headerlink" title="Movie Library Management - Radarr"></a>Movie Library Management - Radarr</h3><p><a target="_blank" rel="noopener" href="https://radarr.video/">Radarr</a> is a Movie library management tool that offers multiple features:</p>
+<ul>
+<li>List all your movies</li>
+<li>Search movies (via Jackett) and launch download (via Transmission)</li>
+<li>Move downloaded files into the right directory</li>
+<li>Notify when a new movie is ready (Kodi, Plex)</li>
+</ul>
+<p><strong>1. Write the Helm configuration</strong></p>
+<p>Let’s now configure the chart <a target="_blank" rel="noopener" href="https://github.com/bananaspliff/geek-charts/tree/gh-pages/radarr">bananaspliff/radarr</a>. The default configuration can be seen by running the following command <code>$ helm show values bananaspliff/radarr</code>.</p>
+<p>Create the file <code>media.radarr.values.yml</code> containing the following configuration.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.radarr.values.yml</span></span><br><span class="line"><span class="attr">replicaCount:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">image:</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">&quot;linuxserver/radarr&quot;</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">&quot;arm32v7-latest&quot;</span> <span class="comment"># ARM image</span></span><br><span class="line">  <span class="attr">pullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PUID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">PGID</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;1000&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">      <span class="attr">claimName:</span>  <span class="string">&quot;media-ssd&quot;</span> <span class="comment"># PersistentVolumeClaim created earlier</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumeMounts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/config&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;configs/radarr&quot;</span> <span class="comment"># Path /mnt/ssd/media/configs/radarr where radarr writes the configuration</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/downloads/transmission&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;downloads/transmission&quot;</span> <span class="comment"># Path /mnt/ssd/media/downloads/transmission where radarr picks up downloaded movies</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">media-ssd</span></span><br><span class="line">    <span class="attr">mountPath:</span> <span class="string">&quot;/movies&quot;</span></span><br><span class="line">    <span class="attr">subPath:</span> <span class="string">&quot;library/movies&quot;</span> <span class="comment"># Path /mnt/ssd/media/library/movies where radarr moves and renames the movies</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Pre-configure Radarr</strong></p>
+<p>a. Create the following directory structure on your SSD</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p /mnt/ssd/media/configs/radarr/</span></span><br></pre></td></tr></table></figure>
+
+<p>b. Create the file <code>config.xml</code> into the folder <code>/mnt/ssd/media/configs/radarr/</code> with the following content:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">UrlBase</span>&gt;</span>/radarr<span class="tag">&lt;/<span class="name">UrlBase</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>3. Install the chart <code>bananaspliff/radarr</code></strong></p>
+<p>Execute the following command to install the chart <code>bananaspliff/radarr</code> with the above configuration onto the namespace <code>media</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install radarr bananaspliff&#x2F;radarr \</span><br><span class="line">    --values media.radarr.values.yml \</span><br><span class="line">    --namespace media</span><br></pre></td></tr></table></figure>
+
+<p>After a couple of minutes, you should observe a pod named <code>radarr-xxx</code> Running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$  kubectl get pods -n media -l app&#x3D;radarr -o wide</span><br><span class="line"></span><br><span class="line">NAME                      READY   STATUS    RESTARTS   AGE   IP          NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">radarr-7846697889-jhqbz   1&#x2F;1     Running   0          11m   10.42.2.2   kube-worker2   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4. Access Radarr</strong></p>
+<p>Go to Radarr on <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/radarr">http://media.192.168.0.240.nip.io/radarr</a> and start setting up the library automation. Refer to the <a target="_blank" rel="noopener" href="https://github.com/Radarr/Radarr/wiki">wiki</a> for more details.</p>
+<p><img src="https://i.imgur.com/gqCB8TX.png"></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/QmbASTjZAenaVQ3FGg9oGRSjo1PZVG5JwjjKkdRSFPzaEu"></p>
+<h3 id="Media-Server-Plex"><a href="#Media-Server-Plex" class="headerlink" title="Media Server - Plex"></a>Media Server - Plex</h3><p><a target="_blank" rel="noopener" href="https://www.plex.tv/en-gb/">Plex Media Server</a> is a software to serve and stream your personal Media library (movies, TV show and music). It fetches the Media resources and builds up a catalogue accessible to any compatible players (Desktop/Mobiles) and transcodes the stream to the player.</p>
+<p>In this section, we are going to deploy Plex Media Server (PMS) on Kubernetes using the Helm chart <a target="_blank" rel="noopener" href="https://github.com/munnerz/kube-plex">kube-plex</a>.</p>
+<p><strong>1. Clone the charts</strong></p>
+<p>This Helm chart is not available via an online repository like jetstack or bananaspliff. We need to download the chart locally. Clone the following repository using <code>git</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;munnerz&#x2F;kube-plex.git</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2. Get a claim token</strong></p>
+<p>Obtain a Plex Claim Token by visiting <a target="_blank" rel="noopener" href="https://plex.tv/claim">plex.tv/claim</a>. You need to create an account if you haven’t already one yet.</p>
+<p>This will be used to bind your new PMS instance to your own user account automatically.</p>
+<p><img src="https://i.imgur.com/VLScSRw.png"></p>
+<p><strong>3. Create the Helm config file <code>media.plex.values.yml</code></strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## media.plex.values.yml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">claimToken:</span> <span class="string">&quot;&lt;CLAIM_TOKEN&gt;&quot;</span> <span class="comment"># Replace `&lt;CLAIM_TOKEN&gt;` by the token obtained previously.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">image:</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">linuxserver/plex</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">arm32v7-latest</span></span><br><span class="line">  <span class="attr">pullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line"></span><br><span class="line"><span class="attr">kubePlex:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span> <span class="comment"># kubePlex (transcoder job) is disabled because not available on ARM. The transcoding will be performed by the main Plex instance instead of a separate Job.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Europe/London</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">LoadBalancer</span> <span class="comment"># We will use a LoadBalancer to obtain a virtual IP that can be exposed to Plex Media via our router</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">32400</span> <span class="comment"># Port to expose Plex</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rbac:</span></span><br><span class="line">  <span class="attr">create:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">nodeSelector:</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">persistence:</span></span><br><span class="line">  <span class="attr">transcode:</span></span><br><span class="line">    <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">  <span class="attr">data:</span></span><br><span class="line">    <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line">  <span class="attr">config:</span></span><br><span class="line">    <span class="attr">claimName:</span> <span class="string">&quot;media-ssd&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">resources:</span> &#123;&#125;</span><br><span class="line"><span class="attr">podAnnotations:</span> &#123;&#125;</span><br><span class="line"><span class="attr">proxy:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4. Install Plex using Helm</strong></p>
+<p>Now install Plex with Helm specifying our config file <code>media.plex.values.yml</code> and the namespace <code>media</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ helm install plex kube-plex&#x2F;charts&#x2F;kube-plex&#x2F; \</span><br><span class="line">  --values media.plex.values.yml \</span><br><span class="line">  --namespace media</span><br></pre></td></tr></table></figure>
+
+<p>Wait until <code>kube-plex</code> (Plex Media Server) is up and running.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n media -l app&#x3D;kube-plex -o wide</span><br><span class="line"></span><br><span class="line">NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE          NOMINATED NODE   READINESS GATES</span><br><span class="line">plex-kube-plex-b76f8f478-4tn97   1&#x2F;1     Running   0          55s   10.42.0.27   kube-master   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>You can find the Virtual IP attributed to Plex by MetalLB (in my case <code>192.168.0.241</code>).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get services -n media -l app&#x3D;kube-plex -o wide</span><br><span class="line"></span><br><span class="line">NAME             TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)                                      AGE   SELECTOR</span><br><span class="line">plex-kube-plex   LoadBalancer   10.43.77.73   192.168.0.241   32400:30048&#x2F;TCP,80:32383&#x2F;TCP,443:31274&#x2F;TCP   16m   app&#x3D;kube-plex,release&#x3D;plex</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>5. Router config (outside access only)</strong></p>
+<p>If you want to access remotely to your Media library, you will need to configure a port-forwarding to allow Plex to access your PMS.</p>
+<p>Add a route to port-forward incoming requests on port <code>32400</code> to <code>192.168.0.241:32400</code> (Plex virtual IP assigned by MetalLB).</p>
+<p><img src="https://i.imgur.com/A0rmhfH.png"></p>
+<p><strong>6. Setup Plex</strong></p>
+<p>Try now to access (from your network) to Plex Web Player on <a target="_blank" rel="noopener" href="http://192.168.0.241:32400/">http://192.168.0.241:32400</a>. You should see the setup wizard :</p>
+<ul>
+<li>Click on <em>Got It</em></li>
+</ul>
+<p><img src="https://i.imgur.com/eMqahAZ.png"></p>
+<ul>
+<li>Select <em>Next</em></li>
+</ul>
+<p>You can uncheck <em>Allow me to access my media outside my home</em> if you only want to use Plex within your home network.</p>
+<p><img src="https://i.imgur.com/ActauD5.png"></p>
+<ul>
+<li>Configure the different Libraries (movies, tv shows, music, etc.)</li>
+</ul>
+<p>Our Media will be accessible from the folder <code>/data/</code>.</p>
+<p><img src="https://i.imgur.com/lU9g43e.png"></p>
+<ul>
+<li>Click on <em>Done</em></li>
+</ul>
+<p><img src="https://i.imgur.com/lvbswJK.png"></p>
+<ul>
+<li>All set! Plex will start scrapping your library (bear in mind, this can take a while)</li>
+</ul>
+<p><img src="https://i.imgur.com/5ABd3Rw.jpg"></p>
+<ul>
+<li>For outside access, you need to configure the external port used to map outside incoming requests to Plex. Go to <em>Settings / Remote Access</em> and check <em>Manually specify the public</em> to set the port <code>32400</code> (as configured in the router - Local)</li>
+</ul>
+<p><img src="https://i.imgur.com/64ntDcS.png"></p>
+<p><strong>Notes</strong></p>
+<ul>
+<li>You can also access Plex from your local network via the ingress: <a target="_blank" rel="noopener" href="http://media.192.168.0.240.nip.io/web">http://media.192.168.0.240.nip.io/web</a></li>
+<li>Download the Android/iOS app and connect to your Plex account, you should automatically see your Plex Media Server with our your Media.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In conclusion, you now have everything you need to automate and manage your Media and enjoy watching shows, movies or just listen some music !</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/guides/">Guides</a></li>
+         
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Namespace"><span class="toc-number">2.</span> <span class="toc-text">Namespace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistence"><span class="toc-number">3.</span> <span class="toc-text">Persistence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingress"><span class="toc-number">4.</span> <span class="toc-text">Ingress</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heml-Repository-add-Bananaspliff"><span class="toc-number">5.</span> <span class="toc-text">Heml Repository - add Bananaspliff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BitTorrent-client-Transmission-over-VPN"><span class="toc-number">6.</span> <span class="toc-text">BitTorrent client - Transmission over VPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Torrent-Providers-Aggregator-Jackett-over-VPN"><span class="toc-number">7.</span> <span class="toc-text">Torrent Providers Aggregator- Jackett over VPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TV-Show-Library-Management-Sonarr"><span class="toc-number">8.</span> <span class="toc-text">TV Show Library Management - Sonarr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Movie-Library-Management-Radarr"><span class="toc-number">9.</span> <span class="toc-text">Movie Library Management - Radarr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Media-Server-Plex"><span class="toc-number">10.</span> <span class="toc-text">Media Server - Plex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-number">11.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&text=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&is_video=false&description=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett&body=Check out this article: https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&title=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&name=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://gr3g.tech/2020/04/12/self-host-your-media-center-on-kubernetes-wi/&t=(K3S - 5/8) Self-host your Media Center On Kubernetes with Plex, Sonarr, Radarr, Transmission and Jackett"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2026
+    Gr3g
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+          <li><a href="/guides/">Guides</a></li>
+        
+          <li><a href="/about/">About me</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XMQMBKWMY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5XMQMBKWMY');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
