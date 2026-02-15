@@ -5,17 +5,9 @@ date: 2020-12-12 16:34:25
 
 ![](/images/greg_profile.png)
 
-{% raw %}
-<div style="display: flex; justify-content: flex-end">
-  <div><a href="https://docs.google.com/document/d/1Lx5nWjPEVkzmONIkch_Yum3_RKgj2sDozKFqQnUMYDI/export?format=pdf&attachment=false" target="_blank"><img width="48" src="https://play-lh.googleusercontent.com/BvILG98J_N1q5T5bFkXpb9niOmEuwfMlZ838ODhYfVRF-IcCvhZuR2QnvrccQ7-v-OA" /></a></div>
-</div>
-{% endraw %}
-
-
-
 ## Career Profile
 
-12+ years experienced Software Engineer with a strong background in FinTech and Blockchain. Led the development of a €9M+ funded B2B spending & treasury management platform at  [Multis](https://multis.co). Proven track record in team leadership, innovative solutions, and technology exploration.
+12+ years experienced Software Engineer with a strong background in FinTech and Blockchain. Led the development of a €9M+ funded B2B spending & treasury management platform at [Multis](https://multis.co). Proven track record in team leadership, innovative solutions, and technology exploration.
 
 Since 2016, I am an active member in the Blockchain and cryptocurrency space and more precisely within the [Ethereum](http://ethereum.org) community, I am a true believer of digital decentralization, especially in Finance and a privacy advocate.
 
@@ -28,12 +20,11 @@ Last but not least, I am a proud husband & father, and happy owner of a lovely D
 
 ![](/images/favicon.ico)
 
-
 ## Professional Experiences
 
 ### [Safe](https://safe.global) • Tech Lead (Apr. 2024 to present)
 
-[Safe](https://safe.global) is the leading smart account infrastructure in the Ethereum ecosystem, enabling secure, modular, and programmable asset management. 
+[Safe](https://safe.global) is the leading smart account infrastructure in the Ethereum ecosystem, enabling secure, modular, and programmable asset management.
 
 As the Tech Lead for [Safenet](https://safe.global/safenet)¹, I am working on the development of a chain abstraction protocol that enhances the security and usability of smart accounts. Safenet enables seamless cross-chain transactions, collateralized execution, and advanced transaction validation. My role includes designing the architecture, leading development efforts, and ensuring robust security mechanisms to improve user experience and interoperability across blockchain networks.
 
@@ -56,7 +47,6 @@ _²[<font size="1">TechCrunch (feb. 2022) · Multis wants to build the financial
 _³[<font size="1">TechCrunch (sept. 2020) · Multis is a business bank account for cryptocurrencies</font>](https://techcrunch.com/2020/09/29/multis-is-a-business-bank-account-for-cryptocurrencies)_
 _⁴[<font size="1">TheBlock (nov. 2022) · Sequoia-backed Multis rolls out corporate cards to facilitate crypto treasury spending</font>](https://www.theblock.co/post/181594/sequoia-backed-multis-rolls-out-corporate-cards-to-facilitate-crypto-treasury-spending-exclusive)_
 
-
 ### [Kauri](https://kauri.io) • Co-Founder & Senior Software Engineer (Oct. 2017 - Apr. 2020)
 
 [Kauri](https://kauri.io) was a project incubated by [ConsenSys](https://consensys.net) (Blockchain startups studio) aiming to improve the onboarding experience for web3 developers with a platform to learn, share, contribute, and maintain high-quality technical content¹. <span style="color:blue">5000 articles published by 1000 contributors</span>
@@ -70,7 +60,6 @@ _¹[<font size="1">ConsensSys (mar. 2018) · Kauri: The Knowledge Network for th
 _²[<font size="1">YouTube (mar. 2018) · Joshua Cassidy of Kauri.io · Talks About Curating Open-Source Knowledge</font>](https://www.youtube.com/watch?v=wclmiAEzQ5M)_
 _³[<font size="1">TheNextWeb (dec. 2018) · ConsenSys teaches devs how to make their first dApp on the blockchain</font>](https://thenextweb.com/news/consensys-teach-dapp-blockchain)_
 
-
 ### [Ai-London](https://www.ai-london.com) • Tech Lead / Head of Innovation (Jan. 2016 - Oct. 2017)
 
 [Ai-London](https://www.ai-london.com) (acquired by [Lumera](https://lumera.com/)¹) is a Life, Savings, and Investment software provider offering financial institutions across the world a large range of financial software.
@@ -81,17 +70,14 @@ _³[<font size="1">TheNextWeb (dec. 2018) · ConsenSys teaches devs how to make 
 
 _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-london-for-continued-european-expansion</font>](https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-london-for-continued-european-expansion/)_
 
-
 ### [RS2i](https://www.rs2i.fr) • Software Engineer & Junior Manager (Feb. 2011 - Dec. 2015)
 
 [RS2i](https://www.rs2i.fr) is a consultancy firm based in Paris, specializing in Enterprise solutions (BPM, ESB, ECM, Big Data) for medium to large companies across Europe.
 
 • Worked as Software Engineer, Architect, or Technical Manager for several customers in a wide range of industries (Finance, Insurance, Energy, Transport, Media).
-• Specialized in Java J2EE and  [TIBCO](https://www.tibco.com) solutions integrations
-
+• Specialized in Java J2EE and [TIBCO](https://www.tibco.com) solutions integrations
 
 ![](/images/favicon.ico)
-
 
 ## Public Appearances
 
@@ -106,22 +92,18 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 • 🇬🇧 [DappCon 2022 · Building Within The Safe Ecosystem For A B2B Usecase, Meissner & Jeanmart](https://www.youtube.com/watch?v=5Zcf9qVAQeA) Sept. 2022
 • 🇬🇧 [EthCC 2018 · Joshua CASSIDY & Grégoire JEANMART - An introduction to KAURI Q&A](https://www.youtube.com/live/mA3ljB06GJ4?si=wGFz2oCJpZvDQ6G5&t=1184) Mar. 2018
 
-
 ![](/images/favicon.ico)
-
 
 ## Articles and Publications
 
 • 🇬🇧 [Running an Ethereum Full Node on a RaspberryPi 4 (model B)](https://greg.jeanmart.me/2020/02/23/running-an-ethereum-full-node-on-a-raspberrypi-4-/) Feb. 2020
 • 🇬🇧 [Build your very own self-hosting platform with Raspberry Pi and K3S](https://greg.jeanmart.me/2020/04/13/build-your-very-own-self-hosting-platform-wi/) Apr. 2020
-• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](https://greg.jeanmart.me/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/) Oct. 2019
+• 🇬🇧 [Use Elastic Stack to monitor Kubernetes](<https://greg.jeanmart.me/2019/10/19/(15)-getting-started-with-elastic-stack-for-monit/>) Oct. 2019
 • 🇬🇧 [Manage an Ethereum account with Java and Web3j](https://greg.jeanmart.me/2020/05/01/manage-an-ethereum-account-with-java-and-web3j/) May 2020
 • 🇬🇧 [Multis integrates TheGraph to offer an even stronger multisig](https://medium.com/multis/multis-integrates-the-graph-to-offer-an-even-stronger-multisig-wallet-b590a4207f8e) Jul. 2020
 • _See more on [greg.jeanmart.me/blog/](https://greg.jeanmart.me/blog/)_
 
-
 ![](/images/favicon.ico)
-
 
 ## Open-Source projects and contributions
 
@@ -133,17 +115,14 @@ _¹[<font size="1">https://lumera.com/en/news/lumera-acquires-and-invests-in-ai-
 • [Eventeum](https://github.com/eventeum/eventeum) (Java, Ethereum, Kafka)
 • _See more on [github.com/gjeanmart](https://github.com/gjeanmart)_
 
-
 ![](/images/favicon.ico)
-
 
 ## Skills and Technologies
 
 • **Technical Skills**: Fullstack
 &nbsp;&nbsp;• Programming: TypeScript, JavaScript, Java, Clojure, Solidity, Kotlin, PHP, Python
-&nbsp;&nbsp;• Frameworks: SpringBoot, NestJS, NextJS, Express, React, Re-Frame, Hardhat,  Angular, Tailwind
+&nbsp;&nbsp;• Frameworks: SpringBoot, NestJS, NextJS, Express, React, Re-Frame, Hardhat, Angular, Tailwind
 &nbsp;&nbsp;• Infrastructure: GCP, Firebase, Azure, OracleDB, MySQL, PostgreSQL, MongoDB, ElasticSearch, Kafka, RabbitMQ, Redis, Git, GitHub, Docker, K8S
 • **Management skills**: Project & Budget planning, Agile methodologies, Team leadership & mentoring, Design Thinking
-
 
 ![](/images/favicon.ico)
