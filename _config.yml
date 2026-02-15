@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Grégoire Jeanmart
-subtitle: ''
-description: 'Hi, my name is Greg and warm welcome to my website and blog. I am a technologist and programmer, mostly interested in FinTech, Decentralized technologies and self-hosting - [learn more about me](/about) .'
+title: Gr3g
+subtitle: ""
+description: "Hi, my name is Greg and warm welcome to my website and blog. I am a technologist and programmer, mostly interested in FinTech, Decentralized technologies and self-hosting - [learn more about me](/about) ."
 keywords:
-author: Greg Jeanmart
+author: Gr3g
 language: en
-timezone: 'America/New_York'
+timezone: "Europe/Paris"
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: https://greg.jeanmart.me
+url: https://gr3g.tech
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -29,7 +29,6 @@ archive_dir: blog
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -38,7 +37,7 @@ titlecase: false # Transform title into titlecase
 external_link:
   enable: true # Open external links in new tab
   field: site # Apply to the whole site
-  exclude: ''
+  exclude: ""
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
@@ -48,21 +47,21 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace: ''
+  tab_replace: ""
   wrap: true
   hljs: false
 prismjs:
   enable: false
   preprocess: true
   line_number: true
-  tab_replace: ''
+  tab_replace: ""
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ''
+  path: ""
   per_page: 10
   order_by: -date
 
@@ -82,7 +81,7 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'mtime'
+updated_option: "mtime"
 
 # Pagination
 ## Set per_page to 0 to disable pagination
